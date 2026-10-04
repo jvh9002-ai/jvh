@@ -26,7 +26,7 @@ const emojis = ['⭐', '🦁', '🦊', '🐼', '🐯', '🦄', '🐲', '🦅', '
 
 export function FamilySetupScreen() {
   const { t } = useTranslation();
-  const { user, family, refreshFamily, completeOnboarding } = useAuth();
+  const { user, family, refreshFamily, completeOnboarding, authInitialized, loading } = useAuth();
   const navigate = useNavigate();
   const [mode, setMode] = useState<FamilyMode>('family');
   const [step, setStep] = useState<'family' | 'members'>('family');
@@ -40,20 +40,26 @@ export function FamilySetupScreen() {
   const [memberEmoji, setMemberEmoji] = useState('⭐');
   const [addedMembers, setAddedMembers] = useState<{ name: string; role: Role }[]>([]);
 
-  // If the user already has an onboarded family, skip straight to dashboard
+  // Wait for auth to fully initialize before evaluating any redirect logic.
+  // This prevents a premature redirect during F5 page reloads.
   useEffect(() => {
+    if (!authInitialized || loading) return;
+
+    if (!user) {
+      navigate('/auth', { replace: true });
+      return;
+    }
+    // If the user already has an onboarded family, skip straight to dashboard
     if (family && family.is_onboarded) {
       navigate('/dashboard', { replace: true });
-    } else if (family && !family.is_onboarded && step === 'family') {
+      return;
+    }
+    // If they have a family but haven't finished onboarding, jump to the members step
+    if (family && !family.is_onboarded && step === 'family') {
       setStep('members');
       if (family.mode === 'work') setMode('work');
     }
-  }, [family, step, navigate]);
-
-  if (!user) {
-    navigate('/auth');
-    return null;
-  }
+  }, [authInitialized, loading, user, family, step, navigate]);
 
   const roleConfig = mode === 'family' ? familyRoles : workRoles;
   const isWork = mode === 'work';

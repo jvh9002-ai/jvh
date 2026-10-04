@@ -14,16 +14,19 @@ import { ReportScreen } from '@/screens/ReportScreen';
 import { ProfileScreen } from '@/screens/ProfileScreen';
 import { Spinner } from '@/components/ui';
 
+function FullScreenSpinner() {
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <Spinner className="h-8 w-8" />
+    </div>
+  );
+}
+
 function ProtectedRoutes() {
   const { user, loading, family } = useAuth();
 
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <Spinner className="h-8 w-8" />
-      </div>
-    );
-  }
+  // Block all route decisions until auth + family data are fully loaded
+  if (loading) return <FullScreenSpinner />;
 
   if (!user) return <Navigate to="/auth" replace />;
   if (!family || !family.is_onboarded) return <Navigate to="/setup" replace />;
@@ -47,13 +50,10 @@ function ProtectedRoutes() {
 function AppRoutes() {
   const { loading, user, family } = useAuth();
 
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <Spinner className="h-8 w-8" />
-      </div>
-    );
-  }
+  // Do NOT evaluate any route guard until getSession() has resolved
+  // and family data has been fetched. This prevents the F5 reload bug
+  // where a logged-in user briefly has user=null and gets bounced to /setup.
+  if (loading) return <FullScreenSpinner />;
 
   // Authenticated user with an onboarded family → go to the app
   if (user && family && family.is_onboarded) {

@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
+import { createContext, useContext, useEffect, useState, useRef, type ReactNode } from 'react';
 import type { Session, User } from '@supabase/supabase-js';
 import { supabase } from '@/lib/supabase';
 import type { Family, Member } from '@/types/database';
@@ -10,6 +10,7 @@ interface AuthState {
   members: Member[];
   activeMember: Member | null;
   loading: boolean;
+  authInitialized: boolean;
   signUp: (email: string, password: string, name: string) => Promise<{ error: string | null }>;
   signIn: (email: string, password: string) => Promise<{ error: string | null }>;
   signOut: () => Promise<void>;
@@ -27,6 +28,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [members, setMembers] = useState<Member[]>([]);
   const [activeMember, setActiveMemberState] = useState<Member | null>(null);
   const [loading, setLoading] = useState(true);
+  const [authInitialized, setAuthInitialized] = useState(false);
+
+  // Track whether getSession() has completed so onAuthStateChange
+  // doesn't flip loading=false before the initial session is restored.
+  const sessionResolved = useRef(false);
 
   const loadFamilyData = async (userId: string) => {
     const { data: fam } = await supabase
@@ -67,17 +73,33 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   useEffect(() => {
+    // 1. Wait for the initial session to fully resolve from storage.
+    //    This is the critical step on page reload (F5) — the session
+    //    is stored in localStorage but takes a tick to read.
     supabase.auth.getSession().then(({ data: { session: s } }) => {
+      sessionResolved.current = true;
       setSession(s);
       setUser(s?.user ?? null);
       if (s?.user) {
-        loadFamilyData(s.user.id).finally(() => setLoading(false));
+        loadFamilyData(s.user.id).finally(() => {
+          setLoading(false);
+          setAuthInitialized(true);
+        });
       } else {
         setLoading(false);
+        setAuthInitialized(true);
       }
     });
 
-    const { data: sub } = supabase.auth.onAuthStateChange((_event, s) => {
+    // 2. Subscribe to auth state changes (sign in, sign out, token refresh).
+    //    Guard against firing before getSession() has resolved — on reload,
+    //    onAuthStateChange can emit an INITIAL_SESSION event with a null
+    //    session before the stored session is read, which would cause a
+    //    premature redirect to /auth or /setup.
+    const { data: sub } = supabase.auth.onAuthStateChange((event, s) => {
+      // Skip the initial session event — getSession() handles it above.
+      if (event === 'INITIAL_SESSION') return;
+
       (async () => {
         setSession(s);
         setUser(s?.user ?? null);
@@ -86,8 +108,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         } else {
           setFamily(null);
           setMembers([]);
+          setActiveMemberState(null);
         }
         setLoading(false);
+        setAuthInitialized(true);
       })();
     });
 
@@ -128,6 +152,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         members,
         activeMember,
         loading,
+        authInitialized,
         signUp,
         signIn,
         signOut,

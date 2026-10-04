@@ -6,20 +6,24 @@ import { UniversalHeader } from '@/components/UniversalHeader';
 import { Spinner } from '@/components/ui';
 
 export function AppLayout() {
-  const { user, loading, family, activeMember, members, setActiveMember } = useAuth();
+  const { user, loading, family, activeMember, members, setActiveMember, authInitialized } = useAuth();
   const navigate = useNavigate();
   const [memberLoading, setMemberLoading] = useState(true);
 
   useEffect(() => {
-    if (!loading && !user) {
+    // Do nothing until auth initialization is fully complete.
+    // This prevents premature redirects during F5 page reloads.
+    if (!authInitialized || loading) return;
+
+    if (!user) {
       navigate('/auth', { replace: true });
       return;
     }
-    if (!loading && user && !family) {
+    if (!family) {
       navigate('/setup', { replace: true });
       return;
     }
-    if (!loading && user && family && !family.is_onboarded) {
+    if (family && !family.is_onboarded) {
       navigate('/setup', { replace: true });
       return;
     }
@@ -27,9 +31,9 @@ export function AppLayout() {
       setActiveMember(members[0]);
     }
     setMemberLoading(false);
-  }, [loading, user, family, members, activeMember, setActiveMember, navigate]);
+  }, [authInitialized, loading, user, family, members, activeMember, setActiveMember, navigate]);
 
-  if (loading || memberLoading) {
+  if (loading || !authInitialized || memberLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <Spinner className="h-8 w-8" />
