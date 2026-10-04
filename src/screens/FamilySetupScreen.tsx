@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/context/AuthContext';
@@ -39,6 +39,16 @@ export function FamilySetupScreen() {
   const [memberAge, setMemberAge] = useState('8');
   const [memberEmoji, setMemberEmoji] = useState('⭐');
   const [addedMembers, setAddedMembers] = useState<{ name: string; role: Role }[]>([]);
+
+  // If the user already has an onboarded family, skip straight to dashboard
+  useEffect(() => {
+    if (family && family.is_onboarded) {
+      navigate('/dashboard', { replace: true });
+    } else if (family && !family.is_onboarded && step === 'family') {
+      setStep('members');
+      if (family.mode === 'work') setMode('work');
+    }
+  }, [family, step, navigate]);
 
   if (!user) {
     navigate('/auth');
@@ -91,12 +101,8 @@ export function FamilySetupScreen() {
 
   const finish = async () => {
     await completeOnboarding();
-    navigate('/dashboard');
+    navigate('/dashboard', { replace: true });
   };
-
-  if (family && step === 'family') {
-    setStep('members');
-  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-teal-50 via-white to-cyan-50 flex items-center justify-center p-4">

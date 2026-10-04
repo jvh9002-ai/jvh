@@ -26,7 +26,7 @@ function ProtectedRoutes() {
   }
 
   if (!user) return <Navigate to="/auth" replace />;
-  if (!family) return <Navigate to="/setup" replace />;
+  if (!family || !family.is_onboarded) return <Navigate to="/setup" replace />;
 
   return (
     <Routes>
@@ -55,7 +55,8 @@ function AppRoutes() {
     );
   }
 
-  if (user && family) {
+  // Authenticated user with an onboarded family → go to the app
+  if (user && family && family.is_onboarded) {
     return (
       <Routes>
         <Route path="/*" element={<ProtectedRoutes />} />
@@ -63,11 +64,21 @@ function AppRoutes() {
     );
   }
 
+  // Authenticated user without a family or not yet onboarded → setup screen
+  if (user) {
+    return (
+      <Routes>
+        <Route path="/setup" element={<FamilySetupScreen />} />
+        <Route path="/*" element={<Navigate to="/setup" replace />} />
+      </Routes>
+    );
+  }
+
+  // Unauthenticated → welcome / auth
   return (
     <Routes>
       <Route path="/" element={<WelcomeScreen />} />
       <Route path="/auth" element={<AuthScreen />} />
-      <Route path="/setup" element={<FamilySetupScreen />} />
       <Route path="/*" element={<Navigate to="/" replace />} />
     </Routes>
   );

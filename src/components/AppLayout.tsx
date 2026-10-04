@@ -12,14 +12,18 @@ export function AppLayout() {
 
   useEffect(() => {
     if (!loading && !user) {
-      navigate('/auth');
+      navigate('/auth', { replace: true });
       return;
     }
     if (!loading && user && !family) {
-      navigate('/setup');
+      navigate('/setup', { replace: true });
       return;
     }
-    if (family && members.length > 0 && !activeMember) {
+    if (!loading && user && family && !family.is_onboarded) {
+      navigate('/setup', { replace: true });
+      return;
+    }
+    if (family && family.is_onboarded && members.length > 0 && !activeMember) {
       setActiveMember(members[0]);
     }
     setMemberLoading(false);
@@ -33,8 +37,8 @@ export function AppLayout() {
     );
   }
 
-  if (!user || !family || !activeMember) {
-    navigate('/auth');
+  if (!user || !family || !family.is_onboarded || !activeMember) {
+    navigate('/auth', { replace: true });
     return null;
   }
 

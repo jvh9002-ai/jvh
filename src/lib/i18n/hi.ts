@@ -205,7 +205,7 @@ export const hi = {
   account: 'खाता',
   currentlyViewing: 'वर्तमान में देख रहे हैं',
   pointsLabel: 'अंक',
-  family: 'परिवार',
+  familyLabel: 'परिवार',
   business: 'व्यवसाय',
   accountDetails: 'खाता विवरण',
   joined: 'शामिल हुए',

@@ -57,8 +57,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const completeOnboarding = async () => {
     if (!family) return;
-    await supabase.from('families').update({ is_onboarded: true }).eq('id', family.id);
-    setFamily({ ...family, is_onboarded: true });
+    const { error } = await supabase
+      .from('families')
+      .update({ is_onboarded: true })
+      .eq('id', family.id);
+    if (!error) {
+      setFamily({ ...family, is_onboarded: true });
+    }
   };
 
   useEffect(() => {

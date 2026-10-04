@@ -205,7 +205,7 @@ export const en = {
   account: 'account',
   currentlyViewing: 'Currently Viewing',
   pointsLabel: 'points',
-  family: 'Family',
+  familyLabel: 'Family',
   business: 'Business',
   accountDetails: 'Account Details',
   joined: 'Joined',
