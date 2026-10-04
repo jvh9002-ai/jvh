@@ -1,4 +1,4 @@
-export type Role = 'parent' | 'child' | 'teen' | 'college';
+export type Role = 'parent' | 'child' | 'teen' | 'college' | 'staff';
 
 export type TaskCategory =
   | 'learning'
@@ -11,15 +11,19 @@ export type TaskCategory =
   | 'family'
   | 'personal';
 
-export type TaskStatus = 'pending' | 'completed';
+export type TaskStatus = 'pending' | 'completed' | 'pending_approval';
 
 export type LevelName = 'Beginner' | 'Explorer' | 'Achiever' | 'Champion';
+
+export type FamilyMode = 'family' | 'work';
 
 export interface Family {
   id: string;
   name: string;
   owner_id: string;
   created_at: string;
+  is_onboarded: boolean;
+  mode: FamilyMode;
 }
 
 export interface Member {
@@ -43,6 +47,7 @@ export interface Task {
   status: TaskStatus;
   due_date: string | null;
   created_at: string;
+  assigned_by: string | null;
 }
 
 export interface Goal {

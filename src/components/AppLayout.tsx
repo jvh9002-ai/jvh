@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
-import { Sidebar } from '@/components/Sidebar';
+import { Sidebar, MobileBottomNav } from '@/components/Sidebar';
+import { UniversalHeader } from '@/components/UniversalHeader';
 import { Spinner } from '@/components/ui';
 
 export function AppLayout() {
@@ -40,9 +41,13 @@ export function AppLayout() {
   return (
     <div className="flex min-h-screen bg-gray-50">
       <Sidebar role={activeMember.role} />
-      <main className="flex-1 min-w-0 pb-16 lg:pb-0">
-        <Outlet />
+      <main className="flex-1 min-w-0">
+        <UniversalHeader />
+        <div className="pb-20 lg:pb-0">
+          <Outlet />
+        </div>
       </main>
+      <MobileBottomNav role={activeMember.role} />
     </div>
   );
 }

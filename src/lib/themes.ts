@@ -15,6 +15,21 @@ export interface ThemeConfig {
 }
 
 export const themes: Record<Role, ThemeConfig> = {
+  ...({
+  staff: {
+    name: 'Professional Work',
+    primary: '#0891b2',
+    primaryDark: '#0e7490',
+    accent: '#f59e0b',
+    bg: '#f0f9ff',
+    surface: '#ffffff',
+    text: '#0f172a',
+    textMuted: '#64748b',
+    gradient: 'from-cyan-600 via-teal-600 to-cyan-700',
+    cardGradient: 'from-cyan-50 to-slate-50',
+    fontScale: 1,
+  },
+  } as Record<Role, ThemeConfig>),
   parent: {
     name: 'Premium Dashboard',
     primary: '#0f766e',

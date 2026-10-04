@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from '@/context/AuthContext';
+import '@/lib/i18n';
 import { WelcomeScreen } from '@/screens/WelcomeScreen';
 import { AuthScreen } from '@/screens/AuthScreen';
 import { FamilySetupScreen } from '@/screens/FamilySetupScreen';
@@ -44,7 +45,7 @@ function ProtectedRoutes() {
 }
 
 function AppRoutes() {
-  const { loading } = useAuth();
+  const { loading, user, family } = useAuth();
 
   if (loading) {
     return (
@@ -54,12 +55,20 @@ function AppRoutes() {
     );
   }
 
+  if (user && family) {
+    return (
+      <Routes>
+        <Route path="/*" element={<ProtectedRoutes />} />
+      </Routes>
+    );
+  }
+
   return (
     <Routes>
       <Route path="/" element={<WelcomeScreen />} />
       <Route path="/auth" element={<AuthScreen />} />
       <Route path="/setup" element={<FamilySetupScreen />} />
-      <Route path="/*" element={<ProtectedRoutes />} />
+      <Route path="/*" element={<Navigate to="/" replace />} />
     </Routes>
   );
 }

@@ -1,20 +1,24 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from '@/context/AuthContext';
 import { supabase } from '@/lib/supabase';
 import { TopBar } from '@/components/Sidebar';
 import { Card, ScoreRing, ProgressBar, Badge, Button } from '@/components/ui';
-import { computeGrowthScores, overallScore, levelFromPoints, levelProgress, nextLevelThreshold } from '@/lib/growth';
+import { computeGrowthScores, overallScore } from '@/lib/growth';
 import type { Task, Member } from '@/types/database';
 import {
-  Users, TrendingUp, CheckSquare, Gift, Sparkles, Plus, ChevronRight, Star, Trophy, Target, Award,
+  Users, TrendingUp, CheckSquare, Gift, Sparkles, Plus, ChevronRight, Star, Trophy, Target, Award, Briefcase,
 } from 'lucide-react';
 
 export function ParentDashboard() {
+  const { t } = useTranslation();
   const { family, members, activeMember, setActiveMember, user } = useAuth();
   const navigate = useNavigate();
   const [memberTasks, setMemberTasks] = useState<Record<string, Task[]>>({});
-  const [selectedMember, setSelectedMember] = useState<Member | null>(null);
+  const [selectedMemberId, setSelectedMemberId] = useState<string | null>(null);
+
+  const isWork = family?.mode === 'work';
 
   useEffect(() => {
     if (!family) return;
@@ -27,14 +31,20 @@ export function ParentDashboard() {
   const parentMember = members.find((m) => m.role === 'parent');
   const displayMembers = members.filter((m) => m.id !== parentMember?.id);
 
+  const handleMemberClick = (m: Member) => {
+    setSelectedMemberId(m.id);
+    setActiveMember(m);
+    navigate('/tasks');
+  };
+
   return (
     <div className="min-h-screen">
       <TopBar
-        title={`Welcome back, ${user?.user_metadata?.name || 'Parent'}`}
-        subtitle="Your family growth overview"
+        title={`${t('welcomeBack')}, ${user?.user_metadata?.name || 'Parent'}`}
+        subtitle={isWork ? t('yourFamilyGrowthOverview') : t('yourFamilyGrowthOverview')}
         right={
           <Button onClick={() => navigate('/tasks')} className="hidden sm:inline-flex">
-            <Plus size={16} /> New Task
+            <Plus size={16} /> {t('newTask')}
           </Button>
         }
       />
@@ -45,11 +55,11 @@ export function ParentDashboard() {
           <Card className="p-5">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-xl bg-teal-50 flex items-center justify-center">
-                <Users className="text-teal-600" size={20} />
+                {isWork ? <Briefcase className="text-teal-600" size={20} /> : <Users className="text-teal-600" size={20} />}
               </div>
               <div>
                 <p className="text-2xl font-bold text-gray-900">{members.length}</p>
-                <p className="text-xs text-gray-500">Family Members</p>
+                <p className="text-xs text-gray-500">{isWork ? t('teamMembers') : t('familyMembers')}</p>
               </div>
             </div>
           </Card>
@@ -62,7 +72,7 @@ export function ParentDashboard() {
                 <p className="text-2xl font-bold text-gray-900">
                   {Object.values(memberTasks).flat().filter((t) => t.status === 'completed').length}
                 </p>
-                <p className="text-xs text-gray-500">Tasks Completed</p>
+                <p className="text-xs text-gray-500">{t('tasksCompleted')}</p>
               </div>
             </div>
           </Card>
@@ -75,7 +85,7 @@ export function ParentDashboard() {
                 <p className="text-2xl font-bold text-gray-900">
                   {members.reduce((sum, m) => sum + m.points, 0)}
                 </p>
-                <p className="text-xs text-gray-500">Total Points</p>
+                <p className="text-xs text-gray-500">{t('totalPoints')}</p>
               </div>
             </div>
           </Card>
@@ -93,7 +103,7 @@ export function ParentDashboard() {
                       }, 0) / members.length)
                     : 0}%
                 </p>
-                <p className="text-xs text-gray-500">Avg Growth Score</p>
+                <p className="text-xs text-gray-500">{t('avgGrowthScore')}</p>
               </div>
             </div>
           </Card>
@@ -106,22 +116,22 @@ export function ParentDashboard() {
               <Sparkles className="text-white" size={20} />
             </div>
             <div className="flex-1">
-              <h3 className="font-bold text-teal-900">AI Family Coach Insight</h3>
+              <h3 className="font-bold text-teal-900">{isWork ? t('aiCoachInsight') : t('aiFamilyCoachInsight')}</h3>
               <p className="text-sm text-teal-700 mt-1">
                 {displayMembers.length === 0
-                  ? 'Add family members to start getting personalized insights.'
-                  : `You have ${displayMembers.length} ${displayMembers.length === 1 ? 'member' : 'members'} growing. Check their progress below and ask the AI Coach for weekly suggestions.`}
+                  ? (isWork ? 'Add team members to start getting personalized insights.' : 'Add family members to start getting personalized insights.')
+                  : `${displayMembers.length} ${displayMembers.length === 1 ? (isWork ? 'member' : 'member') : (isWork ? 'members' : 'members')} ${isWork ? 'on your team' : 'growing'}. Check their progress below and ask the AI Coach for suggestions.`}
               </p>
               <Button onClick={() => navigate('/coach')} variant="secondary" className="mt-3 text-xs">
-                <Sparkles size={14} /> Ask AI Coach
+                <Sparkles size={14} /> {t('aiCoach')}
               </Button>
             </div>
           </div>
         </Card>
 
-        {/* Member cards */}
+        {/* Interactive member cards / switcher */}
         <div>
-          <h2 className="text-lg font-bold text-gray-900 mb-3">Family Members</h2>
+          <h2 className="text-lg font-bold text-gray-900 mb-3">{isWork ? t('teamMembers') : t('familyMembers')}</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {displayMembers.map((m) => {
               const tasks = memberTasks[m.id] || [];
@@ -129,26 +139,35 @@ export function ParentDashboard() {
               const score = overallScore(scores);
               const completed = tasks.filter((t) => t.status === 'completed').length;
               const pending = tasks.filter((t) => t.status === 'pending').length;
+              const approval = tasks.filter((t) => t.status === 'pending_approval').length;
+              const isSelected = selectedMemberId === m.id;
               return (
-                <Card key={m.id} className="p-5" onClick={() => { setSelectedMember(m); setActiveMember(m); navigate('/growth'); }}>
+                <Card
+                  key={m.id}
+                  className={`p-5 transition-all ${isSelected ? 'ring-2 ring-teal-500' : ''}`}
+                  onClick={() => handleMemberClick(m)}
+                >
                   <div className="flex items-center gap-3 mb-4">
                     <span className="text-3xl">{m.avatar_emoji}</span>
                     <div className="flex-1">
                       <p className="font-bold text-gray-900">{m.name}</p>
-                      <p className="text-xs text-gray-500 capitalize">{m.role} · Age {m.age}</p>
+                      <p className="text-xs text-gray-500 capitalize">{t(m.role)} · {t('age')} {m.age}</p>
                     </div>
                     <Badge color="bg-amber-50 text-amber-700"><Star size={12} /> {m.points}</Badge>
                   </div>
                   <div className="flex items-center gap-4 mb-3">
                     <ScoreRing value={score} size={64} />
                     <div className="flex-1 space-y-1.5">
-                      <div className="flex justify-between text-xs"><span className="text-gray-500">Completed</span><span className="font-semibold text-gray-700">{completed}</span></div>
-                      <div className="flex justify-between text-xs"><span className="text-gray-500">Pending</span><span className="font-semibold text-gray-700">{pending}</span></div>
-                      <div className="flex justify-between text-xs"><span className="text-gray-500">Level</span><span className="font-semibold text-gray-700">{m.level_name}</span></div>
+                      <div className="flex justify-between text-xs"><span className="text-gray-500">{t('completed')}</span><span className="font-semibold text-gray-700">{completed}</span></div>
+                      <div className="flex justify-between text-xs"><span className="text-gray-500">{t('pending')}</span><span className="font-semibold text-gray-700">{pending}</span></div>
+                      {approval > 0 && (
+                        <div className="flex justify-between text-xs"><span className="text-orange-500">{t('pendingApproval')}</span><span className="font-semibold text-orange-600">{approval}</span></div>
+                      )}
+                      <div className="flex justify-between text-xs"><span className="text-gray-500">{t('level')}</span><span className="font-semibold text-gray-700">{m.level_name}</span></div>
                     </div>
                   </div>
                   <div className="flex items-center justify-between text-xs text-gray-400">
-                    <span>View details</span>
+                    <span>{t('viewDetails')}</span>
                     <ChevronRight size={14} />
                   </div>
                 </Card>
@@ -158,7 +177,7 @@ export function ParentDashboard() {
               <div className="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center">
                 <Plus className="text-gray-400" size={20} />
               </div>
-              <p className="text-sm font-medium text-gray-500">Add another member</p>
+              <p className="text-sm font-medium text-gray-500">{isWork ? t('addTeamMemberBtn') : t('addFamilyMember')}</p>
             </Card>
           </div>
         </div>
@@ -166,10 +185,10 @@ export function ParentDashboard() {
         {/* Quick actions */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
           {[
-            { icon: CheckSquare, label: 'Manage Tasks', to: '/tasks', color: 'bg-teal-50 text-teal-600' },
-            { icon: Gift, label: 'Rewards', to: '/rewards', color: 'bg-pink-50 text-pink-600' },
-            { icon: TrendingUp, label: 'Growth Score', to: '/growth', color: 'bg-blue-50 text-blue-600' },
-            { icon: Award, label: 'Weekly Report', to: '/report', color: 'bg-purple-50 text-purple-600' },
+            { icon: CheckSquare, label: t('manageTasks'), to: '/tasks', color: 'bg-teal-50 text-teal-600' },
+            { icon: Gift, label: t('rewards'), to: '/rewards', color: 'bg-pink-50 text-pink-600' },
+            { icon: TrendingUp, label: t('growthScore'), to: '/growth', color: 'bg-blue-50 text-blue-600' },
+            { icon: Award, label: t('weeklyReport'), to: '/report', color: 'bg-purple-50 text-purple-600' },
           ].map((a) => (
             <Card key={a.label} className="p-4 flex items-center gap-3" onClick={() => navigate(a.to)}>
               <div className={`w-10 h-10 rounded-xl ${a.color} flex items-center justify-center`}>

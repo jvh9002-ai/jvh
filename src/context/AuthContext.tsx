@@ -15,6 +15,7 @@ interface AuthState {
   signOut: () => Promise<void>;
   refreshFamily: () => Promise<void>;
   setActiveMember: (member: Member | null) => void;
+  completeOnboarding: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthState | undefined>(undefined);
@@ -52,6 +53,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (user) {
       await loadFamilyData(user.id);
     }
+  };
+
+  const completeOnboarding = async () => {
+    if (!family) return;
+    await supabase.from('families').update({ is_onboarded: true }).eq('id', family.id);
+    setFamily({ ...family, is_onboarded: true });
   };
 
   useEffect(() => {
@@ -121,6 +128,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         signOut,
         refreshFamily,
         setActiveMember,
+        completeOnboarding,
       }}
     >
       {children}

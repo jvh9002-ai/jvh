@@ -1,10 +1,13 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { Sparkles, Mail, Lock, ArrowRight } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { Button, Input, Spinner } from '@/components/ui';
+import { LanguageSelector } from '@/components/UniversalHeader';
 
 export function AuthScreen() {
+  const { t } = useTranslation();
   const { signIn, signUp } = useAuth();
   const navigate = useNavigate();
   const [mode, setMode] = useState<'login' | 'register'>('login');
@@ -22,9 +25,8 @@ export function AuthScreen() {
     setBusy(false);
     if (result.error) {
       setError(result.error);
-    } else {
-      navigate('/setup');
     }
+    // Navigation is handled by onAuthStateChange + AppRoutes logic
   };
 
   return (
@@ -34,37 +36,43 @@ export function AuthScreen() {
         <div className="absolute bottom-10 right-10 w-96 h-96 bg-cyan-300/10 rounded-full blur-3xl" />
       </div>
 
+      <div className="absolute top-4 right-4 z-10">
+        <div className="rounded-xl bg-white/15 backdrop-blur-sm px-2 py-1">
+          <LanguageSelector compact />
+        </div>
+      </div>
+
       <div className="relative w-full max-w-md">
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-white/15 backdrop-blur-sm mb-4">
             <Sparkles className="text-white" size={32} />
           </div>
-          <h1 className="text-3xl font-bold text-white">Life Pilot AI</h1>
-          <p className="text-teal-100 mt-2 text-sm">Your AI-powered Family Growth Operating System</p>
+          <h1 className="text-3xl font-bold text-white">{t('appName')}</h1>
+          <p className="text-teal-100 mt-2 text-sm">{t('tagline')}</p>
         </div>
 
         <div className="bg-white rounded-3xl shadow-2xl p-7">
           <div className="flex gap-2 mb-6 p-1 bg-gray-100 rounded-xl">
             <button
-              onClick={() => setMode('login')}
-              className={`flex-1 rounded-lg py-2 text-sm font-semibold transition-all ${mode === 'login' ? 'bg-white text-teal-700 shadow-sm' : 'text-gray-500'}`}
+              onClick={() => { setMode('login'); setError(null); }}
+              className={`flex-1 rounded-lg py-2.5 text-sm font-semibold transition-all ${mode === 'login' ? 'bg-white text-teal-700 shadow-sm' : 'text-gray-500'}`}
             >
-              Sign In
+              {t('signIn')}
             </button>
             <button
-              onClick={() => setMode('register')}
-              className={`flex-1 rounded-lg py-2 text-sm font-semibold transition-all ${mode === 'register' ? 'bg-white text-teal-700 shadow-sm' : 'text-gray-500'}`}
+              onClick={() => { setMode('register'); setError(null); }}
+              className={`flex-1 rounded-lg py-2.5 text-sm font-semibold transition-all ${mode === 'register' ? 'bg-white text-teal-700 shadow-sm' : 'text-gray-500'}`}
             >
-              Create Account
+              {t('signUp')}
             </button>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
             {mode === 'register' && (
-              <Input label="Your Name" value={name} onChange={setName} placeholder="Parent's name" />
+              <Input label={t('yourName')} value={name} onChange={setName} placeholder={t('parent')} />
             )}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1.5">Email</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1.5">{t('email')}</label>
               <div className="relative">
                 <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
                 <input
@@ -78,7 +86,7 @@ export function AuthScreen() {
               </div>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1.5">Password</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1.5">{t('password')}</label>
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
                 <input
@@ -87,7 +95,7 @@ export function AuthScreen() {
                   minLength={6}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder="At least 6 characters"
+                  placeholder="******"
                   className="w-full rounded-xl border border-gray-200 pl-10 pr-4 py-2.5 text-sm focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20 focus:outline-none"
                 />
               </div>
@@ -102,7 +110,7 @@ export function AuthScreen() {
             <Button type="submit" fullWidth className="bg-teal-600 hover:bg-teal-700" disabled={busy}>
               {busy ? <Spinner /> : (
                 <>
-                  {mode === 'login' ? 'Sign In' : 'Create Account'}
+                  {mode === 'login' ? t('signIn') : t('signUp')}
                   <ArrowRight size={16} />
                 </>
               )}
@@ -110,13 +118,13 @@ export function AuthScreen() {
           </form>
 
           <p className="text-center text-xs text-gray-400 mt-5">
-            By continuing you agree to help your family grow together.
+            {t('byContinuing')}
           </p>
         </div>
 
         <p className="text-center mt-6">
           <Link to="/" className="text-teal-100 text-sm hover:text-white">
-            Back to welcome
+            {t('backToWelcome')}
           </Link>
         </p>
       </div>
