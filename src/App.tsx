@@ -48,12 +48,14 @@ function ProtectedRoutes() {
 }
 
 function AppRoutes() {
-  const { loading, user, family } = useAuth();
+  const { loading, user, family, authInitialized } = useAuth();
 
-  // Do NOT evaluate any route guard until getSession() has resolved
-  // and family data has been fetched. This prevents the F5 reload bug
-  // where a logged-in user briefly has user=null and gets bounced to /setup.
-  if (loading) return <FullScreenSpinner />;
+  // Do NOT evaluate any route guard until auth has fully initialized.
+  // On page reload (F5), Supabase fires INITIAL_SESSION after reading the
+  // persisted session from localStorage. Until that fires, user is null and
+  // we must show the spinner — otherwise the router redirects to /auth and
+  // the user appears logged out.
+  if (loading || !authInitialized) return <FullScreenSpinner />;
 
   // Authenticated user with an onboarded family → go to the app
   if (user && family && family.is_onboarded) {

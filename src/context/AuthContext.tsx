@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState, useRef, type ReactNode } from 'react';
+import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
 import type { Session, User } from '@supabase/supabase-js';
 import { supabase } from '@/lib/supabase';
 import type { Family, Member } from '@/types/database';
@@ -29,10 +29,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [activeMember, setActiveMemberState] = useState<Member | null>(null);
   const [loading, setLoading] = useState(true);
   const [authInitialized, setAuthInitialized] = useState(false);
-
-  // Track whether getSession() has completed so onAuthStateChange
-  // doesn't flip loading=false before the initial session is restored.
-  const sessionResolved = useRef(false);
 
   const loadFamilyData = async (userId: string) => {
     const { data: fam } = await supabase
@@ -73,49 +69,37 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   useEffect(() => {
-    // 1. Wait for the initial session to fully resolve from storage.
-    //    This is the critical step on page reload (F5) — the session
-    //    is stored in localStorage but takes a tick to read.
-    supabase.auth.getSession().then(({ data: { session: s } }) => {
-      sessionResolved.current = true;
-      setSession(s);
-      setUser(s?.user ?? null);
-      if (s?.user) {
-        loadFamilyData(s.user.id).finally(() => {
-          setLoading(false);
-          setAuthInitialized(true);
-        });
-      } else {
-        setLoading(false);
-        setAuthInitialized(true);
-      }
-    });
+    let mounted = true;
 
-    // 2. Subscribe to auth state changes (sign in, sign out, token refresh).
-    //    Guard against firing before getSession() has resolved — on reload,
-    //    onAuthStateChange can emit an INITIAL_SESSION event with a null
-    //    session before the stored session is read, which would cause a
-    //    premature redirect to /auth or /setup.
+    // onAuthStateChange is the single source of truth for session restoration.
+    // Supabase fires INITIAL_SESSION once it has finished reading the persisted
+    // session from localStorage. This is more reliable than getSession() alone,
+    // which can resolve with null before the async storage read completes.
     const { data: sub } = supabase.auth.onAuthStateChange((event, s) => {
-      // Skip the initial session event — getSession() handles it above.
-      if (event === 'INITIAL_SESSION') return;
+      if (!mounted) return;
 
       (async () => {
         setSession(s);
         setUser(s?.user ?? null);
         if (s?.user) {
+          setLoading(true);
           await loadFamilyData(s.user.id);
         } else {
           setFamily(null);
           setMembers([]);
           setActiveMemberState(null);
         }
-        setLoading(false);
-        setAuthInitialized(true);
+        if (mounted) {
+          setLoading(false);
+          setAuthInitialized(true);
+        }
       })();
     });
 
-    return () => sub.subscription.unsubscribe();
+    return () => {
+      mounted = false;
+      sub.subscription.unsubscribe();
+    };
   }, []);
 
   const signUp = async (email: string, password: string, name: string) => {
