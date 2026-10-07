@@ -8,6 +8,13 @@ export function Sidebar({ activeTab, setActiveTab }: { activeTab: string; setAct
   const members = auth?.members || [];
   const setActiveMember = auth?.setActiveMember;
   const currentFamily = auth?.currentFamily;
+  const signOut = auth?.signOut;
+
+  const handleTabClick = (tabName: string) => {
+    if (setActiveTab) {
+      setActiveTab(tabName);
+    }
+  };
 
   return (
     <aside className="w-64 bg-white border-r border-gray-200 min-h-screen p-4 flex flex-col justify-between">
@@ -46,10 +53,11 @@ export function Sidebar({ activeTab, setActiveTab }: { activeTab: string; setAct
         {/* Navigation Tabs */}
         <nav className="space-y-1">
           <button
-            onClick={() => setActiveTab('dashboard')}
+            type="button"
+            onClick={() => handleTabClick('dashboard')}
             className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all ${
               activeTab === 'dashboard'
-                ? 'bg-rose-50 text-rose-600 shadow-sm'
+                ? 'bg-rose-50 text-rose-600 shadow-sm font-semibold'
                 : 'text-gray-600 hover:bg-gray-50'
             }`}
           >
@@ -57,10 +65,11 @@ export function Sidebar({ activeTab, setActiveTab }: { activeTab: string; setAct
           </button>
 
           <button
-            onClick={() => setActiveTab('tasks')}
+            type="button"
+            onClick={() => handleTabClick('tasks')}
             className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all ${
               activeTab === 'tasks'
-                ? 'bg-rose-50 text-rose-600 shadow-sm'
+                ? 'bg-rose-50 text-rose-600 shadow-sm font-semibold'
                 : 'text-gray-600 hover:bg-gray-50'
             }`}
           >
@@ -68,10 +77,11 @@ export function Sidebar({ activeTab, setActiveTab }: { activeTab: string; setAct
           </button>
 
           <button
-            onClick={() => setActiveTab('rewards')}
+            type="button"
+            onClick={() => handleTabClick('rewards')}
             className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all ${
               activeTab === 'rewards'
-                ? 'bg-rose-50 text-rose-600 shadow-sm'
+                ? 'bg-rose-50 text-rose-600 shadow-sm font-semibold'
                 : 'text-gray-600 hover:bg-gray-50'
             }`}
           >
@@ -79,10 +89,11 @@ export function Sidebar({ activeTab, setActiveTab }: { activeTab: string; setAct
           </button>
 
           <button
-            onClick={() => setActiveTab('growth')}
+            type="button"
+            onClick={() => handleTabClick('growth')}
             className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all ${
               activeTab === 'growth'
-                ? 'bg-rose-50 text-rose-600 shadow-sm'
+                ? 'bg-rose-50 text-rose-600 shadow-sm font-semibold'
                 : 'text-gray-600 hover:bg-gray-50'
             }`}
           >
@@ -90,10 +101,11 @@ export function Sidebar({ activeTab, setActiveTab }: { activeTab: string; setAct
           </button>
 
           <button
-            onClick={() => setActiveTab('aicoach')}
+            type="button"
+            onClick={() => handleTabClick('aicoach')}
             className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all ${
               activeTab === 'aicoach'
-                ? 'bg-rose-50 text-rose-600 shadow-sm'
+                ? 'bg-rose-50 text-rose-600 shadow-sm font-semibold'
                 : 'text-gray-600 hover:bg-gray-50'
             }`}
           >
@@ -101,10 +113,11 @@ export function Sidebar({ activeTab, setActiveTab }: { activeTab: string; setAct
           </button>
 
           <button
-            onClick={() => setActiveTab('family')}
+            type="button"
+            onClick={() => handleTabClick('family')}
             className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all ${
               activeTab === 'family'
-                ? 'bg-rose-50 text-rose-600 shadow-sm'
+                ? 'bg-rose-50 text-rose-600 shadow-sm font-semibold'
                 : 'text-gray-600 hover:bg-gray-50'
             }`}
           >
@@ -113,14 +126,25 @@ export function Sidebar({ activeTab, setActiveTab }: { activeTab: string; setAct
         </nav>
       </div>
 
-      {/* Quick Add Child Button */}
-      <div className="pt-4 border-t border-gray-100">
+      {/* Bottom Actions */}
+      <div className="pt-4 border-t border-gray-100 space-y-2">
         <button
-          onClick={() => setActiveTab('family')}
+          type="button"
+          onClick={() => handleTabClick('family')}
           className="w-full py-2.5 px-3 bg-gradient-to-r from-rose-500 to-pink-500 text-white font-semibold rounded-xl text-xs shadow-md hover:opacity-90 flex items-center justify-center gap-2"
         >
           ➕ Add Child / Manage Family
         </button>
+
+        {signOut && (
+          <button
+            type="button"
+            onClick={() => signOut()}
+            className="w-full py-2 px-3 text-gray-500 hover:text-rose-600 hover:bg-rose-50 font-medium rounded-xl text-xs transition-all flex items-center justify-center gap-2"
+          >
+            🚪 Sign Out
+          </button>
+        )}
       </div>
     </aside>
   );
@@ -133,6 +157,7 @@ export function MobileBottomNav({ role }: { role: string }) {
 export function TopBar({ title, subtitle, right }: { title: string; subtitle?: string; right?: React.ReactNode }) {
   const auth = useAuth();
   const activeMember = auth?.activeMember;
+  const signOut = auth?.signOut;
 
   return (
     <div className="flex items-center justify-between px-5 py-4 lg:px-8 lg:py-6">
@@ -150,6 +175,15 @@ export function TopBar({ title, subtitle, right }: { title: string; subtitle?: s
               {activeMember.role}
             </span>
           </div>
+        )}
+        {signOut && (
+          <button
+            type="button"
+            onClick={() => signOut()}
+            className="px-3 py-1.5 border border-gray-200 hover:bg-rose-50 hover:text-rose-600 text-gray-600 rounded-lg text-xs font-semibold transition-all"
+          >
+            Sign Out
+          </button>
         )}
       </div>
     </div>
