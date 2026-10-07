@@ -1,10 +1,8 @@
 import React from 'react';
 import { useAuth } from '../context/AuthContext';
-import { useTranslation } from '../context/LanguageContext';
 
 export function Sidebar({ activeTab, setActiveTab }: { activeTab: string; setActiveTab: (tab: string) => void }) {
   const auth = useAuth();
-  const { t } = useTranslation();
 
   const activeMember = auth?.activeMember;
   const members = auth?.members || [];
@@ -45,7 +43,7 @@ export function Sidebar({ activeTab, setActiveTab }: { activeTab: string; setAct
           </select>
         </div>
 
-        {/* Dynamic Navigation Tabs */}
+        {/* Navigation Tabs */}
         <nav className="space-y-1">
           <button
             onClick={() => setActiveTab('dashboard')}
@@ -55,7 +53,7 @@ export function Sidebar({ activeTab, setActiveTab }: { activeTab: string; setAct
                 : 'text-gray-600 hover:bg-gray-50'
             }`}
           >
-            📊 {t('Dashboard')}
+            📊 Dashboard
           </button>
 
           <button
@@ -66,7 +64,7 @@ export function Sidebar({ activeTab, setActiveTab }: { activeTab: string; setAct
                 : 'text-gray-600 hover:bg-gray-50'
             }`}
           >
-            ✅ {t('Tasks')}
+            ✅ Tasks
           </button>
 
           <button
@@ -77,7 +75,7 @@ export function Sidebar({ activeTab, setActiveTab }: { activeTab: string; setAct
                 : 'text-gray-600 hover:bg-gray-50'
             }`}
           >
-            🎁 {t('Rewards')}
+            🎁 Rewards
           </button>
 
           <button
@@ -88,7 +86,7 @@ export function Sidebar({ activeTab, setActiveTab }: { activeTab: string; setAct
                 : 'text-gray-600 hover:bg-gray-50'
             }`}
           >
-            📈 {t('Growth Score')}
+            📈 Growth Score
           </button>
 
           <button
@@ -99,7 +97,7 @@ export function Sidebar({ activeTab, setActiveTab }: { activeTab: string; setAct
                 : 'text-gray-600 hover:bg-gray-50'
             }`}
           >
-            🤖 {t('AI Coach')}
+            🤖 AI Coach
           </button>
 
           <button
@@ -110,7 +108,7 @@ export function Sidebar({ activeTab, setActiveTab }: { activeTab: string; setAct
                 : 'text-gray-600 hover:bg-gray-50'
             }`}
           >
-            👨‍👩‍👧‍👦 {t('Family & Children')}
+            👨‍👩‍👧‍👦 Family & Children
           </button>
         </nav>
       </div>
@@ -134,7 +132,6 @@ export function MobileBottomNav({ role }: { role: string }) {
 
 export function TopBar({ title, subtitle, right }: { title: string; subtitle?: string; right?: React.ReactNode }) {
   const auth = useAuth();
-  const { t } = useTranslation();
   const activeMember = auth?.activeMember;
 
   return (
