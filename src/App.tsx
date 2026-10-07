@@ -1,97 +1,91 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { AuthProvider, useAuth } from '@/context/AuthContext';
-import '@/lib/i18n';
-import { WelcomeScreen } from '@/screens/WelcomeScreen';
-import { AuthScreen } from '@/screens/AuthScreen';
-import { FamilySetupScreen } from '@/screens/FamilySetupScreen';
-import { AppLayout } from '@/components/AppLayout';
-import { DashboardRouter } from '@/screens/DashboardRouter';
-import { TasksScreen } from '@/screens/TasksScreen';
-import { RewardsScreen } from '@/screens/RewardsScreen';
-import { GrowthScoreScreen } from '@/screens/GrowthScoreScreen';
-import { CoachScreen } from '@/screens/CoachScreen';
-import { ReportScreen } from '@/screens/ReportScreen';
-import { ProfileScreen } from '@/screens/ProfileScreen';
-import { Spinner } from '@/components/ui';
-
-function FullScreenSpinner() {
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <Spinner className="h-8 w-8" />
-    </div>
-  );
-}
-
-function ProtectedRoutes() {
-  const { user, loading, family } = useAuth();
-
-  // Block all route decisions until auth + family data are fully loaded
-  if (loading) return <FullScreenSpinner />;
-
-  if (!user) return <Navigate to="/auth" replace />;
-  if (!family || !family.is_onboarded) return <Navigate to="/setup" replace />;
-
-  return (
-    <Routes>
-      <Route element={<AppLayout />}>
-        <Route path="/dashboard" element={<DashboardRouter />} />
-        <Route path="/tasks" element={<TasksScreen />} />
-        <Route path="/rewards" element={<RewardsScreen />} />
-        <Route path="/growth" element={<GrowthScoreScreen />} />
-        <Route path="/coach" element={<CoachScreen />} />
-        <Route path="/report" element={<ReportScreen />} />
-        <Route path="/profile" element={<ProfileScreen />} />
-      </Route>
-      <Route path="*" element={<Navigate to="/dashboard" replace />} />
-    </Routes>
-  );
-}
-
-function AppRoutes() {
-  const { loading, user, family, authInitialized } = useAuth();
-
-  // Do NOT evaluate any route guard until auth has fully initialized.
-  // On page reload (F5), Supabase fires INITIAL_SESSION after reading the
-  // persisted session from localStorage. Until that fires, user is null and
-  // we must show the spinner — otherwise the router redirects to /auth and
-  // the user appears logged out.
-  if (loading || !authInitialized) return <FullScreenSpinner />;
-
-  // Authenticated user with an onboarded family → go to the app
-  if (user && family && family.is_onboarded) {
-    return (
-      <Routes>
-        <Route path="/*" element={<ProtectedRoutes />} />
-      </Routes>
-    );
-  }
-
-  // Authenticated user without a family or not yet onboarded → setup screen
-  if (user) {
-    return (
-      <Routes>
-        <Route path="/setup" element={<FamilySetupScreen />} />
-        <Route path="/*" element={<Navigate to="/setup" replace />} />
-      </Routes>
-    );
-  }
-
-  // Unauthenticated → welcome / auth
-  return (
-    <Routes>
-      <Route path="/" element={<WelcomeScreen />} />
-      <Route path="/auth" element={<AuthScreen />} />
-      <Route path="/*" element={<Navigate to="/" replace />} />
-    </Routes>
-  );
-}
+import React, { useState } from 'react';
+import { useAuth } from './context/AuthContext';
+import { Sidebar, TopBar } from './components/Sidebar';
 
 export default function App() {
+  const auth = useAuth();
+  const [activeTab, setActiveTab] = useState('dashboard');
+
+  if (!auth?.user) {
+    // Return your Auth/Login component here if not logged in
+    return null; 
+  }
+
   return (
-    <BrowserRouter>
-      <AuthProvider>
-        <AppRoutes />
-      </AuthProvider>
-    </BrowserRouter>
+    <div className="flex min-h-screen bg-gray-50">
+      {/* Sidebar with state handler */}
+      <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
+
+      <main className="flex-1 flex flex-col min-w-0 overflow-y-auto">
+        <TopBar 
+          title={activeTab.charAt(0).toUpperCase() + activeTab.slice(1)} 
+          subtitle="Manage your family growth and activities" 
+        />
+
+        <div className="p-6">
+          {/* Active Tab View Switching */}
+          {activeTab === 'dashboard' && (
+            <div className="p-6 bg-white rounded-2xl shadow-sm border border-gray-100">
+              <h2 className="text-xl font-bold mb-2">📊 Dashboard</h2>
+              <p className="text-gray-600">Welcome to your family growth dashboard!</p>
+            </div>
+          )}
+
+          {activeTab === 'tasks' && (
+            <div className="p-6 bg-white rounded-2xl shadow-sm border border-gray-100">
+              <h2 className="text-xl font-bold mb-2">✅ Tasks</h2>
+              <p className="text-gray-600">Assign and track child daily tasks here.</p>
+            </div>
+          )}
+
+          {activeTab === 'rewards' && (
+            <div className="p-6 bg-white rounded-2xl shadow-sm border border-gray-100">
+              <h2 className="text-xl font-bold mb-2">🎁 Rewards</h2>
+              <p className="text-gray-600">Manage reward store and redemptions.</p>
+            </div>
+          )}
+
+          {activeTab === 'growth' && (
+            <div className="p-6 bg-white rounded-2xl shadow-sm border border-gray-100">
+              <h2 className="text-xl font-bold mb-2">📈 Growth Score</h2>
+              <p className="text-gray-600">Track progress metrics and achievements.</p>
+            </div>
+          )}
+
+          {activeTab === 'aicoach' && (
+            <div className="p-6 bg-white rounded-2xl shadow-sm border border-gray-100">
+              <h2 className="text-xl font-bold mb-2">🤖 AI Coach</h2>
+              <p className="text-gray-600">Personalized AI recommendations for children.</p>
+            </div>
+          )}
+
+          {activeTab === 'family' && (
+            <div className="p-6 bg-white rounded-2xl shadow-sm border border-gray-100">
+              <h2 className="text-xl font-bold mb-4">👨‍👩‍👧‍👦 Family & Children Management</h2>
+              
+              {/* Add Child Form */}
+              <div className="max-w-md p-4 bg-rose-50 border border-rose-100 rounded-xl mb-6">
+                <h3 className="font-bold text-rose-800 mb-2">➕ Add New Child Profile</h3>
+                <div className="space-y-3">
+                  <input 
+                    type="text" 
+                    placeholder="Child Name" 
+                    className="w-full p-2 text-sm border rounded-lg bg-white"
+                  />
+                  <input 
+                    type="number" 
+                    placeholder="Age / Grade" 
+                    className="w-full p-2 text-sm border rounded-lg bg-white"
+                  />
+                  <button className="w-full py-2 bg-rose-600 text-white font-medium text-xs rounded-lg hover:bg-rose-700">
+                    Create Child Profile
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      </main>
+    </div>
   );
 }
