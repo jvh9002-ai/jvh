@@ -1,141 +1,139 @@
-import { NavLink, useNavigate } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
-import { Home, CheckSquare, Gift, Sparkles, BarChart3, User, LogOut, Plus } from 'lucide-react';
-import { useAuth } from '@/context/AuthContext';
-import { UniversalHeader } from '@/components/UniversalHeader';
-import type { Role } from '@/types/database';
+import React from 'react';
+import { useAuth } from '../context/AuthContext';
+import { useTranslation } from '../context/LanguageContext';
 
-interface SidebarProps {
-  role: Role;
-}
-
-export function Sidebar({ role }: SidebarProps) {
+export function Sidebar({ activeTab, setActiveTab }: { activeTab: string; setActiveTab: (tab: string) => void }) {
+  const { activeMember, members, setActiveMember, currentFamily } = useAuth();
   const { t } = useTranslation();
-  const { signOut, activeMember } = useAuth();
-  const navigate = useNavigate();
 
-  const s = roleStyles[role] || roleStyles.parent;
-
-  const navItems = [
-    { to: '/dashboard', icon: Home, label: t('dashboard') },
-    { to: '/tasks', icon: CheckSquare, label: t('tasks') },
-    { to: '/rewards', icon: Gift, label: t('rewards') },
-    { to: '/growth', icon: BarChart3, label: t('growthScore') },
-    { to: '/coach', icon: Sparkles, label: t('aiCoach') },
-    { to: '/report', icon: BarChart3, label: t('weeklyReport') },
-    { to: '/profile', icon: User, label: t('profile') },
-  ];
-
-  const handleSignOut = async () => {
-    await signOut();
-    navigate('/');
-  };
+  const isParent = activeMember?.role === 'parent';
 
   return (
-    <>
-      {/* Desktop sidebar */}
-      <aside className={`hidden lg:flex flex-col w-60 ${role === 'teen' ? 'bg-slate-900 border-slate-800' : 'bg-white border-gray-100'} border-r h-screen sticky top-0`}>
-        <div className="px-5 py-5 flex items-center gap-2 cursor-pointer" onClick={() => navigate('/dashboard')}>
-          <div className={`w-9 h-9 rounded-xl ${s.bar} flex items-center justify-center text-white`}>
-            <Sparkles size={18} />
+    <aside className="w-64 bg-white border-r border-gray-200 min-h-screen p-4 flex flex-col justify-between">
+      <div>
+        <div className="flex items-center gap-3 px-2 mb-8">
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-rose-500 to-pink-500 flex items-center justify-center text-white font-bold text-xl shadow-md shadow-pink-200">
+            🌱
           </div>
           <div>
-            <p className={`text-sm font-bold ${role === 'teen' ? 'text-white' : 'text-gray-900'}`}>{t('appName')}</p>
-            <p className={`text-xs ${role === 'teen' ? 'text-slate-400' : 'text-gray-400'} capitalize`}>{role} {t('settings')}</p>
+            <h1 className="font-bold text-gray-800 text-lg leading-tight">Life Pilot AI</h1>
+            <p className="text-xs text-gray-400 font-medium">{currentFamily?.name || 'Family Growth'}</p>
           </div>
         </div>
-        <nav className="flex-1 px-3 py-2 space-y-1">
-          {navItems.map((item) => (
-            <NavLink
-              key={item.to}
-              to={item.to}
-              className={({ isActive }) =>
-                `flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all ${
-                  isActive ? s.active : `${s.hover} ${role === 'teen' ? 'text-slate-300' : 'text-gray-600'}`
-                }`
-              }
-            >
-              <item.icon size={18} />
-              {item.label}
-            </NavLink>
-          ))}
-        </nav>
-        <div className="px-3 py-4 border-t border-gray-100">
-          {activeMember && (
-            <div className="px-3 py-2 mb-2">
-              <p className={`text-xs ${role === 'teen' ? 'text-slate-400' : 'text-gray-400'}`}>{t('viewingAs')}</p>
-              <p className={`text-sm font-semibold ${role === 'teen' ? 'text-white' : 'text-gray-900'}`}>
-                {activeMember.avatar_emoji} {activeMember.name}
-              </p>
-            </div>
-          )}
-          <button
-            onClick={handleSignOut}
-            className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium w-full transition-all ${s.hover} ${role === 'teen' ? 'text-slate-300' : 'text-gray-600'}`}
+
+        {/* Member Switcher Dropdown / Selector */}
+        <div className="mb-6 p-3 bg-gray-50 rounded-xl border border-gray-100">
+          <label className="text-xs font-semibold text-gray-400 uppercase tracking-wider block mb-2 px-1">
+            Active Profile
+          </label>
+          <select
+            value={activeMember?.id || ''}
+            onChange={(e) => {
+              const member = members.find((m) => m.id === e.target.value);
+              if (member) setActiveMember(member);
+            }}
+            className="w-full p-2 bg-white border border-gray-200 rounded-lg text-sm font-medium text-gray-700 focus:outline-none focus:ring-2 focus:ring-rose-500"
           >
-            <LogOut size={18} />
-            {t('signOut')}
-          </button>
+            {members.map((member) => (
+              <option key={member.id} value={member.id}>
+                {member.avatar_emoji} {member.name} ({member.role})
+              </option>
+            ))}
+          </select>
         </div>
-      </aside>
-    </>
+
+        {/* Dynamic Navigation Tabs */}
+        <nav className="space-y-1">
+          <button
+            onClick={() => setActiveTab('dashboard')}
+            className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all ${
+              activeTab === 'dashboard'
+                ? 'bg-rose-50 text-rose-600 shadow-sm'
+                : 'text-gray-600 hover:bg-gray-50'
+            }`}
+          >
+            📊 {t('Dashboard')}
+          </button>
+
+          <button
+            onClick={() => setActiveTab('tasks')}
+            className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all ${
+              activeTab === 'tasks'
+                ? 'bg-rose-50 text-rose-600 shadow-sm'
+                : 'text-gray-600 hover:bg-gray-50'
+            }`}
+          >
+            ✅ {t('Tasks')}
+          </button>
+
+          <button
+            onClick={() => setActiveTab('rewards')}
+            className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all ${
+              activeTab === 'rewards'
+                ? 'bg-rose-50 text-rose-600 shadow-sm'
+                : 'text-gray-600 hover:bg-gray-50'
+            }`}
+          >
+            🎁 {t('Rewards')}
+          </button>
+
+          <button
+            onClick={() => setActiveTab('growth')}
+            className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all ${
+              activeTab === 'growth'
+                ? 'bg-rose-50 text-rose-600 shadow-sm'
+                : 'text-gray-600 hover:bg-gray-50'
+            }`}
+          >
+            📈 {t('Growth Score')}
+          </button>
+
+          <button
+            onClick={() => setActiveTab('aicoach')}
+            className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all ${
+              activeTab === 'aicoach'
+                ? 'bg-rose-50 text-rose-600 shadow-sm'
+                : 'text-gray-600 hover:bg-gray-50'
+            }`}
+          >
+            🤖 {t('AI Coach')}
+          </button>
+
+          {/* Direct Family / Add Child Option for Parents */}
+          <button
+            onClick={() => setActiveTab('family')}
+            className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all ${
+              activeTab === 'family'
+                ? 'bg-rose-50 text-rose-600 shadow-sm'
+                : 'text-gray-600 hover:bg-gray-50'
+            }`}
+          >
+            👨‍👩‍👧‍👦 {t('Family & Children')}
+          </button>
+        </nav>
+      </div>
+
+      {/* Quick Add Child Button at Bottom */}
+      <div className="pt-4 border-t border-gray-100">
+        <button
+          onClick={() => setActiveTab('family')}
+          className="w-full py-2.5 px-3 bg-gradient-to-r from-rose-500 to-pink-500 text-white font-semibold rounded-xl text-xs shadow-md hover:opacity-90 flex items-center justify-center gap-2"
+        >
+          ➕ Add Child / Manage Family
+        </button>
+      </div>
+    </aside>
   );
 }
 
-const roleStyles: Record<string, { active: string; hover: string; bar: string }> = {
-  parent: { active: 'bg-teal-50 text-teal-700', hover: 'hover:bg-gray-50', bar: 'bg-teal-600' },
-  child: { active: 'bg-pink-100 text-pink-600', hover: 'hover:bg-pink-50', bar: 'bg-pink-500' },
-  teen: { active: 'bg-indigo-500/15 text-indigo-300', hover: 'hover:bg-white/5', bar: 'bg-indigo-500' },
-  college: { active: 'bg-blue-50 text-blue-700', hover: 'hover:bg-gray-50', bar: 'bg-blue-600' },
-  staff: { active: 'bg-cyan-50 text-cyan-700', hover: 'hover:bg-gray-50', bar: 'bg-cyan-600' },
-};
-
-export function MobileBottomNav({ role }: { role: Role }) {
-  const { t } = useTranslation();
-  const navigate = useNavigate();
-  const s = roleStyles[role] || roleStyles.parent;
-
-  const bottomNavItems = [
-    { to: '/dashboard', icon: Home, label: t('home') },
-    { to: '/tasks', icon: CheckSquare, label: t('tasks') },
-    { to: '/tasks', icon: Plus, label: t('addTask'), primary: true },
-    { to: '/growth', icon: BarChart3, label: t('stats') },
-    { to: '/profile', icon: User, label: t('settings') },
-  ];
-
-  return (
-    <nav className={`lg:hidden fixed bottom-0 left-0 right-0 z-40 ${role === 'teen' ? 'bg-slate-900 border-slate-800' : 'bg-white border-gray-100'} border-t flex items-center justify-around px-2 py-1.5 safe-area`}>
-      {bottomNavItems.map((item, i) =>
-        item.primary ? (
-          <button
-            key={i}
-            onClick={() => navigate(item.to)}
-            className="flex flex-col items-center justify-center -mt-6 w-12 h-12 rounded-full bg-teal-600 text-white shadow-lg hover:scale-105 transition-transform"
-          >
-            <item.icon size={22} />
-          </button>
-        ) : (
-          <NavLink
-            key={i}
-            to={item.to}
-            className={({ isActive }) =>
-              `flex flex-col items-center gap-0.5 rounded-lg px-2 py-1.5 text-[10px] font-medium transition-all ${
-                isActive ? s.active : role === 'teen' ? 'text-slate-400' : 'text-gray-400'
-              }`
-            }
-          >
-            <item.icon size={20} />
-            {item.label}
-          </NavLink>
-        )
-      )}
-    </nav>
-  );
+export function MobileBottomNav({ role }: { role: string }) {
+  return null;
 }
 
 export function TopBar({ title, subtitle, right }: { title: string; subtitle?: string; right?: React.ReactNode }) {
   const { activeMember } = useAuth();
   const { t } = useTranslation();
+
   return (
     <div className="flex items-center justify-between px-5 py-4 lg:px-8 lg:py-6">
       <div>
@@ -145,14 +143,15 @@ export function TopBar({ title, subtitle, right }: { title: string; subtitle?: s
       <div className="flex items-center gap-3">
         {right}
         {activeMember && (
-          <div className="hidden sm:flex items-center gap-2 rounded-full bg-gray-50 px-3 py-1.5">
+          <div className="hidden sm:flex items-center gap-2 rounded-full bg-gray-50 px-3 py-1.5 border border-gray-200">
             <span className="text-lg">{activeMember.avatar_emoji}</span>
             <span className="text-sm font-semibold text-gray-700">{activeMember.name}</span>
+            <span className="text-xs bg-rose-100 text-rose-700 px-2 py-0.5 rounded-full font-medium capitalize">
+              {activeMember.role}
+            </span>
           </div>
         )}
       </div>
     </div>
   );
 }
-
-export { UniversalHeader };
