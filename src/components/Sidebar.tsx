@@ -3,10 +3,13 @@ import { useAuth } from '../context/AuthContext';
 import { useTranslation } from '../context/LanguageContext';
 
 export function Sidebar({ activeTab, setActiveTab }: { activeTab: string; setActiveTab: (tab: string) => void }) {
-  const { activeMember, members, setActiveMember, currentFamily } = useAuth();
+  const auth = useAuth();
   const { t } = useTranslation();
 
-  const isParent = activeMember?.role === 'parent';
+  const activeMember = auth?.activeMember;
+  const members = auth?.members || [];
+  const setActiveMember = auth?.setActiveMember;
+  const currentFamily = auth?.currentFamily;
 
   return (
     <aside className="w-64 bg-white border-r border-gray-200 min-h-screen p-4 flex flex-col justify-between">
@@ -21,7 +24,7 @@ export function Sidebar({ activeTab, setActiveTab }: { activeTab: string; setAct
           </div>
         </div>
 
-        {/* Member Switcher Dropdown / Selector */}
+        {/* Member Switcher Dropdown */}
         <div className="mb-6 p-3 bg-gray-50 rounded-xl border border-gray-100">
           <label className="text-xs font-semibold text-gray-400 uppercase tracking-wider block mb-2 px-1">
             Active Profile
@@ -29,14 +32,14 @@ export function Sidebar({ activeTab, setActiveTab }: { activeTab: string; setAct
           <select
             value={activeMember?.id || ''}
             onChange={(e) => {
-              const member = members.find((m) => m.id === e.target.value);
-              if (member) setActiveMember(member);
+              const member = members.find((m: any) => m.id === e.target.value);
+              if (member && setActiveMember) setActiveMember(member);
             }}
             className="w-full p-2 bg-white border border-gray-200 rounded-lg text-sm font-medium text-gray-700 focus:outline-none focus:ring-2 focus:ring-rose-500"
           >
-            {members.map((member) => (
+            {members.map((member: any) => (
               <option key={member.id} value={member.id}>
-                {member.avatar_emoji} {member.name} ({member.role})
+                {member.avatar_emoji || '👤'} {member.name} ({member.role})
               </option>
             ))}
           </select>
@@ -99,7 +102,6 @@ export function Sidebar({ activeTab, setActiveTab }: { activeTab: string; setAct
             🤖 {t('AI Coach')}
           </button>
 
-          {/* Direct Family / Add Child Option for Parents */}
           <button
             onClick={() => setActiveTab('family')}
             className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all ${
@@ -113,7 +115,7 @@ export function Sidebar({ activeTab, setActiveTab }: { activeTab: string; setAct
         </nav>
       </div>
 
-      {/* Quick Add Child Button at Bottom */}
+      {/* Quick Add Child Button */}
       <div className="pt-4 border-t border-gray-100">
         <button
           onClick={() => setActiveTab('family')}
@@ -131,8 +133,9 @@ export function MobileBottomNav({ role }: { role: string }) {
 }
 
 export function TopBar({ title, subtitle, right }: { title: string; subtitle?: string; right?: React.ReactNode }) {
-  const { activeMember } = useAuth();
+  const auth = useAuth();
   const { t } = useTranslation();
+  const activeMember = auth?.activeMember;
 
   return (
     <div className="flex items-center justify-between px-5 py-4 lg:px-8 lg:py-6">
@@ -144,7 +147,7 @@ export function TopBar({ title, subtitle, right }: { title: string; subtitle?: s
         {right}
         {activeMember && (
           <div className="hidden sm:flex items-center gap-2 rounded-full bg-gray-50 px-3 py-1.5 border border-gray-200">
-            <span className="text-lg">{activeMember.avatar_emoji}</span>
+            <span className="text-lg">{activeMember.avatar_emoji || '👤'}</span>
             <span className="text-sm font-semibold text-gray-700">{activeMember.name}</span>
             <span className="text-xs bg-rose-100 text-rose-700 px-2 py-0.5 rounded-full font-medium capitalize">
               {activeMember.role}
