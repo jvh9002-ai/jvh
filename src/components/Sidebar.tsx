@@ -10,12 +10,6 @@ export function Sidebar({ activeTab, setActiveTab }: { activeTab: string; setAct
   const currentFamily = auth?.currentFamily;
   const signOut = auth?.signOut;
 
-  const handleTabClick = (tabName: string) => {
-    if (setActiveTab) {
-      setActiveTab(tabName);
-    }
-  };
-
   return (
     <aside className="w-64 bg-white border-r border-gray-200 min-h-screen p-4 flex flex-col justify-between">
       <div>
@@ -29,7 +23,7 @@ export function Sidebar({ activeTab, setActiveTab }: { activeTab: string; setAct
           </div>
         </div>
 
-        {/* Member Switcher Dropdown */}
+        {/* Profile Switcher Dropdown */}
         <div className="mb-6 p-3 bg-gray-50 rounded-xl border border-gray-100">
           <label className="text-xs font-semibold text-gray-400 uppercase tracking-wider block mb-2 px-1">
             Active Profile
@@ -54,7 +48,7 @@ export function Sidebar({ activeTab, setActiveTab }: { activeTab: string; setAct
         <nav className="space-y-1">
           <button
             type="button"
-            onClick={() => handleTabClick('dashboard')}
+            onClick={() => setActiveTab('dashboard')}
             className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all ${
               activeTab === 'dashboard'
                 ? 'bg-rose-50 text-rose-600 shadow-sm font-semibold'
@@ -66,7 +60,7 @@ export function Sidebar({ activeTab, setActiveTab }: { activeTab: string; setAct
 
           <button
             type="button"
-            onClick={() => handleTabClick('tasks')}
+            onClick={() => setActiveTab('tasks')}
             className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all ${
               activeTab === 'tasks'
                 ? 'bg-rose-50 text-rose-600 shadow-sm font-semibold'
@@ -78,7 +72,7 @@ export function Sidebar({ activeTab, setActiveTab }: { activeTab: string; setAct
 
           <button
             type="button"
-            onClick={() => handleTabClick('rewards')}
+            onClick={() => setActiveTab('rewards')}
             className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all ${
               activeTab === 'rewards'
                 ? 'bg-rose-50 text-rose-600 shadow-sm font-semibold'
@@ -90,7 +84,7 @@ export function Sidebar({ activeTab, setActiveTab }: { activeTab: string; setAct
 
           <button
             type="button"
-            onClick={() => handleTabClick('growth')}
+            onClick={() => setActiveTab('growth')}
             className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all ${
               activeTab === 'growth'
                 ? 'bg-rose-50 text-rose-600 shadow-sm font-semibold'
@@ -102,7 +96,7 @@ export function Sidebar({ activeTab, setActiveTab }: { activeTab: string; setAct
 
           <button
             type="button"
-            onClick={() => handleTabClick('aicoach')}
+            onClick={() => setActiveTab('aicoach')}
             className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all ${
               activeTab === 'aicoach'
                 ? 'bg-rose-50 text-rose-600 shadow-sm font-semibold'
@@ -114,7 +108,7 @@ export function Sidebar({ activeTab, setActiveTab }: { activeTab: string; setAct
 
           <button
             type="button"
-            onClick={() => handleTabClick('family')}
+            onClick={() => setActiveTab('family')}
             className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all ${
               activeTab === 'family'
                 ? 'bg-rose-50 text-rose-600 shadow-sm font-semibold'
@@ -130,7 +124,7 @@ export function Sidebar({ activeTab, setActiveTab }: { activeTab: string; setAct
       <div className="pt-4 border-t border-gray-100 space-y-2">
         <button
           type="button"
-          onClick={() => handleTabClick('family')}
+          onClick={() => setActiveTab('family')}
           className="w-full py-2.5 px-3 bg-gradient-to-r from-rose-500 to-pink-500 text-white font-semibold rounded-xl text-xs shadow-md hover:opacity-90 flex items-center justify-center gap-2"
         >
           ➕ Add Child / Manage Family
