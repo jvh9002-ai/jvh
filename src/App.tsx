@@ -10,10 +10,10 @@ import { FamilyScreen } from './screens/FamilyScreen';
 import { AuthModal } from './components/AuthModal';
 
 export default function App() {
-  const { user, loading } = useAuth();
+  const { user, loading, authInitialized } = useAuth();
   const [activeTab, setActiveTab] = useState('dashboard');
 
-  if (loading) {
+ if (loading || !authInitialized)
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="text-gray-500 font-medium">Loading Life Pilot AI...</div>
