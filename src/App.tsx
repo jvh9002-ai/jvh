@@ -14,12 +14,12 @@ export default function App() {
   const [activeTab, setActiveTab] = useState('dashboard');
 
 if (loading || !authInitialized) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="text-gray-500 font-medium">Loading Life Pilot AI...</div>
-      </div>
-    );
-  }
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="text-gray-500 font-medium">Loading Life Pilot AI...</div>
+    </div>
+  );
+}
 
   if (!user) {
     return <AuthModal isOpen={true} onClose={() => {}} />;
