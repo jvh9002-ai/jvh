@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Sparkles, Mail, Lock, ArrowRight } from 'lucide-react';
@@ -8,10 +8,16 @@ import { LanguageSelector } from '@/components/UniversalHeader';
 
 export function AuthScreen() {
   const { t } = useTranslation();
-  const { signIn, signUp } = useAuth();
-  const navigate = useNavigate();
-  const [mode, setMode] = useState<'login' | 'register'>('login');
-  const [email, setEmail] = useState('');
+  const { signIn, signUp, user } = useAuth();
+const navigate = useNavigate();
+
+useEffect(() => {
+  if (user) {
+    navigate('/setup');
+  }
+}, [user, navigate]);
+
+const [mode, setMode] = useState<'login' | 'register'>('login');  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
   const [error, setError] = useState<string | null>(null);
