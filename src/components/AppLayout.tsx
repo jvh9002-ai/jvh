@@ -41,11 +41,19 @@ export function AppLayout() {
     );
   }
 
-  if (!user || !family || !family.is_onboarded || !activeMember) {
-    navigate('/auth', { replace: true });
-    return null;
-  }
+ if (!user) {
+  navigate('/auth', { replace: true });
+  return null;
+}
 
+if (!family || !family.is_onboarded) {
+  navigate('/setup', { replace: true });
+  return null;
+}
+
+if (!activeMember) {
+  return null;
+}
   return (
     <div className="flex min-h-screen bg-gray-50">
       <Sidebar role={activeMember.role} />
