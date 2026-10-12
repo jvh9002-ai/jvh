@@ -5,9 +5,9 @@ import { FamilySetupScreen } from './screens/FamilySetupScreen';
 import { DashboardRouter } from './screens/DashboardRouter';
 import { TasksScreen } from './screens/TasksScreen';
 import { RewardsScreen } from './screens/RewardsScreen';
-import { GrowthScreen } from './screens/GrowthScreen';
-import { AICoachScreen } from './screens/AICoachScreen';
-import { FamilyScreen } from './screens/FamilyScreen';
+import { GrowthScoreScreen } from './screens/GrowthScoreScreen';
+import { CoachScreen } from './screens/CoachScreen';
+import { ProfileScreen } from './screens/ProfileScreen';
 
 export default function App() {
   return (
@@ -21,12 +21,11 @@ export default function App() {
         <Route element={<AppLayout />}>
   <Route path="/" element={<DashboardRouter />} />
   <Route path="/dashboard" element={<DashboardRouter />} />
-
   <Route path="/tasks" element={<TasksScreen />} />
   <Route path="/rewards" element={<RewardsScreen />} />
-  <Route path="/growth" element={<GrowthScreen />} />
-  <Route path="/aicoach" element={<AICoachScreen />} />
-  <Route path="/family" element={<FamilyScreen />} />
+  <Route path="/growth" element={<GrowthScoreScreen />} />
+  <Route path="/aicoach" element={<CoachScreen />} />
+  <Route path="/family" element={<ProfileScreen />} />
 </Route>
         <Route path="*" element={<Navigate to="/" replace />} />
 
