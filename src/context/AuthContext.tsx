@@ -105,6 +105,8 @@ const signIn = async (email: string, password: string) => {
   const { error } = await supabase.auth.signInWithPassword({
     email,
     password,
+    options: {
+      emailRedirectTo: window.location.origin
   });
 
   return { error: error?.message ?? null };
