@@ -1,4 +1,7 @@
 {
+  "protection": {
+    "deploymentType": "none"
+  },
   "rewrites": [
     {
       "source": "/(.*)",
