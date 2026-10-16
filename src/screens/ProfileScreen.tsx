@@ -92,7 +92,7 @@ export function ProfileScreen() {
             ))}
           </div>
           {isParent && (
-            <Button onClick={() => navigate('/setup')} variant="secondary" fullWidth className="mt-4">
+            <Button onClick={() => navigate('/family/add')} variant="secondary" fullWidth className="mt-4">
               <Plus size={16} /> Add Family Member
             </Button>
           )}
