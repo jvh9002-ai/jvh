@@ -9,6 +9,7 @@ export function AppLayout() {
   const { user, loading, family, activeMember, members, setActiveMember, authInitialized } = useAuth();
   const navigate = useNavigate();
   const [memberLoading, setMemberLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState('dashboard');
 
   useEffect(() => {
     // Do nothing until auth initialization is fully complete.
@@ -56,7 +57,10 @@ if (!activeMember) {
 }
   return (
     <div className="flex min-h-screen bg-gray-50">
-      <Sidebar role={activeMember.role} />
+     <Sidebar
+  activeTab={activeTab}
+  setActiveTab={setActiveTab}
+/>
       <main className="flex-1 min-w-0">
         <UniversalHeader />
         <div className="pb-20 lg:pb-0">
