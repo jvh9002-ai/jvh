@@ -52,10 +52,10 @@ export function FamilySetupScreen() {
       return;
     }
     // If the user already has an onboarded family, skip straight to dashboard
-    if (family && family.is_onboarded) {
-      navigate('/dashboard', { replace: true });
-      return;
-    }
+   if (family && family.is_onboarded && window.location.pathname !== '/family/add') {
+  navigate('/dashboard', { replace: true });
+  return;
+}
     // If they have a family but haven't finished onboarding, jump to the members step
     if (family && !family.is_onboarded && step === 'family') {
       setStep('members');
