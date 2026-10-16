@@ -29,7 +29,9 @@ export function FamilySetupScreen() {
   const { user, family, refreshFamily, completeOnboarding, authInitialized, loading } = useAuth();
   const navigate = useNavigate();
   const [mode, setMode] = useState<FamilyMode>('family');
-  const [step, setStep] = useState<'family' | 'members'>('family');
+  const [step, setStep] = useState<'family' | 'members'>(
+  family ? 'members' : 'family'
+);
   const [entityName, setEntityName] = useState('');
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
