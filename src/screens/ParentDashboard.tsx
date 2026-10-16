@@ -173,12 +173,7 @@ export function ParentDashboard() {
                 </Card>
               );
             })}
-            <Card className="p-5 border-dashed border-2 border-gray-200 flex flex-col items-center justify-center gap-2 min-h-[200px] hover:border-teal-300" onClick={() => navigate('/setup')}>
-              <div className="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center">
-                <Plus className="text-gray-400" size={20} />
-              </div>
-              <p className="text-sm font-medium text-gray-500">{isWork ? t('addTeamMemberBtn') : t('addFamilyMember')}</p>
-            </Card>
+          
           </div>
         </div>
 
