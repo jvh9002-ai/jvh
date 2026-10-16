@@ -26,6 +26,7 @@ export default function App() {
   <Route path="/growth" element={<GrowthScoreScreen />} />
   <Route path="/aicoach" element={<CoachScreen />} />
   <Route path="/family" element={<ProfileScreen />} />
+  <Route path="/family/add" element={<FamilySetupScreen />} />
 </Route>
         <Route path="*" element={<Navigate to="/" replace />} />
 
