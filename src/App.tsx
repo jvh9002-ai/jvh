@@ -14,11 +14,13 @@ export default function App() {
     <BrowserRouter>
       <Routes>
 
-        <Route path="/auth" element={<AuthScreen />} />
+ <Route path="/auth" element={<AuthScreen />} />
 
-        <Route path="/setup" element={<FamilySetupScreen />} />
+<Route path="/setup" element={<FamilySetupScreen />} />
 
-        <Route element={<AppLayout />}>
+<Route path="/family/add" element={<FamilySetupScreen />} />
+
+<Route element={<AppLayout />}>
   <Route path="/" element={<DashboardRouter />} />
   <Route path="/dashboard" element={<DashboardRouter />} />
   <Route path="/tasks" element={<TasksScreen />} />
@@ -26,9 +28,9 @@ export default function App() {
   <Route path="/growth" element={<GrowthScoreScreen />} />
   <Route path="/aicoach" element={<CoachScreen />} />
   <Route path="/family" element={<ProfileScreen />} />
-  <Route path="/family/add" element={<FamilySetupScreen />} />
 </Route>
-        <Route path="*" element={<Navigate to="/" replace />} />
+
+<Route path="*" element={<Navigate to="/" replace />} />
 
       </Routes>
     </BrowserRouter>
