@@ -58,8 +58,33 @@ export function TasksScreen() {
 
   const toggleTask = async (task: Task) => {
     const newStatus = task.status === 'completed' ? 'pending' : 'completed';
-    await supabase.from('tasks').update({ status: newStatus }).eq('id', task.id);
-    setTasks(tasks.map((t) => (t.id === task.id ? { ...t, status: newStatus } : t)));
+   await supabase
+  .from('tasks')
+  .update({
+    status: newStatus,
+    completed_at: newStatus === 'completed' ? new Date().toISOString() : null,
+    completed_by: newStatus === 'completed' ? currentMember?.id : null,
+  })
+  .eq('id', task.id);
+
+setTasks(
+  tasks.map((t) =>
+    t.id === task.id
+      ? {
+          ...t,
+          status: newStatus,
+          completed_at:
+            newStatus === 'completed'
+              ? new Date().toISOString()
+              : null,
+          completed_by:
+            newStatus === 'completed'
+              ? currentMember?.id
+              : null,
+        }
+      : t
+  )
+);
     if (newStatus === 'completed' && currentMember) {
       const newPoints = currentMember.points + task.points;
       await supabase.from('members').update({ points: newPoints }).eq('id', currentMember.id);
