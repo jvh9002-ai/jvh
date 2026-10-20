@@ -88,7 +88,22 @@ setTasks(
     if (newStatus === 'completed' && currentMember) {
       const newPoints = currentMember.points + task.points;
       await supabase.from('members').update({ points: newPoints }).eq('id', currentMember.id);
-    } else if (currentMember) {
+    }if (newStatus === 'completed' && currentMember) {
+  const newPoints = currentMember.points + task.points;
+  await supabase.from('members').update({ points: newPoints }).eq('id', currentMember.id);
+
+  // Yahan add karna hai:
+  if (family) {
+    await supabase.from('activity_logs').insert({
+      family_id: family.id,
+      member_id: currentMember.id,
+      event_type: 'task_completed',
+      title: task.title,
+      description: `${currentMember.name} completed this task`, // Yeh backticks ` ` zaroor lagana
+      points: task.points,
+    });
+  }
+} else if (currentMember) {
       const newPoints = Math.max(0, currentMember.points - task.points);
       await supabase.from('members').update({ points: newPoints }).eq('id', currentMember.id);
     }
