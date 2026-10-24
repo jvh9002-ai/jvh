@@ -10,6 +10,7 @@ import type { Task, Member } from '@/types/database';
 import {
   Users, TrendingUp, CheckSquare, Gift, Sparkles, Plus, ChevronRight, Star, Trophy, Target, Award, Briefcase,
 } from 'lucide-react';
+import { ActivityLog } from '@/components/ActivityLog';
 
 export function ParentDashboard() {
   const { t } = useTranslation();
@@ -128,6 +129,7 @@ export function ParentDashboard() {
             </div>
           </div>
         </Card>
+        <ActivityLog familyId={family?.id || ''} />
 
         {/* Interactive member cards / switcher */}
         <div>
