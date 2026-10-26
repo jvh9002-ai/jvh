@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { supabase } from '@/lib/supabase';
 import { TopBar } from '@/components/Sidebar';
-import { Card, Button, Input, Select, Modal, Badge, Spinner } from '@/components/ui';
+import { Card, Button, Badge, Spinner } from '@/components/ui';
 import type { Task, TaskCategory } from '@/types/database';
-import { Plus, CheckCircle, Circle, Trash2, Filter, Layers, Sparkles } from 'lucide-react';
+import { CheckCircle, Circle, Trash2, Filter, Layers } from 'lucide-react';
 import { BulkTaskModal } from '@/components/BulkTaskModal';
 
 const categories: { value: TaskCategory; label: string; emoji: string }[] = [
@@ -20,18 +20,15 @@ const categories: { value: TaskCategory; label: string; emoji: string }[] = [
 ];
 
 export function TasksScreen() {
-  const { activeMember, members, family, setActiveMember } = useAuth();
+  const { activeMember, members, family } = useAuth();
   const [tasks, setTasks] = useState<Task[]>([]);
   const [loading, setLoading] = useState(true);
   const [showAdd, setShowAdd] = useState(false);
   const [filter, setFilter] = useState<string>('all');
-  const [title, setTitle] = useState('');
-  const [category, setCategory] = useState<TaskCategory>('learning');
-  const [points, setPoints] = useState('10');
   const [memberId, setMemberId] = useState(activeMember?.id ?? '');
-  const [busy, setBusy] = useState(false);
 
   const currentMember = members.find((m) => m.id === memberId) || activeMember;
+  const isParent = activeMember?.role === 'parent';
 
   useEffect(() => {
     if (!currentMember) return;
@@ -40,71 +37,46 @@ export function TasksScreen() {
       .then(({ data }) => { setTasks((data as Task[]) || []); setLoading(false); });
   }, [currentMember]);
 
-  const addTask = async () => {
-    if (!title || !currentMember) return;
-    setBusy(true);
-    const { data, error } = await supabase.from('tasks').insert({
-      member_id: currentMember.id,
-      title,
-      category,
-      points: parseInt(points) || 10,
-    }).select().single();
-    setBusy(false);
-    if (!error && data) {
-      setTasks([data as Task, ...tasks]);
-      setTitle('');
-      setShowAdd(false);
-    }
-  };
-
   const toggleTask = async (task: Task) => {
     const newStatus = task.status === 'completed' ? 'pending' : 'completed';
-   await supabase
-  .from('tasks')
-  .update({
-    status: newStatus,
-    completed_at: newStatus === 'completed' ? new Date().toISOString() : null,
-    completed_by: newStatus === 'completed' ? currentMember?.id : null,
-  })
-  .eq('id', task.id);
+    
+    await supabase
+      .from('tasks')
+      .update({
+        status: newStatus,
+        completed_at: newStatus === 'completed' ? new Date().toISOString() : null,
+        completed_by: newStatus === 'completed' ? currentMember?.id : null,
+      })
+      .eq('id', task.id);
 
-setTasks(
-  tasks.map((t) =>
-    t.id === task.id
-      ? {
-          ...t,
-          status: newStatus,
-          completed_at:
-            newStatus === 'completed'
-              ? new Date().toISOString()
-              : null,
-          completed_by:
-            newStatus === 'completed'
-              ? currentMember?.id
-              : null,
-        }
-      : t
-  )
-);
+    setTasks(
+      tasks.map((t) =>
+        t.id === task.id
+          ? {
+              ...t,
+              status: newStatus,
+              completed_at: newStatus === 'completed' ? new Date().toISOString() : null,
+              completed_by: newStatus === 'completed' ? currentMember?.id : null,
+            }
+          : t
+      )
+    );
+
     if (newStatus === 'completed' && currentMember) {
       const newPoints = currentMember.points + task.points;
       await supabase.from('members').update({ points: newPoints }).eq('id', currentMember.id);
-    }if (newStatus === 'completed' && currentMember) {
-  const newPoints = currentMember.points + task.points;
-  await supabase.from('members').update({ points: newPoints }).eq('id', currentMember.id);
 
-  // Yahan add karna hai:
-  if (family) {
-    await supabase.from('activity_logs').insert({
-      family_id: family.id,
-      member_id: currentMember.id,
-      event_type: 'task_completed',
-      title: task.title,
-      description: `${currentMember.name} completed this task`, // Yeh backticks ` ` zaroor lagana
-      points: task.points,
-    });
-  }
-} else if (currentMember) {
+      if (family) {
+        await supabase.from('activity_logs').insert({
+          family_id: family.id,
+          member_id: currentMember.id,
+          event_type: 'task_completed',
+          title: task.title,
+          description: `${currentMember.name} completed this task`,
+          points: task.points,
+        });
+      }
+    } else if (currentMember) {
       const newPoints = Math.max(0, currentMember.points - task.points);
       await supabase.from('members').update({ points: newPoints }).eq('id', currentMember.id);
     }
@@ -116,7 +88,6 @@ setTasks(
   };
 
   const filtered = filter === 'all' ? tasks : filter === 'pending' ? tasks.filter((t) => t.status === 'pending') : tasks.filter((t) => t.status === 'completed');
-  const isParent = activeMember?.role === 'parent';
 
   return (
     <div className="min-h-screen">
@@ -124,7 +95,11 @@ setTasks(
         title="Tasks"
         subtitle={isParent ? 'Create and assign tasks to family members' : 'Your tasks and missions'}
         right={
-          <Button onClick={() => setShowAdd(true)}><Plus size={16} /> New Task</Button>
+          isParent ? (
+            <Button onClick={() => setShowAdd(true)}>
+              <Layers size={16} /> Bulk Scheduler / New Task
+            </Button>
+          ) : null
         }
       />
 
@@ -201,42 +176,21 @@ setTasks(
         </div>
       </div>
 
-      <Modal open={showAdd} onClose={() => setShowAdd(false)} title="New Task">
-        <div className="space-y-4">
-          <Input label="Task Title" value={title} onChange={setTitle} placeholder="e.g. Read for 20 minutes" />
-          <Select
-            label="Category"
-            value={category}
-            onChange={(v) => setCategory(v as TaskCategory)}
-            options={categories.map((c) => ({ value: c.value, label: `${c.emoji} ${c.label}` }))}
-          />
-          <Input label="Points" type="number" value={points} onChange={setPoints} placeholder="10" />
-          {isParent && family && (
-            <Select
-              label="Assign To"
-              value={memberId}
-              onChange={setMemberId}
-              options={members.map((m) => ({ value: m.id, label: `${m.avatar_emoji} ${m.name}` }))}
-            />
-          )}
-         {/* 1. Admin/Parent ke liye New Task / Bulk Scheduler Button */}
-{isParent && (
-  <button 
-    onClick={() => setShowAdd(true)}
-    className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-2 shadow-sm"
-  >
-    <Layers className="w-4 h-4" /> + New Task / Bulk Scheduler
-  </button>
-)}
-
-{/* 2. Naya Bulk Task Modal (Jo 7-day, 30-day aur Library kholne ke liye hai) */}
-<BulkTaskModal
-  familyId={family?.id || ''}
-  adminMemberId={currentMember?.id}
-  members={members}
-  isOpen={showAdd}
-  onClose={() => setShowAdd(false)}
-  onSuccess={() => {
-    fetchTasks();
-  }}
-/>
+      {/* Bulk Task Modal Component */}
+      <BulkTaskModal
+        familyId={family?.id || ''}
+        adminMemberId={currentMember?.id}
+        members={members}
+        isOpen={showAdd}
+        onClose={() => setShowAdd(false)}
+        onSuccess={() => {
+          // Refresh tasks list after successful creation
+          if (currentMember) {
+            supabase.from('tasks').select('*').eq('member_id', currentMember.id).order('created_at', { ascending: false })
+              .then(({ data }) => setTasks((data as Task[]) || []));
+          }
+        }}
+      />
+    </div>
+  );
+}
