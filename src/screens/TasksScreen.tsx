@@ -4,7 +4,8 @@ import { supabase } from '@/lib/supabase';
 import { TopBar } from '@/components/Sidebar';
 import { Card, Button, Input, Select, Modal, Badge, Spinner } from '@/components/ui';
 import type { Task, TaskCategory } from '@/types/database';
-import { Plus, CheckCircle, Circle, Trash2, Filter } from 'lucide-react';
+import { Plus, CheckCircle, Circle, Trash2, Filter, Layers, Sparkles } from 'lucide-react';
+import { BulkTaskModal } from '@/components/BulkTaskModal';
 
 const categories: { value: TaskCategory; label: string; emoji: string }[] = [
   { value: 'learning', label: 'Learning', emoji: '📚' },
@@ -218,11 +219,24 @@ setTasks(
               options={members.map((m) => ({ value: m.id, label: `${m.avatar_emoji} ${m.name}` }))}
             />
           )}
-          <Button onClick={addTask} fullWidth disabled={busy || !title}>
-            {busy ? <Spinner /> : 'Create Task'}
-          </Button>
-        </div>
-      </Modal>
-    </div>
-  );
-}
+         {/* 1. Admin/Parent ke liye New Task / Bulk Scheduler Button */}
+{isParent && (
+  <button 
+    onClick={() => setShowAdd(true)}
+    className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-2 shadow-sm"
+  >
+    <Layers className="w-4 h-4" /> + New Task / Bulk Scheduler
+  </button>
+)}
+
+{/* 2. Naya Bulk Task Modal (Jo 7-day, 30-day aur Library kholne ke liye hai) */}
+<BulkTaskModal
+  familyId={family?.id || ''}
+  adminMemberId={currentMember?.id}
+  members={members}
+  isOpen={showAdd}
+  onClose={() => setShowAdd(false)}
+  onSuccess={() => {
+    fetchTasks();
+  }}
+/>
