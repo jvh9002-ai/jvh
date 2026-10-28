@@ -51,84 +51,262 @@ export function ParentDashboard() {
       />
 
       <div className="px-5 lg:px-8 pb-8 space-y-6">
-        {/* Family overview stats */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          <Card className="p-5">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-teal-50 flex items-center justify-center">
-                {isWork ? <Briefcase className="text-teal-600" size={20} /> : <Users className="text-teal-600" size={20} />}
-              </div>
-              <div>
-                <p className="text-2xl font-bold text-gray-900">{members.length}</p>
-                <p className="text-xs text-gray-500">{isWork ? t('teamMembers') : t('familyMembers')}</p>
-              </div>
-            </div>
-          </Card>
-          <Card className="p-5">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center">
-                <CheckSquare className="text-blue-600" size={20} />
-              </div>
-              <div>
-                <p className="text-2xl font-bold text-gray-900">
-                  {Object.values(memberTasks).flat().filter((t) => t.status === 'completed').length}
-                </p>
-                <p className="text-xs text-gray-500">{t('tasksCompleted')}</p>
-              </div>
-            </div>
-          </Card>
-          <Card className="p-5">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center">
-                <Star className="text-amber-600" size={20} />
-              </div>
-              <div>
-                <p className="text-2xl font-bold text-gray-900">
-                  {members.reduce((sum, m) => sum + m.points, 0)}
-                </p>
-                <p className="text-xs text-gray-500">{t('totalPoints')}</p>
-              </div>
-            </div>
-          </Card>
-          <Card className="p-5">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-purple-50 flex items-center justify-center">
-                <TrendingUp className="text-purple-600" size={20} />
-              </div>
-              <div>
-                <p className="text-2xl font-bold text-gray-900">
-                  {members.length > 0
-                    ? Math.round(members.reduce((s, m) => {
-                        const tasks = memberTasks[m.id] || [];
-                        return s + overallScore(computeGrowthScores(tasks));
-                      }, 0) / members.length)
-                    : 0}%
-                </p>
-                <p className="text-xs text-gray-500">{t('avgGrowthScore')}</p>
-              </div>
-            </div>
-          </Card>
+        {/* ================= HERO ================= */}
+
+<Card className={`overflow-hidden border-0 shadow-xl ${
+  isWork
+    ? "bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-700"
+    : "bg-gradient-to-r from-teal-500 via-emerald-500 to-green-600"
+}`}>
+  <div className="p-6 lg:p-8 text-white">
+
+    <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+
+      <div>
+
+        <p className="text-white/80 text-sm font-medium">
+         {t('welcomeBack')} 👋
+        </p>
+
+        <h1 className="text-3xl lg:text-5xl font-bold mt-2">
+          {user?.user_metadata?.name || "Parent"}
+        </h1>
+
+        <p className="mt-3 text-white/90 max-w-xl">
+          {isWork
+            ? "Manage your team, monitor productivity and grow together."
+            : "Help your family build better habits every single day."}
+        </p>
+
+      </div>
+
+      <div className="grid grid-cols-2 gap-4">
+
+        <div className="bg-white/15 backdrop-blur rounded-2xl p-5 text-center">
+
+          <div className="text-3xl font-bold">
+            {members.length}
+          </div>
+
+          <div className="text-sm text-white/80">
+            {isWork ? "Team" : "Family"}
+          </div>
+
         </div>
 
-        {/* AI insight banner */}
-        <Card className="p-5 bg-gradient-to-r from-teal-50 to-emerald-50 border-teal-100">
-          <div className="flex items-start gap-4">
-            <div className="w-10 h-10 rounded-xl bg-teal-600 flex items-center justify-center shrink-0">
-              <Sparkles className="text-white" size={20} />
-            </div>
-            <div className="flex-1">
-              <h3 className="font-bold text-teal-900">{isWork ? t('aiCoachInsight') : t('aiFamilyCoachInsight')}</h3>
-              <p className="text-sm text-teal-700 mt-1">
-                {displayMembers.length === 0
-                  ? (isWork ? 'Add team members to start getting personalized insights.' : 'Add family members to start getting personalized insights.')
-                  : `${displayMembers.length} ${displayMembers.length === 1 ? (isWork ? 'member' : 'member') : (isWork ? 'members' : 'members')} ${isWork ? 'on your team' : 'growing'}. Check their progress below and ask the AI Coach for suggestions.`}
-              </p>
-              <Button onClick={() => navigate('/coach')} variant="secondary" className="mt-3 text-xs">
-                <Sparkles size={14} /> {t('aiCoach')}
-              </Button>
-            </div>
+        <div className="bg-white/15 backdrop-blur rounded-2xl p-5 text-center">
+
+          <div className="text-3xl font-bold">
+            {members.reduce((s,m)=>s+m.points,0)}
           </div>
-        </Card>
+
+          <div className="text-sm text-white/80">
+            {t('totalPoints')}
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</Card>
+       {/* ================= PREMIUM STATS ================= */}
+
+<div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+
+  <Card className="p-5 hover:shadow-lg transition-all">
+    <div className="flex flex-col gap-3">
+
+      <div className="w-12 h-12 rounded-2xl bg-teal-100 flex items-center justify-center">
+        <Users className="text-teal-600" size={24}/>
+      </div>
+
+      <div>
+        <p className="text-3xl font-bold text-gray-900">
+          {members.length}
+        </p>
+
+        <p className="text-sm text-gray-500">
+          {isWork ? "Team Members" : "Family Members"}
+        </p>
+      </div>
+
+    </div>
+  </Card>
+
+
+  <Card className="p-5 hover:shadow-lg transition-all">
+    <div className="flex flex-col gap-3">
+
+      <div className="w-12 h-12 rounded-2xl bg-blue-100 flex items-center justify-center">
+        <CheckSquare className="text-blue-600" size={24}/>
+      </div>
+
+      <div>
+        <p className="text-3xl font-bold text-gray-900">
+          {Object.values(memberTasks)
+            .flat()
+            .filter((t)=>t.status==="completed")
+            .length}
+        </p>
+
+        <p className="text-sm text-gray-500">
+          Completed Tasks
+        </p>
+      </div>
+
+    </div>
+  </Card>
+
+
+  <Card className="p-5 hover:shadow-lg transition-all">
+    <div className="flex flex-col gap-3">
+
+      <div className="w-12 h-12 rounded-2xl bg-yellow-100 flex items-center justify-center">
+        <Star className="text-yellow-600" size={24}/>
+      </div>
+
+      <div>
+        <p className="text-3xl font-bold text-gray-900">
+          {members.reduce((s,m)=>s+m.points,0)}
+        </p>
+
+        <p className="text-sm text-gray-500">
+          Total Points
+        </p>
+      </div>
+
+    </div>
+  </Card>
+
+
+  <Card className="p-5 hover:shadow-lg transition-all">
+    <div className="flex flex-col gap-3">
+
+      <div className="w-12 h-12 rounded-2xl bg-purple-100 flex items-center justify-center">
+        <TrendingUp className="text-purple-600" size={24}/>
+      </div>
+
+      <div>
+        <p className="text-3xl font-bold text-gray-900">
+          {members.length > 0
+            ? Math.round(
+              members.reduce((s,m)=>{
+                const tasks = memberTasks[m.id] || [];
+                return s + overallScore(computeGrowthScores(tasks));
+              },0) / members.length
+            )
+            : 0
+          }%
+        </p>
+
+        <p className="text-sm text-gray-500">
+          Growth Score
+        </p>
+      </div>
+
+    </div>
+  </Card>
+
+</div>
+
+       {/* ================= AI COACH PREMIUM ================= */}
+
+<Card
+  className={`overflow-hidden border-0 shadow-md ${
+    isWork
+      ? "bg-gradient-to-r from-indigo-50 to-blue-50"
+      : "bg-gradient-to-r from-teal-50 to-emerald-50"
+  }`}
+>
+  <div className="p-5 lg:p-6">
+
+    <div className="flex items-start gap-4">
+
+      <div
+        className={`w-14 h-14 rounded-2xl flex items-center justify-center ${
+          isWork
+            ? "bg-indigo-600"
+            : "bg-teal-600"
+        }`}
+      >
+        <Sparkles className="text-white" size={28}/>
+      </div>
+
+
+      <div className="flex-1">
+
+        <h3 className="text-lg font-bold text-gray-900">
+          {isWork ? "AI Team Coach 🤖" : "AI Family Coach 🤖"}
+        </h3>
+
+
+        <p className="text-sm text-gray-600 mt-1">
+          {displayMembers.length === 0
+            ? (
+              isWork
+                ? "Add team members to get productivity insights."
+                : "Add family members to start growth tracking."
+            )
+            : (
+              isWork
+                ? `${displayMembers.length} team members are being monitored. AI will suggest improvements.`
+                : `${displayMembers.length} family members are growing with AI guidance.`
+            )
+          }
+        </p>
+
+
+        <div className="flex flex-wrap gap-2 mt-4">
+
+          <div className="px-3 py-2 rounded-xl bg-white text-xs font-medium text-gray-700">
+            🎯 Goals
+          </div>
+
+          <div className="px-3 py-2 rounded-xl bg-white text-xs font-medium text-gray-700">
+            📈 Growth
+          </div>
+
+          <div className="px-3 py-2 rounded-xl bg-white text-xs font-medium text-gray-700">
+            💡 Suggestions
+          </div>
+
+        </div>
+
+
+        <Button
+          onClick={() => navigate('/coach')}
+          variant="secondary"
+          className="mt-4"
+        >
+          <Sparkles size={15}/>
+          Open AI Coach
+        </Button>
+
+
+      </div>
+
+    </div>
+
+  </div>
+</Card>
+        {/* PREMIUM STATS */}
+
+<Card>
+...
+</Card>
+
+
+{/* AI COACH PREMIUM */}
+
+<Card>
+...
+</Card>
+
+
+<ActivityLog familyId={family?.id || ''} />
         <ActivityLog familyId={family?.id || ''} />
 
         {/* Interactive member cards / switcher */}
