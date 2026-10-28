@@ -57,9 +57,8 @@ if (!activeMember) {
 }
   return (
     <div className="flex min-h-screen bg-gray-50">
-     <Sidebar
-  activeTab={activeTab}
-  setActiveTab={setActiveTab}
+   <Sidebar
+  role={activeMember.role}
 />
       <main className="flex-1 min-w-0">
         <UniversalHeader />
