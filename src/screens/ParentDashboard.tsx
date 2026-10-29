@@ -247,40 +247,7 @@ Points
 <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
 
 
-<Card className="p-5">
 
-<div className="flex items-center gap-3">
-
-
-<div className="w-12 h-12 rounded-2xl bg-teal-100 flex items-center justify-center">
-
-<Users className="text-teal-600" size={24}/>
-
-</div>
-
-
-<div>
-
-<p className="text-3xl font-bold text-gray-900">
-
-{members.length}
-
-</p>
-
-
-<p className="text-sm text-gray-500">
-
-{isWork ? "Team Members" : "Family Members"}
-
-</p>
-
-
-</div>
-
-
-</div>
-
-</Card>
 
 
 
