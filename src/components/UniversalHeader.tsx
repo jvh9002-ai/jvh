@@ -67,24 +67,7 @@ export function UniversalHeader({ title, subtitle }: { title?: string; subtitle?
       <div className="flex items-center justify-between px-4 py-3 lg:px-6">
         <div className="flex items-center gap-2">
           {!isRoot && (
-            <button
-              onClick={() => navigate(-1)}
-              className="flex items-center gap-1 rounded-lg px-2.5 py-1.5 text-sm font-medium text-gray-600 hover:bg-gray-100 transition-all"
-            >
-              <ArrowLeft size={16} />
-              <span className="hidden sm:inline">{t('back')}</span>
-            </button>
-          )}
-          {!isDashboard && (
-            <button
-              onClick={() => navigate('/dashboard')}
-              className="flex items-center gap-1 rounded-lg px-2.5 py-1.5 text-sm font-medium text-gray-600 hover:bg-gray-100 transition-all"
-            >
-              <Home size={16} />
-              <span className="hidden sm:inline">{t('home')}</span>
-            </button>
-          )}
-        </div>
+                    </div>
 
         <button
           onClick={() => navigate('/dashboard')}
