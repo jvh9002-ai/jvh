@@ -298,41 +298,6 @@ Completed Tasks
 
 
 
-<Card className="p-5">
-
-<div className="flex items-center gap-3">
-
-
-<div className="w-12 h-12 rounded-2xl bg-yellow-100 flex items-center justify-center">
-
-<Star className="text-yellow-600" size={24}/>
-
-</div>
-
-
-<div>
-
-<p className="text-3xl font-bold text-gray-900">
-
-{members.reduce((s,m)=>s+m.points,0)}
-
-</p>
-
-
-<p className="text-sm text-gray-500">
-
-Total Points
-
-</p>
-
-
-</div>
-
-
-</div>
-
-
-</Card>
 
 
 
