@@ -108,31 +108,17 @@ export function ParentDashboard() {
 
     <>
 
-    <TopBar
-
-      title={`${t('welcomeBack')}, ${user?.user_metadata?.name || 'Parent'}`}
-
-      subtitle={
-        isWork
-        ? "Your team growth dashboard"
-        : "Your family growth dashboard"
-      }
-
-
-      right={
-
-        <Button
-          onClick={()=>navigate('/tasks')}
-          className="hidden sm:inline-flex"
-        >
-
-          {t('newTask')}
-
-        </Button>
-
-      }
-
-    />
+   <TopBar
+  title=""
+  right={
+    <Button
+      onClick={() => navigate('/tasks')}
+      className="hidden sm:inline-flex"
+    >
+      {t('newTask')}
+    </Button>
+  }
+/>
 
 
 
