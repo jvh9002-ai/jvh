@@ -154,12 +154,11 @@ export function AuthScreen() {
 
 
 
-      <div className="
+     <div className="
   relative
-  w-full
+  w-[92%]
   max-w-md
   mx-auto
-  px-2
   py-6
 ">
 
