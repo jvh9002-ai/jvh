@@ -155,11 +155,13 @@ export function AuthScreen() {
 
 
       <div className="
-        relative
-        w-full
-        max-w-md
-        py-6
-      ">
+  relative
+  w-full
+  max-w-md
+  mx-auto
+  px-2
+  py-6
+">
 
 
         {/* Logo */}
