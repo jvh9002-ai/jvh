@@ -62,33 +62,47 @@ export function UniversalHeader({ title, subtitle }: { title?: string; subtitle?
   const isDashboard = location.pathname === '/dashboard';
   const isRoot = location.pathname === '/';
 
-  return (
-    <div className="sticky top-0 z-30 bg-white/90 backdrop-blur-sm border-b border-gray-100">
-      <div className="flex items-center justify-between px-4 py-3 lg:px-6">
-        <div className="flex items-center gap-2">
-          {!isRoot && (
-                    </div>
+ return (
+  <div className="sticky top-0 z-30 bg-white/90 backdrop-blur-sm border-b border-gray-100">
 
+    <div className="flex items-center justify-between px-4 py-3 lg:px-6">
+
+      {!isRoot && (
         <button
           onClick={() => navigate('/dashboard')}
           className="flex items-center gap-2 group"
         >
           <div className="w-8 h-8 rounded-xl bg-teal-600 flex items-center justify-center text-white group-hover:scale-105 transition-transform">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
               <path d="M12 3l2 5h5l-4 3 1.5 5L12 13l-4.5 3L9 11 5 8h5z" />
             </svg>
           </div>
-          <span className="text-sm font-bold text-gray-900 hidden sm:inline">{t('appName')}</span>
-        </button>
 
-        <LanguageSelector compact />
-      </div>
-      {title && (
-        <div className="px-4 lg:px-6 pb-3">
-          <h1 className="text-xl lg:text-2xl font-bold text-gray-900">{title}</h1>
-          {subtitle && <p className="text-sm text-gray-500 mt-0.5">{subtitle}</p>}
-        </div>
+          <span className="text-sm font-bold text-gray-900 hidden sm:inline">
+            {t('appName')}
+          </span>
+        </button>
       )}
+
+      <LanguageSelector compact />
+
     </div>
-  );
+
+    {title && (
+      <div className="px-4 lg:px-6 pb-3">
+        <h1 className="text-xl lg:text-2xl font-bold text-gray-900">
+          {title}
+        </h1>
+
+        {subtitle && (
+          <p className="text-sm text-gray-500 mt-0.5">
+            {subtitle}
+          </p>
+        )}
+
+      </div>
+    )}
+
+  </div>
+);
 }
