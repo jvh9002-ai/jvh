@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AppLayout } from './components/AppLayout';
 import { AuthScreen } from './screens/AuthScreen';
@@ -8,10 +10,20 @@ import { RewardsScreen } from './screens/RewardsScreen';
 import { GrowthScoreScreen } from './screens/GrowthScoreScreen';
 import { CoachScreen } from './screens/CoachScreen';
 import { ProfileScreen } from './screens/ProfileScreen';
+function ScrollToTop() {
+  const { pathname } = useLocation();
+  
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
+}
 
 export default function App() {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <Routes>
 
  <Route path="/auth" element={<AuthScreen />} />
