@@ -644,10 +644,7 @@ View Progress
 
 
 </div>
-
-
-</>
-
-);
-
+      </div>
+    </div>
+  );
 }
