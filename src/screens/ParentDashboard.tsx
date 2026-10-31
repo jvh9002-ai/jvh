@@ -123,6 +123,23 @@ export function ParentDashboard() {
 
 
     <div className="px-4 sm:px-5 lg:px-8 pb-8 space-y-6">
+      {/* Mobile Role / Profile Status Indicator */}
+<div className="flex items-center justify-between bg-white/50 backdrop-blur-sm p-3 rounded-xl border border-gray-100 mb-4 sm:hidden">
+  <div className="flex items-center gap-2">
+    <span className="text-xs font-semibold px-2.5 py-1 bg-emerald-100 text-emerald-800 rounded-full">
+      {user?.user_metadata?.role || "Parent / Admin"}
+    </span>
+    <span className="text-xs text-gray-500">Active Mode</span>
+  </div>
+  {/* Agar Parent/Admin hai toh mobile par bhi New Task ka quick button dikhega */}
+  <Button 
+    size="sm" 
+    onClick={() => navigate('/tasks')}
+    className="bg-emerald-600 text-white text-xs px-3 py-1.5 h-auto"
+  >
+    + {t('newTask')}
+  </Button>
+</div>
 
 
 
