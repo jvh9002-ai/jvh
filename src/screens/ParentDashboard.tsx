@@ -123,23 +123,27 @@ export function ParentDashboard() {
 
 
     <div className="px-4 sm:px-5 lg:px-8 pb-8 space-y-6">
-      {/* Mobile Role / Profile Status Indicator */}
-<div className="flex items-center justify-between bg-white/50 backdrop-blur-sm p-3 rounded-xl border border-gray-100 mb-4 sm:hidden">
-  <div className="flex items-center gap-2">
-    <span className="text-xs font-semibold px-2.5 py-1 bg-emerald-100 text-emerald-800 rounded-full">
-      {user?.user_metadata?.role || "Parent / Admin"}
-    </span>
-    <span className="text-xs text-gray-500">Active Mode</span>
-  </div>
-  {/* Agar Parent/Admin hai toh mobile par bhi New Task ka quick button dikhega */}
-  <Button 
-    size="sm" 
-    onClick={() => navigate('/tasks')}
-    className="bg-emerald-600 text-white text-xs px-3 py-1.5 h-auto"
-  >
-    + {t('newTask')}
-  </Button>
-</div>
+      <TopBar
+  title=""
+  right={
+    <div className="flex items-center gap-2">
+      {/* Active Profile Filter (Desktop aur Mobile dono ke liye) */}
+      <select
+        value={activeMemberId || ''}
+        onChange={(e) => setActiveMemberId(e.target.value)}
+        className="bg-white border border-gray-200 text-gray-700 text-sm rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 shadow-sm"
+      >
+        <option value="">Vijay (Admin)</option>
+        {members.map((m) => (
+          <option key={m.id} value={m.id}>
+            {m.name}
+          </option>
+        ))}
+      </select>
+    </div>
+  }
+/>
+
 
 
 
