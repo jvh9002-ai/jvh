@@ -123,15 +123,13 @@ export function ParentDashboard() {
 
 
     <div className="px-4 sm:px-5 lg:px-8 pb-8 space-y-6">
- <TopBar
+<TopBar
   title=""
   right={
-    <div className="flex items-center gap-3">
-      {/* Safe Profile Dropdown */}
+    <div className="flex items-center gap-2">
+      {/* Safe Profile Dropdown - PC aur Mobile dono ke liye */}
       <select
-        value=""
-        onChange={(e) => console.log(e.target.value)}
-        className="bg-white border border-gray-200 text-gray-700 text-sm rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 shadow-sm"
+        className="bg-white border border-gray-200 text-gray-700 text-xs sm:text-sm rounded-lg px-2.5 py-1.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 shadow-sm"
       >
         <option value="">Vijay (Admin)</option>
         <option value="hardik">Hardik</option>
