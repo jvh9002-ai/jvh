@@ -123,7 +123,7 @@ export function ParentDashboard() {
 
 
     <div className="px-4 sm:px-5 lg:px-8 pb-8 space-y-6">
-      <TopBar
+    <TopBar
   title=""
   right={
     <div className="flex items-center gap-2">
@@ -143,12 +143,6 @@ export function ParentDashboard() {
     </div>
   }
 />
-
-
-
-
-      
-
 {/* ================= HERO ================= */}
 <Card
   className={`overflow-hidden border-0 shadow-xl ${
