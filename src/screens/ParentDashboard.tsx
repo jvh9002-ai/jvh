@@ -123,11 +123,34 @@ export function ParentDashboard() {
 
 
     <div className="px-4 sm:px-5 lg:px-8 pb-8 space-y-6">
-   <TopBar
+  <TopBar
   title=""
   right={
-    <div className="flex items-center gap-2">
-      <span className="text-sm font-medium text-gray-700">Vijay (Admin)</span>
+    <div className="flex items-center gap-3">
+      {/* Active Profile Dropdown - PC aur Mobile dono par dikhega */}
+      <select
+        value={activeMemberId || ''}
+        onChange={(e) => setActiveMemberId(e.target.value)}
+        className="bg-white border border-gray-200 text-gray-700 text-sm rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 shadow-sm"
+      >
+        <option value="">Vijay (Admin)</option>
+        {members.map((m) => (
+          <option key={m.id} value={m.id}>
+            {m.name}
+          </option>
+        ))}
+      </select>
+
+      {/* Admin condition me hi task button dikhega */}
+      {isAdmin && (
+        <Button 
+          size="sm" 
+          onClick={() => navigate('/tasks')}
+          className="hidden sm:inline-flex bg-emerald-600 text-white text-xs px-3 py-1.5"
+        >
+          + {t('newTask')}
+        </Button>
+      )}
     </div>
   }
 />
