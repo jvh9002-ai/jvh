@@ -592,25 +592,14 @@ Level
 
 
 </div>
-
-
-</div>
-
-
-</div>
-
-
-
-
-
 <div className="flex justify-between items-center mt-5 text-xs text-gray-400">
-  <span>
-    View Progress
-  </span>
-  <ChevronRight size={16}/>
-</div>
-</Card>
-</div>
-</div>
-);
+            <span>
+              View Progress
+            </span>
+            <ChevronRight size={16}/>
+          </div>
+        </Card>
+      </div>
+    </div>
+  );
 }
