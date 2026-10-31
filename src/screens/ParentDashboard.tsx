@@ -108,14 +108,11 @@ export function ParentDashboard() {
 
     <>
 
- <TopBar
+<TopBar
   title=""
   right={
     <div className="flex items-center gap-2">
-      {/* Safe Profile Dropdown - Mobile aur Desktop dono ke liye */}
-      <select
-        className="bg-white border border-gray-200 text-gray-700 text-xs sm:text-sm rounded-lg px-2.5 py-1.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 shadow-sm"
-      >
+      <select className="bg-white border border-gray-200 text-gray-700 text-xs sm:text-sm rounded-lg px-2.5 py-1.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 shadow-sm">
         <option value="">Vijay (Admin)</option>
         <option value="hardik">Hardik</option>
         <option value="hetal">Hetal</option>
@@ -633,10 +630,10 @@ View Progress
 }
 
 
-</div>
 
 
-</div>
+
+
 
 
 
