@@ -125,105 +125,43 @@ export function ParentDashboard() {
     <div className="px-4 sm:px-5 lg:px-8 pb-8 space-y-6">
 
 
+
+      
+
 {/* ================= HERO ================= */}
-
-
 <Card
-className={`overflow-hidden border-0 shadow-xl ${
-isWork
-?
-"bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-700"
-:
-"bg-gradient-to-r from-teal-500 via-emerald-500 to-green-600"
-}`}
+  className={`overflow-hidden border-0 shadow-xl ${
+    isWork
+      ? "bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-700"
+      : "bg-gradient-to-r from-teal-500 via-emerald-500 to-green-600"
+  } text-white p-6 rounded-2xl mb-6`}
 >
-
-
-<div className="p-6 lg:p-8 text-white">
-
-
-<div className="flex flex-col lg:flex-row lg:justify-between gap-6">
-
-
-<div>
-
-<p className="text-white/80 text-sm">
-Welcome Back 👋
-</p>
-
-
-<h1 className="text-3xl lg:text-5xl font-bold mt-2">
-
-{user?.user_metadata?.name || "Parent"}
-
-</h1>
-
-
-<p className="mt-3 text-white/90 max-w-xl">
-
-{
-isWork
-?
-"Manage your team, monitor performance and grow together."
-:
-"Help your family build better habits every day."
-}
-
-</p>
-
-
-</div>
-  
-<div className="grid grid-cols-2 gap-4">
-
-
-<div className="bg-white/15 backdrop-blur rounded-2xl p-5 text-center">
-
-<div className="text-3xl font-bold">
-{members.length}
-</div>
-
-
-<div className="text-sm text-white/80">
-{isWork ? "Team" : "Family"}
-</div>
-
-
-</div>
-
-
-
-<div className="bg-white/15 backdrop-blur rounded-2xl p-5 text-center">
-
-
-<div className="text-3xl font-bold">
-
-{members.reduce((s,m)=>s+m.points,0)}
-
-</div>
-
-
-<div className="text-sm text-white/80">
-
-Points
-
-</div>
-
-
-</div>
-
-
-</div>
-
-
-</div>
-
-
-</div>
-
-
+  <div className="space-y-2">
+    <p className="text-emerald-100 text-sm font-medium">Welcome Back 👋</p>
+    <h1 className="text-3xl font-bold capitalize">
+      {user?.user_metadata?.name || "Parent"}
+    </h1>
+    <p className="text-emerald-100 text-sm pb-4">
+      {isWork
+        ? "Manage your team, monitor performance and grow together."
+        : "Help your family build better habits every day."}
+    </p>
+    <div className="grid grid-cols-2 gap-4 pt-2">
+      <div className="bg-white/10 backdrop-blur-md rounded-xl p-4 border border-white/10">
+        <div className="text-3xl font-bold mb-1">{members.length}</div>
+        <div className="text-sm text-emerald-100 font-medium">
+          {isWork ? "Team" : "Family"}
+        </div>
+      </div>
+      <div className="bg-white/10 backdrop-blur-md rounded-xl p-4 border border-white/10">
+        <div className="text-3xl font-bold mb-1">
+          {members.reduce((s, m) => s + m.points, 0)}
+        </div>
+        <div className="text-sm text-emerald-100 font-medium">Points</div>
+      </div>
+    </div>
+  </div>
 </Card>
-
 
 
 
