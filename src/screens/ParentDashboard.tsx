@@ -231,7 +231,7 @@ Completed Tasks
 
 
 
-<Card className="p-3">
+<Card className="p-2">
 
 
 <div className="flex items-center gap-3">
