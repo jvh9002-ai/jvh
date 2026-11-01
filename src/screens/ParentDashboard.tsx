@@ -468,7 +468,7 @@ key={m.id}
 
 onClick={()=>handleMemberClick(m)}
 
-className={`p-5 cursor-pointer transition-all hover:shadow-lg ${
+className={`p-5 cursor-pointer transition-all hover:shadow-xl border border-gray-100 rounded-2xl bg-white ${
 isSelected
 ?
 "ring-2 ring-teal-500"
@@ -495,7 +495,7 @@ isSelected
 <div className="flex-1">
 
 
-<h3 className="font-bold text-gray-900">
+<h3 className="font-bold text-lg text-gray-900">
 
 {m.name}
 
@@ -513,7 +513,7 @@ isSelected
 
 
 
-<Badge color="bg-yellow-50 text-yellow-700">
+<Badge color="bg-yellow-50 text-yellow-700 shadow-sm">
 
 
 <Star size={12}/>
@@ -606,7 +606,7 @@ Level
           </div>
         </div>
 
-        <div className="flex justify-between items-center mt-5 text-xs text-gray-400">
+        <div className="flex justify-between items-center mt-5 pt-3 border-t text-sm text-gray-500">
           <span>View Progress</span>
           <ChevronRight size={16} />
         </div>
