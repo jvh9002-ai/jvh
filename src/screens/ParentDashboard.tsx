@@ -599,7 +599,7 @@ Level
             <ChevronRight size={16}/>
           </div>
         </Card>
-      </div>
-    </div>
-  );
-}
+           );
+    })}
+  </div>
+</div>
