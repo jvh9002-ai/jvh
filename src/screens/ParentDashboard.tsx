@@ -606,13 +606,8 @@ Level
     })}
   </div>
 </div>
-            <span>
-              View Progress
-            </span>
-            <ChevronRight size={16}/>
-          </div>
-        </Card>
-           );
-    })}
-  </div>
-</div>
+      </>
+
+);
+}
+            
