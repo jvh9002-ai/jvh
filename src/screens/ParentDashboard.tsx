@@ -127,9 +127,9 @@ export function ParentDashboard() {
     isWork
       ? "bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-700"
       : "bg-gradient-to-r from-teal-500 via-emerald-500 to-green-600"
- } text-white p-4 rounded-2xl mb-4`}
+ } text-white p-3 rounded-2xl mb-4`}
 >
-  <div className="space-y-2">
+  <div className="space-y-1">
     <p className="text-emerald-100 text-sm font-medium">
       👋 Welcome Back
     </p>
@@ -144,8 +144,8 @@ export function ParentDashboard() {
         : "Build stronger habits, happier families, and brighter futures."}
     </p>
 
-  <div className="grid grid-cols-2 gap-3 pt-2">
-      <div className="bg-white/10 backdrop-blur-md rounded-xl p-3 border border-white/10">
+  <div className="grid grid-cols-2 gap-2pt-1">
+      <div className="bg-white/10 backdrop-blur-md rounded-xl p-2.5 border border-white/10">
         <div className="text-2xl font-bold">
           {members.length}
         </div>
