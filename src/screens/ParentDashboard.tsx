@@ -181,9 +181,9 @@ export function ParentDashboard() {
 
 
 
-<Card className="p-3">
+<Card className="p-2.5">
 
-<div className="flex items-center gap-3">
+<div className="flex items-center gap-2">
 
 
 <div className="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center">
@@ -195,7 +195,7 @@ export function ParentDashboard() {
 
 <div>
 
-<p className="text-3xl font-bold text-gray-900">
+<p className="text-2xl font-bold text-gray-900">
 
 {
 Object.values(memberTasks)
