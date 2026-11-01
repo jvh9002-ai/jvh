@@ -127,14 +127,14 @@ export function ParentDashboard() {
     isWork
       ? "bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-700"
       : "bg-gradient-to-r from-teal-500 via-emerald-500 to-green-600"
-  } text-white p-6 rounded-2xl mb-6`}
+ } text-white p-5 rounded-2xl mb-5`}
 >
   <div className="space-y-3">
     <p className="text-emerald-100 text-sm font-medium">
       👋 Welcome Back
     </p>
 
-    <h1 className="text-3xl sm:text-4xl font-bold capitalize leading-tight">
+   <h1 className="text-2xl sm:text-3xl font-bold capitalize leading-tight">
       {user?.user_metadata?.name || "Parent"}
     </h1>
 
