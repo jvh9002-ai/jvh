@@ -381,7 +381,7 @@ export function MobileBottomNav({ role }: { role:string }) {
       shadow-lg
       flex
       justify-around
-      py-2
+      py-3
     ">
 
 
@@ -398,9 +398,9 @@ export function MobileBottomNav({ role }: { role:string }) {
             flex
             flex-col
             items-center
-            text-xs
+            text-sm
             px-3
-            py-1
+            py-1.5
             rounded-xl
 
             ${
@@ -413,7 +413,7 @@ export function MobileBottomNav({ role }: { role:string }) {
 
         >
 
-          <span className="text-lg">
+          <span className="text-xl">
             {item.icon}
           </span>
 
