@@ -127,9 +127,9 @@ export function ParentDashboard() {
     isWork
       ? "bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-700"
       : "bg-gradient-to-r from-teal-500 via-emerald-500 to-green-600"
- } text-white p-5 rounded-2xl mb-5`}
+ } text-white p-4 rounded-2xl mb-4`}
 >
-  <div className="space-y-3">
+  <div className="space-y-2">
     <p className="text-emerald-100 text-sm font-medium">
       👋 Welcome Back
     </p>
@@ -138,15 +138,15 @@ export function ParentDashboard() {
       {user?.user_metadata?.name || "Parent"}
     </h1>
 
-    <p className="text-emerald-100 text-base leading-relaxed max-w-md">
+    <p className="text-emerald-100 text-sm leading-relaxed max-w-md">
       {isWork
         ? "Grow your team with smarter goals, habits, and performance."
         : "Build stronger habits, happier families, and brighter futures."}
     </p>
 
-    <div className="grid grid-cols-2 gap-4 pt-3">
-      <div className="bg-white/10 backdrop-blur-md rounded-xl p-4 border border-white/10">
-        <div className="text-3xl font-bold">
+  <div className="grid grid-cols-2 gap-3 pt-2">
+      <div className="bg-white/10 backdrop-blur-md rounded-xl p-3 border border-white/10">
+        <div className="text-2xl font-bold">
           {members.length}
         </div>
 
@@ -155,7 +155,7 @@ export function ParentDashboard() {
         </div>
       </div>
 
-      <div className="bg-white/10 backdrop-blur-md rounded-xl p-4 border border-white/10">
+      <div className="bg-white/10 backdrop-blur-md rounded-xl p-3 border border-white/10">
         <div className="text-3xl font-bold">
           {members.reduce((s, m) => s + m.points, 0)}
         </div>
