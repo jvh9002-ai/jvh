@@ -129,33 +129,44 @@ export function ParentDashboard() {
       : "bg-gradient-to-r from-teal-500 via-emerald-500 to-green-600"
   } text-white p-6 rounded-2xl mb-6`}
 >
-  <div className="space-y-2">
-    <p className="text-emerald-100 text-sm font-medium">Welcome Back 👋</p>
-    <h1 className="text-3xl font-bold capitalize">
+  <div className="space-y-3">
+    <p className="text-emerald-100 text-sm font-medium">
+      👋 Welcome Back
+    </p>
+
+    <h1 className="text-3xl sm:text-4xl font-bold capitalize leading-tight">
       {user?.user_metadata?.name || "Parent"}
     </h1>
-    <p className="text-emerald-100 text-sm pb-4">
+
+    <p className="text-emerald-100 text-base leading-relaxed max-w-md">
       {isWork
-        ? "Manage your team, monitor performance and grow together."
-        : "Help your family build better habits every day."}
+        ? "Grow your team with smarter goals, habits, and performance."
+        : "Build stronger habits, happier families, and brighter futures."}
     </p>
-    <div className="grid grid-cols-2 gap-4 pt-2">
+
+    <div className="grid grid-cols-2 gap-4 pt-3">
       <div className="bg-white/10 backdrop-blur-md rounded-xl p-4 border border-white/10">
-        <div className="text-3xl font-bold mb-1">{members.length}</div>
-        <div className="text-sm text-emerald-100 font-medium">
-          {isWork ? "Team" : "Family"}
+        <div className="text-3xl font-bold">
+          {members.length}
+        </div>
+
+        <div className="text-sm text-emerald-100">
+          {isWork ? "Team Members" : "Family Members"}
         </div>
       </div>
+
       <div className="bg-white/10 backdrop-blur-md rounded-xl p-4 border border-white/10">
-        <div className="text-3xl font-bold mb-1">
+        <div className="text-3xl font-bold">
           {members.reduce((s, m) => s + m.points, 0)}
         </div>
-        <div className="text-sm text-emerald-100 font-medium">Points</div>
+
+        <div className="text-sm text-emerald-100">
+          Total Points
+        </div>
       </div>
     </div>
   </div>
 </Card>
-
 
 
 {/* ================= PREMIUM STATS ================= */}
