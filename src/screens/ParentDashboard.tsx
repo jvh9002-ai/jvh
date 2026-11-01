@@ -181,12 +181,12 @@ export function ParentDashboard() {
 
 
 
-<Card className="p-5">
+<Card className="p-3">
 
 <div className="flex items-center gap-3">
 
 
-<div className="w-12 h-12 rounded-2xl bg-blue-100 flex items-center justify-center">
+<div className="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center">
 
 <CheckSquare className="text-blue-600" size={24}/>
 
@@ -231,13 +231,13 @@ Completed Tasks
 
 
 
-<Card className="p-5">
+<Card className="p-3">
 
 
 <div className="flex items-center gap-3">
 
 
-<div className="w-12 h-12 rounded-2xl bg-purple-100 flex items-center justify-center">
+<div className="w-10 h-10 rounded-xl bg-purple-100 flex items-center justify-center">
 
 <TrendingUp className="text-purple-600" size={24}/>
 
