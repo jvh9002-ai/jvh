@@ -144,7 +144,7 @@ export const ActivityLog: React.FC<{ familyId: string }> = ({ familyId }) => {
                 <div>
                   <h4 className="font-semibold text-gray-800 text-sm">{log.title}</h4>
                   {log.description && (
-                    <p className="text-xs text-gray-500 mt-0.5">{log.description}</p>
+                    <p className="text-sm text-gray-500 mt-0.5">{log.description}</p>
                   )}
                   <div className="mt-1.5 flex items-center gap-2 flex-wrap">
                     <span className="text-[11px] text-indigo-600 font-medium bg-indigo-50 px-2 py-0.5 rounded-md">
