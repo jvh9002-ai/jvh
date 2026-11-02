@@ -110,7 +110,7 @@ export function GrowthScoreScreen() {
         </div>
 
         {/* Level progress */}
-        <Card className="p-5">
+        <Card className="p-5 rounded-2xl border border-amber-100 bg-gradient-to-br from-amber-50 via-white to-orange-50 shadow-sm">
           <div className="flex items-center gap-3 mb-4">
             <Award className="text-amber-500" size={24} />
             <div>
