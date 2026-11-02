@@ -171,7 +171,9 @@ export function TasksScreen() {
                   </p>
                   <p className="text-xs text-gray-400">{cat?.emoji} {task.category}</p>
                 </div>
-                <Badge color="bg-amber-50 text-amber-700">{task.points} pts</Badge>
+                <Badge color="bg-amber-50 text-amber-700 shadow-sm">
+  ⭐ {task.points} pts
+</Badge>
                 <button onClick={() => deleteTask(task)} className="text-gray-300 hover:text-red-500 transition-colors">
                   <Trash2 size={16} />
                 </button>
