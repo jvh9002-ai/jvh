@@ -146,7 +146,7 @@ export function RewardsScreen() {
                     fullWidth
                     variant={canAfford ? 'primary' : 'secondary'}
                     disabled={!canAfford}
-                    className="mt-4"
+                    className="mt-4 rounded-xl shadow-sm hover:shadow-md transition-all"
                   >
                     {canAfford ? <><Gift size={16} /> Redeem</> : <><Lock size={14} /> Need {reward.points_required - (currentMember?.points ?? 0)} more</>}
                   </Button>
