@@ -160,7 +160,7 @@ export function FamilySetupScreen() {
             </div>
           </div>
         ) : (
-         <div className="bg-white rounded-3xl shadow-xl border border-gray-100 p-8">
+         <div className="bg-white rounded-3xl shadow-xl border border-gray-100 p-8 hover:shadow-2xl transition-all">
             <h1 className="text-2xl font-bold text-gray-900">{isWork ? t('addTeamMembers') : t('addFamilyMembers')}</h1>
             <p className="text-gray-500 mt-2 text-sm">
               {isWork ? t('addMembersLater') : t('addChildrenTeens')}
