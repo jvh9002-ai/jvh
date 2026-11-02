@@ -122,7 +122,7 @@ export function FamilySetupScreen() {
         {step === 'family' ? (
          <div className="bg-white rounded-3xl shadow-xl border border-gray-100 p-8">
             {/* Mode selector */}
-            <div className="flex gap-2 mb-6 p-1 bg-gray-100 rounded-xl">
+            <div className="flex gap-2 mb-6 p-1.5 bg-gray-100 rounded-2xl border border-gray-200">
               <button
                 onClick={() => setMode('family')}
                 className={`flex-1 flex items-center justify-center gap-2 rounded-lg py-2.5 text-sm font-semibold transition-all ${mode === 'family' ? 'bg-white text-teal-700 shadow-sm' : 'text-gray-500'}`}
