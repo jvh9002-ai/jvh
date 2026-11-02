@@ -128,17 +128,18 @@ export function TasksScreen() {
         <div className="flex items-center gap-2">
           <Filter className="text-gray-400" size={16} />
           {['all', 'pending', 'completed'].map((f) => (
-            <button
-              key={f}
-              onClick={() => setFilter(f)}
-              className={`rounded-xl px-4 py-2 text-sm font-semibold capitalize transition-all ${
-  filter === f
-    ? 'bg-teal-600 text-white shadow-sm'
-    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-}`}
-              {f}
-            </button>
-          ))}
+  <button
+    key={f}
+    onClick={() => setFilter(f)}
+    className={`rounded-xl px-4 py-2 text-sm font-semibold capitalize transition-all ${
+      filter === f
+        ? 'bg-teal-600 text-white shadow-sm'
+        : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+    }`}
+  >
+    {f}
+  </button>
+))}
         </div>
 
         {/* Task list */}
