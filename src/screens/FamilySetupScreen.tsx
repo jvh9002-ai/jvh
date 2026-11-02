@@ -169,7 +169,7 @@ export function FamilySetupScreen() {
             {addedMembers.length > 0 && (
               <div className="mt-5 space-y-2">
                 {addedMembers.map((m, i) => (
-                  <div key={i} className="flex items-center gap-2 rounded-xl bg-teal-50 px-4 py-2.5">
+                  <div key={i} className="flex items-center gap-2 rounded-xl bg-teal-50 border border-teal-100 px-4 py-2.5 shadow-sm">
                     <Check className="text-teal-600" size={16} />
                     <span className="text-sm font-medium text-teal-800">{m.name} — {t(m.role)}</span>
                   </div>
