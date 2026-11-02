@@ -468,7 +468,7 @@ key={m.id}
 
 onClick={()=>handleMemberClick(m)}
 
-className={`p-5 cursor-pointer transition-all hover:shadow-xl border border-gray-100 rounded-2xl bg-white ${
+className={`p-5 cursor-pointer transition-all duration-300 hover:shadow-xl hover:-translate-y-1 border border-gray-100 rounded-2xl bg-white ${
 isSelected
 ?
 "ring-2 ring-teal-500"
