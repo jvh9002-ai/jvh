@@ -153,8 +153,12 @@ export function FamilySetupScreen() {
   className="rounded-xl border-gray-200 shadow-sm focus:border-teal-500 focus:ring-2 focus:ring-teal-100"
 />
               {error && <p className="text-sm text-red-500">{error}</p>}
-              <Button onClick={createFamily} fullWidth disabled={busy || !entityName}>
-                className="rounded-xl shadow-md hover:shadow-lg transition-all"
+              <Button
+  onClick={createFamily}
+  fullWidth
+  disabled={busy || !entityName}
+  className="rounded-xl shadow-md hover:shadow-lg transition-all"
+>
                 {busy ? <Spinner /> : (<>{isWork ? t('createYourBusiness') : t('createYourFamily')} <ArrowRight size={16} /></>)}
               </Button>
             </div>
