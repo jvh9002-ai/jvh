@@ -96,9 +96,12 @@ export function TasksScreen() {
         subtitle={isParent ? 'Create and assign tasks to family members' : 'Your tasks and missions'}
         right={
           isParent ? (
-            <Button onClick={() => setShowAdd(true)}>
-              <Layers size={16} /> Bulk Scheduler / New Task
-            </Button>
+            <Button
+  onClick={() => setShowAdd(true)}
+  className="rounded-xl shadow-sm hover:shadow-md transition-all"
+>
+  <Layers size={16} /> Bulk Scheduler / New Task
+</Button>
           ) : null
         }
       />
