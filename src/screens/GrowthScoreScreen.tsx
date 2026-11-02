@@ -89,8 +89,7 @@ export function GrowthScoreScreen() {
             });
             const catDone = catTasks.filter((t) => t.status === 'completed').length;
             return (
-              <Card key={key} className="p-5"> rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-all"
->
+              <Card key={key} className="p-5 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-all">
                 <div className="flex items-center gap-3 mb-3">
                   <span className="text-3xl">{meta.emoji}</span>
                   <div>
