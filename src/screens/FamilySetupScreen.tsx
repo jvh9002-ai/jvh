@@ -219,9 +219,11 @@ export function FamilySetupScreen() {
                     <button
                       key={e}
                       onClick={() => setMemberEmoji(e)}
-                      className={`text-2xl rounded-xl py-2 transition-all ${
-                        memberEmoji === e ? 'bg-teal-100 ring-2 ring-teal-500' : 'bg-gray-50 hover:bg-gray-100'
-                      }`}
+                     className={`text-2xl rounded-xl py-3 transition-all ${
+  memberEmoji === e
+    ? 'bg-teal-100 ring-2 ring-teal-500 shadow-sm scale-105'
+    : 'bg-gray-50 hover:bg-gray-100 hover:scale-105'
+}`}
                     >
                       {e}
                     </button>
