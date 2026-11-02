@@ -52,7 +52,7 @@ export function GrowthScoreScreen() {
           <div className="flex flex-col lg:flex-row items-center gap-6">
             <div className="flex flex-col items-center">
               <ScoreRing value={score} size={130} label="Overall" color="#0d9488" />
-              <p className="text-2xl font-bold text-gray-900 mt-3">{score}%</p>
+              <p className="text-4xl font-bold text-gray-900 mt-3">{score}%</p>
               <Badge color="bg-teal-50 text-teal-700 mt-1">{completed}/{total} tasks completed</Badge>
             </div>
             <div className="flex-1 w-full space-y-3">
