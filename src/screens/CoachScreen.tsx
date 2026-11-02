@@ -80,11 +80,11 @@ export function CoachScreen() {
           {loading && <div className="flex justify-center py-8"><Spinner /></div>}
 
           {!loading && messages.length === 0 && (
-            <Card className="p-6 text-center bg-gradient-to-br from-teal-50 to-emerald-50 border-teal-100">
-              <div className="w-14 h-14 rounded-2xl bg-teal-600 flex items-center justify-center mx-auto mb-4">
+           <Card className="p-6 text-center bg-gradient-to-br from-teal-50 via-emerald-50 to-white border-teal-100 shadow-sm rounded-2xl">
+              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-teal-500 to-emerald-600 flex items-center justify-center mx-auto mb-4 shadow-lg">
                 <Sparkles className="text-white" size={28} />
               </div>
-              <h3 className="font-bold text-gray-900">Your AI Family Coach</h3>
+              <h3 className="text-lg font-bold text-gray-900">Your AI Family Coach</h3>
               <p className="text-sm text-gray-600 mt-1">
                 I analyze progress and give personalized guidance for {activeMember.name}.
                 Ask me anything about growth, goals, or parenting.
