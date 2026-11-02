@@ -151,7 +151,10 @@ export function TasksScreen() {
           {filtered.map((task) => {
             const cat = categories.find((c) => c.value === task.category);
             return (
-              <Card key={task.id} className="p-4 flex items-center gap-3">
+              <Card
+  key={task.id}
+  className="p-4 flex items-center gap-3 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-all"
+>
                 <button
                   onClick={() => toggleTask(task)}
                   className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 transition-all ${
