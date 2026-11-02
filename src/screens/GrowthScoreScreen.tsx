@@ -99,10 +99,20 @@ export function GrowthScoreScreen() {
                 </div>
                 <div className="flex items-center gap-3">
                   <ScoreRing value={val} size={56} color={meta.color} />
-                  <div className="text-sm text-gray-600">
-                    <p><span className="font-bold text-gray-900">{catDone}</span> completed</p>
-                    <p className="text-gray-400">{catTasks.length} total tasks</p>
-                  </div>
+                  <div className="text-sm space-y-1">
+  <p className="flex items-center gap-1">
+    <span className="font-bold text-gray-900">
+      {catDone}
+    </span>
+    <span className="text-gray-500">
+      completed
+    </span>
+  </p>
+
+  <p className="text-xs text-gray-400">
+    {catTasks.length} total tasks
+  </p>
+</div>
                 </div>
               </Card>
             );
