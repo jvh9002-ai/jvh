@@ -134,11 +134,11 @@ export function CoachScreen() {
       <div className="border-t border-gray-100 bg-white px-5 lg:px-8 py-3">
         <div className="max-w-2xl mx-auto flex gap-2">
           <Input
-            value={input}
-            onChange={setInput}
-            placeholder="Ask your AI coach..."
-            className="flex-1"
-          />
+  value={input}
+  onChange={setInput}
+  placeholder="Ask your AI coach..."
+  className="flex-1 rounded-xl border-gray-200 shadow-sm focus:border-teal-500 focus:ring-2 focus:ring-teal-100"
+/>
           <Button onClick={send} disabled={busy || !input.trim()}>
             <Send size={16} />
           </Button>
