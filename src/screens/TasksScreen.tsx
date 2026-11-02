@@ -131,10 +131,11 @@ export function TasksScreen() {
             <button
               key={f}
               onClick={() => setFilter(f)}
-              className={`rounded-lg px-3 py-1.5 text-sm font-medium capitalize transition-all ${
-                filter === f ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-              }`}
-            >
+              className={`rounded-xl px-4 py-2 text-sm font-semibold capitalize transition-all ${
+  filter === f
+    ? 'bg-teal-600 text-white shadow-sm'
+    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+}`}
               {f}
             </button>
           ))}
