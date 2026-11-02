@@ -133,8 +133,9 @@ export function RewardsScreen() {
                 {member && <p className="text-xs text-gray-500 mt-0.5">{member.avatar_emoji} {member.name}</p>}
                 <div className="flex items-center gap-1 mt-3">
                   <Star className="text-amber-500" size={16} />
-                  <span className="font-bold text-gray-900">{reward.points_required}</span>
-                  <span className="text-xs text-gray-500">points</span>
+                  <span className="text-lg font-bold text-gray-900">{reward.points_required}
+                  </span>
+<span className="text-sm text-gray-500">points</span>
                 </div>
                 {reward.redeemed ? (
                   <div className="mt-4 flex items-center gap-2 text-green-600 text-sm font-semibold">
