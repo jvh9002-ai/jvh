@@ -156,11 +156,13 @@ export function TasksScreen() {
   className="p-4 flex items-center gap-3 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-all"
 >
                 <button
-                  onClick={() => toggleTask(task)}
-                  className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 transition-all ${
-                    task.status === 'completed' ? 'bg-green-500 text-white' : 'border-2 border-gray-300 hover:border-teal-400'
-                  }`}
-                >
+  onClick={() => toggleTask(task)}
+  className={`w-9 h-9 rounded-full flex items-center justify-center shrink-0 transition-all shadow-sm ${
+    task.status === 'completed'
+      ? 'bg-green-500 text-white shadow-green-200'
+      : 'border-2 border-gray-300 hover:border-teal-400 hover:bg-teal-50'
+  }`}
+>
                   {task.status === 'completed' ? <CheckCircle size={18} /> : <Circle size={16} className="text-gray-300" />}
                 </button>
                 <div className="flex-1 min-w-0">
