@@ -149,9 +149,15 @@ export function TasksScreen() {
         <div className="space-y-2">
           {loading && <div className="flex justify-center py-8"><Spinner /></div>}
           {!loading && filtered.length === 0 && (
-            <Card className="p-8 text-center">
-              <p className="text-gray-400 text-sm">No tasks here yet. Create one to get started!</p>
-            </Card>
+            <Card className="p-8 text-center rounded-2xl border border-gray-100 shadow-sm">
+  <div className="text-4xl mb-3">🎯</div>
+  <p className="text-gray-700 font-semibold">
+    No tasks yet
+  </p>
+  <p className="text-gray-400 text-sm mt-1">
+    Create a task and start earning points!
+  </p>
+</Card>
           )}
           {filtered.map((task) => {
             const cat = categories.find((c) => c.value === task.category);
