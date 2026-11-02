@@ -94,7 +94,7 @@ export function CoachScreen() {
                   <button
                     key={s}
                     onClick={() => setInput(s)}
-                    className="rounded-full bg-white border border-teal-200 px-3 py-1.5 text-xs font-medium text-teal-700 hover:bg-teal-50 transition-all"
+                    className="rounded-full bg-white border border-teal-200 px-4 py-2 text-xs font-semibold text-teal-700 shadow-sm hover:bg-teal-50 hover:shadow transition-all"
                   >
                     {s}
                   </button>
