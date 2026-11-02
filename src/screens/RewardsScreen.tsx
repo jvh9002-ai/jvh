@@ -69,11 +69,11 @@ export function RewardsScreen() {
 
       <div className="px-5 lg:px-8 pb-8 space-y-4">
         {!isParent && currentMember && (
-          <Card className="p-5 bg-gradient-to-r from-amber-400 to-orange-500 border-0 text-white">
+          <Card className="p-5 bg-gradient-to-r from-amber-400 via-orange-500 to-red-500 border-0 text-white shadow-lg rounded-2xl">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-amber-50 text-sm">Your Points</p>
-                <p className="text-3xl font-bold mt-1">{currentMember.points}</p>
+               <p className="text-4xl font-bold mt-1">{currentMember.points}</p>
               </div>
               <Star className="text-white/50" size={40} />
             </div>
