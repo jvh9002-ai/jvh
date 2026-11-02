@@ -129,7 +129,7 @@ export function RewardsScreen() {
                     </button>
                   )}
                 </div>
-                <h3 className="font-bold text-gray-900">{reward.title}</h3>
+                <h3 className="text-lg font-bold text-gray-900">{reward.title}</h3>
                 {member && <p className="text-xs text-gray-500 mt-0.5">{member.avatar_emoji} {member.name}</p>}
                 <div className="flex items-center gap-1 mt-3">
                   <Star className="text-amber-500" size={16} />
