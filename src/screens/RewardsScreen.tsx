@@ -117,7 +117,8 @@ export function RewardsScreen() {
             const canAfford = currentMember ? currentMember.points >= reward.points_required : false;
             const member = members.find((m) => m.id === reward.member_id);
             return (
-              <Card key={reward.id} className={`p-5 ${reward.redeemed ? 'opacity-60' : ''}`}>
+              <Card key={reward.id} className={`p-5 rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg transition-all ${reward.redeemed ? 'opacity-60' : ''}`}
+>
                 <div className="flex items-start justify-between mb-3">
                   <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-100 to-orange-100 flex items-center justify-center">
                     <Gift className="text-orange-500" size={24} />
