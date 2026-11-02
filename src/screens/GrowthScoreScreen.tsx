@@ -48,7 +48,7 @@ export function GrowthScoreScreen() {
 
       <div className="px-5 lg:px-8 pb-8 space-y-6">
         {/* Overall score */}
-        <Card className="p-6">
+        <Card className="p-6 rounded-2xl border border-teal-100 bg-gradient-to-br from-teal-50 via-white to-emerald-50 shadow-sm">
           <div className="flex flex-col lg:flex-row items-center gap-6">
             <div className="flex flex-col items-center">
               <ScoreRing value={score} size={130} label="Overall" color="#0d9488" />
