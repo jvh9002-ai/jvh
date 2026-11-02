@@ -550,7 +550,7 @@ size={75}
 
 <span className="text-gray-500">
 
-Completed
+✅ Completed
 
 </span>
 
@@ -570,7 +570,7 @@ Completed
 
 <span className="text-gray-500">
 
-Pending
+⏳ Pending
 
 </span>
 
