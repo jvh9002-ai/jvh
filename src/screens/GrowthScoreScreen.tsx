@@ -67,8 +67,8 @@ export function GrowthScoreScreen() {
                         <span className="font-medium text-gray-700 capitalize">{key}</span>
                         <span className="font-bold text-gray-900">{val}%</span>
                       </div>
-                      <div className="h-2.5 rounded-full bg-gray-100 overflow-hidden">
-                        <div className="h-full rounded-full transition-all duration-500 ease-out" style={{ width: `${val}%`, backgroundColor: meta.color }} />
+                      <div className="h-3 rounded-full bg-gray-100 overflow-hidden">
+                        <div className="h-full rounded-full transition-all duration-500 ease-out shadow-sm" style={{ width: `${val}%`, backgroundColor: meta.color }} />
                       </div>
                     </div>
                   </div>
