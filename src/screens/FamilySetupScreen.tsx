@@ -145,12 +145,13 @@ export function FamilySetupScreen() {
               {isWork ? t('giveBusinessName') : t('giveFamilyName')}
             </p>
             <div className="mt-6 space-y-4">
-              <Input
-                label={isWork ? t('businessName') : t('familyName')}
-                value={entityName}
-                onChange={setEntityName}
-                placeholder={isWork ? 'Acme Inc.' : 'The Smith Family'}
-              />
+             <Input
+  label={isWork ? t('businessName') : t('familyName')}
+  value={entityName}
+  onChange={setEntityName}
+  placeholder={isWork ? 'Acme Inc.' : 'The Smith Family'}
+  className="rounded-xl border-gray-200 shadow-sm focus:border-teal-500 focus:ring-2 focus:ring-teal-100"
+/>
               {error && <p className="text-sm text-red-500">{error}</p>}
               <Button onClick={createFamily} fullWidth disabled={busy || !entityName}>
                 {busy ? <Spinner /> : (<>{isWork ? t('createYourBusiness') : t('createYourFamily')} <ArrowRight size={16} /></>)}
