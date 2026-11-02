@@ -516,9 +516,9 @@ isSelected
 <Badge color="bg-yellow-50 text-yellow-700 shadow-sm">
 
 
-<Star size={12}/>
+<Star size={14}/>
 
-{m.points}
+{m.points} pts
 
 
 </Badge>
