@@ -120,7 +120,7 @@ export function RewardsScreen() {
               <Card key={reward.id} className={`p-5 rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg transition-all ${reward.redeemed ? 'opacity-60' : ''}`}
 >
                 <div className="flex items-start justify-between mb-3">
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-100 to-orange-100 flex items-center justify-center">
+                 <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-amber-100 to-orange-100 flex items-center justify-center shadow-sm">
                     <Gift className="text-orange-500" size={24} />
                   </div>
                   {isParent && (
