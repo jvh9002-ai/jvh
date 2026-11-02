@@ -110,7 +110,7 @@ export function CoachScreen() {
               }`}>
                 {msg.role === 'user' ? <User className="text-white" size={16} /> : <Bot className="text-white" size={16} />}
               </div>
-              <div className={`rounded-2xl px-4 py-3 max-w-[80%] ${
+             <div className={`rounded-2xl px-4 py-3 max-w-[80%] shadow-sm ${
                 msg.role === 'user' ? 'bg-teal-600 text-white' : 'bg-white border border-gray-100 text-gray-800'
               }`}>
                 <p className="text-sm whitespace-pre-wrap">{msg.content}</p>
