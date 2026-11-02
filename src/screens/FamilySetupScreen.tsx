@@ -233,7 +233,13 @@ export function FamilySetupScreen() {
 
               {error && <p className="text-sm text-red-500">{error}</p>}
 
-              <Button onClick={addMember} fullWidth variant="secondary" disabled={busy || !memberName}>
+              <Button
+  onClick={addMember}
+  fullWidth
+  variant="secondary"
+  disabled={busy || !memberName}
+  className="rounded-xl shadow-sm hover:shadow-md transition-all"
+>
                 {busy ? <Spinner /> : (<><Plus size={16} /> {t('addMember')}</>)}
               </Button>
 
