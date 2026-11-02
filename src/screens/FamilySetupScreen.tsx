@@ -194,11 +194,11 @@ export function FamilySetupScreen() {
                     <button
                       key={r.value}
                       onClick={() => setMemberRole(r.value)}
-                      className={`flex items-center gap-2 rounded-xl border px-3 py-2.5 text-sm font-medium transition-all ${
-                        memberRole === r.value
-                          ? 'border-teal-500 bg-teal-50 text-teal-700'
-                          : 'border-gray-200 text-gray-600 hover:border-gray-300'
-                      }`}
+                      className={`flex items-center gap-3 rounded-xl border px-3 py-3 text-sm font-medium transition-all ${
+  memberRole === r.value
+    ? 'border-teal-500 bg-teal-50 text-teal-700 shadow-sm'
+    : 'border-gray-200 text-gray-600 hover:border-gray-300 hover:bg-gray-50'
+}`}
                     >
                       <span className="text-lg">{r.emoji}</span>
                       <div className="text-left">
