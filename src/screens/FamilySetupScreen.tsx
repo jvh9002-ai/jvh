@@ -243,7 +243,12 @@ export function FamilySetupScreen() {
                 {busy ? <Spinner /> : (<><Plus size={16} /> {t('addMember')}</>)}
               </Button>
 
-              <Button onClick={finish} fullWidth disabled={addedMembers.length === 0}>
+              <Button
+  onClick={finish}
+  fullWidth
+  disabled={addedMembers.length === 0}
+  className="rounded-xl shadow-md hover:shadow-lg transition-all"
+>
                 {addedMembers.length === 0
                   ? t('addAtLeastOne')
                   : t('doneGoToDashboard', { count: addedMembers.length })}
