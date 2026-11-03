@@ -29,7 +29,7 @@ export function ProfileScreen() {
 
       <div className="px-5 lg:px-8 pb-8 space-y-6 max-w-2xl">
         {/* User profile */}
-        <Card className="p-6">
+        <Card className="p-6 rounded-3xl border border-gray-100 shadow-md hover:shadow-lg transition-all">
           <div className="flex items-center gap-4">
             <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-teal-500 to-emerald-600 flex items-center justify-center text-white text-2xl font-bold">
               {(user.user_metadata?.name || user.email)?.[0]?.toUpperCase()}
