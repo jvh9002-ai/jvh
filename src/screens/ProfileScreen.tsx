@@ -44,8 +44,8 @@ export function ProfileScreen() {
 
         {/* Active member info */}
         {activeMember && (
-          <Card className="p-6">
-            <h3 className="font-bold text-gray-900 mb-3">Currently Viewing</h3>
+          <Card className="p-6 rounded-3xl border border-gray-100 shadow-md hover:shadow-lg transition-all">
+  <h3 className="font-bold text-gray-900 mb-3">Currently Viewing</h3>
             <div className="flex items-center gap-4">
               <span className="text-4xl">{activeMember.avatar_emoji}</span>
               <div className="flex-1">
