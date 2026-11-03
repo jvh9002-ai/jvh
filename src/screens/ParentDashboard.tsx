@@ -123,7 +123,8 @@ export function ParentDashboard() {
 
 {/* ================= HERO ================= */}
 <Card
-  className={`overflow-hidden border-0 shadow-xl ${
+  <Card
+  className={`overflow-hidden border-0 rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-300 ${
     isWork
       ? "bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-700"
       : "bg-gradient-to-r from-teal-500 via-emerald-500 to-green-600"
