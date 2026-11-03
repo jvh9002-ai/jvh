@@ -467,12 +467,10 @@ return (
 key={m.id}
 onClick={()=>handleMemberClick(m)}
 className={`p-5 cursor-pointer transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 border border-gray-100 rounded-3xl bg-white ${
-?
-"ring-2 ring-teal-500"
-:
-""
+  isSelected
+    ? "ring-2 ring-teal-500"
+    : ""
 }`}
-
 
 >
 
