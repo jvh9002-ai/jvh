@@ -177,7 +177,7 @@ export function FamilySetupScreen() {
               </div>
             )}
 
-            <div className="mt-6 space-y-4 border-t border-gray-100 pt-6">
+            <div className="mt-6 space-y-4 border-t border-gray-100 pt-6 rounded-t-2xl">
               <Input label={t('memberName')} value={memberName} onChange={setMemberName} placeholder={isWork ? 'e.g. John' : 'e.g. Emma'} />
 
               <div>
@@ -224,7 +224,7 @@ export function FamilySetupScreen() {
 
               {error && <p className="text-sm text-red-500">{error}</p>}
 
-              <Button onClick={addMember} fullWidth variant="secondary" disabled={busy || !memberName}>
+              <Button onClick={addMember} fullWidth variant="secondary" className="rounded-2xl shadow-sm" disabled={busy || !memberName}>
                 {busy ? <Spinner /> : (<><Plus size={16} /> {t('addMember')}</>)}
               </Button>
 
