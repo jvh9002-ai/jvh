@@ -479,8 +479,7 @@ className={`p-5 cursor-pointer transition-all duration-300 hover:shadow-2xl hove
 <div className="flex items-center gap-3">
 
 
-<div className="text-4xl">
-
+<div className="w-14 h-14 rounded-2xl bg-teal-50 flex items-center justify-center text-3xl shadow-sm">
 {m.avatar_emoji}
 
 </div>
