@@ -151,7 +151,11 @@ export function FamilySetupScreen() {
                 onChange={setEntityName}
                 placeholder={isWork ? 'Acme Inc.' : 'The Smith Family'}
               />
-              {error && <p className="text-sm text-red-500">{error}</p>}
+              {error && (
+  <div className="rounded-2xl bg-red-50 border border-red-100 px-4 py-3">
+    <p className="text-sm text-red-600">{error}</p>
+  </div>
+)}
               <Button onClick={createFamily} fullWidth disabled={busy || !entityName}>
                 {busy ? <Spinner /> : (<>{isWork ? t('createYourBusiness') : t('createYourFamily')} <ArrowRight size={16} /></>)}
               </Button>
@@ -224,7 +228,13 @@ export function FamilySetupScreen() {
 
               {error && <p className="text-sm text-red-500">{error}</p>}
 
-              <Button onClick={addMember} fullWidth variant="secondary" className="rounded-2xl shadow-sm" disabled={busy || !memberName}>
+              <Button
+  onClick={addMember}
+  fullWidth
+  variant="secondary"
+  className="rounded-2xl shadow-sm transition-all disabled:opacity-50"
+  disabled={busy || !memberName}
+>
                 {busy ? <Spinner /> : (<><Plus size={16} /> {t('addMember')}</>)}
               </Button>
 
