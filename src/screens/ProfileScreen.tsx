@@ -72,7 +72,7 @@ export function ProfileScreen() {
         )}
 
         {/* Family info */}
-        <Card className="p-6">
+        <Card className="p-6 rounded-3xl border border-gray-100 shadow-md hover:shadow-lg transition-all">
           <div className="flex items-center gap-2 mb-4">
             <Users className="text-teal-600" size={20} />
             <h3 className="font-bold text-gray-900">Family</h3>
