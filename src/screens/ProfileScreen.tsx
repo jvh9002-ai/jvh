@@ -99,7 +99,7 @@ export function ProfileScreen() {
         </Card>
 
         {/* Account details */}
-        <Card className="p-6">
+        <Card className="p-6 rounded-3xl border border-gray-100 shadow-md hover:shadow-lg transition-all">
           <h3 className="font-bold text-gray-900 mb-4">Account Details</h3>
           <div className="space-y-3">
             <div className="flex items-center gap-3 text-sm">
