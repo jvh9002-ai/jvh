@@ -303,7 +303,7 @@ Growth Score
 
 
 <Card
-className={`border-0 shadow-md ${
+className={`border-0 rounded-3xl shadow-md hover:shadow-xl transition-all ${
 isWork
 ?
 "bg-gradient-to-r from-indigo-50 to-blue-50"
