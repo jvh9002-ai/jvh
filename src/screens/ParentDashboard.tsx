@@ -464,13 +464,9 @@ return (
 
 
 <Card
-
 key={m.id}
-
 onClick={()=>handleMemberClick(m)}
-
-className={`p-5 cursor-pointer transition-all hover:shadow-xl border border-gray-100 rounded-2xl bg-white ${
-isSelected
+className={`p-5 cursor-pointer transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 border border-gray-100 rounded-3xl bg-white ${
 ?
 "ring-2 ring-teal-500"
 :
