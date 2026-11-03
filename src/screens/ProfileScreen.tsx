@@ -31,7 +31,7 @@ export function ProfileScreen() {
         {/* User profile */}
         <Card className="p-6 rounded-3xl border border-gray-100 shadow-md hover:shadow-lg transition-all">
           <div className="flex items-center gap-4">
-            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-teal-500 to-emerald-600 flex items-center justify-center text-white text-2xl font-bold">
+            <div className="w-20 h-20 rounded-3xl bg-gradient-to-br from-teal-500 to-emerald-600 flex items-center justify-center text-white text-3xl font-bold shadow-lg">
               {(user.user_metadata?.name || user.email)?.[0]?.toUpperCase()}
             </div>
             <div className="flex-1">
