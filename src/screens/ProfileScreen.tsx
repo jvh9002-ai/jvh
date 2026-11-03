@@ -124,14 +124,14 @@ export function ProfileScreen() {
 
         {/* Actions */}
         <div className="space-y-2">
-          <Card className="p-4 flex items-center justify-between cursor-pointer hover:bg-gray-50" onClick={() => navigate('/setup')}>
+          <Card className="p-4 rounded-2xl border border-gray-100 shadow-sm flex items-center justify-between cursor-pointer hover:bg-gray-50 transition-all" onClick={() => navigate('/setup')}>
             <div className="flex items-center gap-3">
               <Settings className="text-gray-400" size={20} />
               <span className="text-sm font-medium text-gray-700">Family Settings</span>
             </div>
             <ChevronRight className="text-gray-300" size={18} />
           </Card>
-          <Card className="p-4 flex items-center justify-between cursor-pointer hover:bg-red-50" onClick={handleSignOut}>
+         <Card className="p-4 rounded-2xl border border-gray-100 shadow-sm flex items-center justify-between cursor-pointer hover:bg-red-50 transition-all" onClick={handleSignOut}>
             <div className="flex items-center gap-3">
               <LogOut className="text-red-400" size={20} />
               <span className="text-sm font-medium text-red-600">Sign Out</span>
