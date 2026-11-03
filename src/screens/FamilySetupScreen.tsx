@@ -137,10 +137,10 @@ export function FamilySetupScreen() {
               </button>
             </div>
 
-            <div className="w-14 h-14 rounded-3xl bg-teal-50 flex items-center justify-center mb-5 shadow-sm">
+            <div className="w-16 h-16 rounded-3xl bg-teal-50 flex items-center justify-center mb-5 shadow-sm">
               {isWork ? <Briefcase className="text-teal-600" size={28} /> : <Users className="text-teal-600" size={28} />}
             </div>
-            <h1 className="text-2xl font-bold text-gray-900">{isWork ? t('createYourBusiness') : t('createYourFamily')}</h1>
+            <h1 className="text-3xl font-bold text-gray-900 tracking-tight">{isWork ? t('createYourBusiness') : t('createYourFamily')}</h1>
             <p className="text-gray-500 mt-2 text-sm">
               {isWork ? t('giveBusinessName') : t('giveFamilyName')}
             </p>
