@@ -600,10 +600,15 @@ Level
           </div>
         </div>
 
-        <div className="flex justify-between items-center mt-5 pt-3 border-t text-sm text-gray-500">
-          <span>View Progress</span>
-          <ChevronRight size={16} />
-        </div>
+        <div className="flex justify-between items-center mt-5 pt-3 border-t border-gray-100 text-sm text-gray-500">
+  <span className="font-medium hover:text-teal-600 transition-colors">
+    View Progress
+  </span>
+  <ChevronRight
+    size={16}
+    className="text-gray-400"
+  />
+</div>
 
       </Card>
 
