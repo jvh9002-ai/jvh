@@ -159,7 +159,9 @@ export function FamilySetupScreen() {
           </div>
         ) : (
           <div className="bg-white rounded-3xl shadow-xl border border-gray-100 p-8">
-            <h1 className="text-2xl font-bold text-gray-900">{isWork ? t('addTeamMembers') : t('addFamilyMembers')}</h1>
+            <h1 className="text-3xl font-bold text-gray-900 tracking-tight">
+  {isWork ? t('addTeamMembers') : t('addFamilyMembers')}
+</h1>
             <p className="text-gray-500 mt-2 text-sm">
               {isWork ? t('addMembersLater') : t('addChildrenTeens')}
             </p>
@@ -185,7 +187,7 @@ export function FamilySetupScreen() {
                     <button
                       key={r.value}
                       onClick={() => setMemberRole(r.value)}
-                      className={`flex items-center gap-2 rounded-xl border px-3 py-2.5 text-sm font-medium transition-all ${
+                      className={`flex items-center gap-2 rounded-2xl border px-3 py-3 text-sm font-medium transition-all shadow-sm ${
                         memberRole === r.value
                           ? 'border-teal-500 bg-teal-50 text-teal-700'
                           : 'border-gray-200 text-gray-600 hover:border-gray-300'
