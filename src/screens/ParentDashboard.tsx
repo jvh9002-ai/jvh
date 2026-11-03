@@ -146,7 +146,7 @@ export function ParentDashboard() {
     </p>
 
   <div className="grid grid-cols-2 gap-2pt-1">
-      <div className="bg-white/10 backdrop-blur-md rounded-xl p-2.5 border border-white/10">
+      <div className="bg-white/10 backdrop-blur-md rounded-xl p-3 border border-white/20 shadow-sm">
         <div className="text-2xl font-bold">
           {members.length}
         </div>
@@ -156,7 +156,7 @@ export function ParentDashboard() {
         </div>
       </div>
 
-      <div className="bg-white/10 backdrop-blur-md rounded-xl p-3 border border-white/10">
+     <div className="bg-white/10 backdrop-blur-md rounded-xl p-3 border border-white/20 shadow-sm">
         <div className="text-3xl font-bold">
           {members.reduce((s, m) => s + m.points, 0)}
         </div>
