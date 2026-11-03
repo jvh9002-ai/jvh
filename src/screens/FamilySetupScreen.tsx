@@ -127,13 +127,13 @@ export function FamilySetupScreen() {
                 onClick={() => setMode('family')}
                 className={`flex-1 flex items-center justify-center gap-2 rounded-lg py-2.5 text-sm font-semibold transition-all ${mode === 'family' ? 'bg-white text-teal-700 shadow-sm' : 'text-gray-500'}`}
               >
-                <Users size={16} /> {t('familyMode')}
+                <Users size={16} /> Family Mode
               </button>
               <button
                 onClick={() => setMode('work')}
                 className={`flex-1 flex items-center justify-center gap-2 rounded-lg py-2.5 text-sm font-semibold transition-all ${mode === 'work' ? 'bg-white text-teal-700 shadow-sm' : 'text-gray-500'}`}
               >
-                <Briefcase size={16} /> {t('workMode')}
+               <Briefcase size={16} /> Work Mode
               </button>
             </div>
 
