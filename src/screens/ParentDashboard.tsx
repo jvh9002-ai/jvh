@@ -111,7 +111,7 @@ export function ParentDashboard() {
 <TopBar
   title=""
   right={
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-2 px-1">
       <select className="bg-white border border-gray-200 text-gray-700 text-xs sm:text-sm rounded-lg px-2.5 py-1.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 shadow-sm">
         <option value="">Vijay (Admin)</option>
         <option value="hardik">Hardik</option>
