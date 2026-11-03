@@ -169,7 +169,7 @@ export function FamilySetupScreen() {
             {addedMembers.length > 0 && (
               <div className="mt-5 space-y-2">
                 {addedMembers.map((m, i) => (
-                  <div key={i} className="flex items-center gap-2 rounded-xl bg-teal-50 px-4 py-2.5">
+                  <div key={i} className="flex items-center gap-2 rounded-2xl bg-teal-50 border border-teal-100 px-4 py-3 shadow-sm">
                     <Check className="text-teal-600" size={16} />
                     <span className="text-sm font-medium text-teal-800">{m.name} — {t(m.role)}</span>
                   </div>
@@ -212,7 +212,7 @@ export function FamilySetupScreen() {
                     <button
                       key={e}
                       onClick={() => setMemberEmoji(e)}
-                      className={`text-2xl rounded-xl py-2 transition-all ${
+                      className={`text-2xl rounded-2xl py-2.5 transition-all shadow-sm ${
                         memberEmoji === e ? 'bg-teal-100 ring-2 ring-teal-500' : 'bg-gray-50 hover:bg-gray-100'
                       }`}
                     >
