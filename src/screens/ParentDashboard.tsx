@@ -131,7 +131,7 @@ export function ParentDashboard() {
  } text-white p-3 rounded-2xl mb-4`}
 >
   <div className="space-y-1">
-    <p className="text-emerald-100 text-sm font-medium">
+    <p className="text-white/80 text-sm font-semibold tracking-wide">
       👋 Welcome Back
     </p>
 
