@@ -139,7 +139,7 @@ export function ProfileScreen() {
           </Card>
         </div>
 
-        <p className="text-center text-xs text-gray-400 pt-4">
+        <p className="text-center text-xs text-gray-400 pt-6 font-medium">
           Life Pilot AI · Family Growth Operating System
         </p>
       </div>
