@@ -48,11 +48,11 @@ export function GrowthScoreScreen() {
 
       <div className="px-5 lg:px-8 pb-8 space-y-6">
         {/* Overall score */}
-        <Card className="p-6">
+        <Card className="p-6 rounded-2xl border border-teal-100 bg-gradient-to-br from-teal-50 via-white to-emerald-50 shadow-sm">
           <div className="flex flex-col lg:flex-row items-center gap-6">
             <div className="flex flex-col items-center">
               <ScoreRing value={score} size={130} label="Overall" color="#0d9488" />
-              <p className="text-2xl font-bold text-gray-900 mt-3">{score}%</p>
+              <p className="text-4xl font-bold text-gray-900 mt-3">{score}%</p>
               <Badge color="bg-teal-50 text-teal-700 mt-1">{completed}/{total} tasks completed</Badge>
             </div>
             <div className="flex-1 w-full space-y-3">
@@ -67,8 +67,8 @@ export function GrowthScoreScreen() {
                         <span className="font-medium text-gray-700 capitalize">{key}</span>
                         <span className="font-bold text-gray-900">{val}%</span>
                       </div>
-                      <div className="h-2.5 rounded-full bg-gray-100 overflow-hidden">
-                        <div className="h-full rounded-full transition-all duration-500 ease-out" style={{ width: `${val}%`, backgroundColor: meta.color }} />
+                      <div className="h-3 rounded-full bg-gray-100 overflow-hidden">
+                        <div className="h-full rounded-full transition-all duration-500 ease-out shadow-sm" style={{ width: `${val}%`, backgroundColor: meta.color }} />
                       </div>
                     </div>
                   </div>
@@ -89,7 +89,7 @@ export function GrowthScoreScreen() {
             });
             const catDone = catTasks.filter((t) => t.status === 'completed').length;
             return (
-              <Card key={key} className="p-5">
+              <Card key={key} className="p-5 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-all">
                 <div className="flex items-center gap-3 mb-3">
                   <span className="text-3xl">{meta.emoji}</span>
                   <div>
@@ -99,10 +99,20 @@ export function GrowthScoreScreen() {
                 </div>
                 <div className="flex items-center gap-3">
                   <ScoreRing value={val} size={56} color={meta.color} />
-                  <div className="text-sm text-gray-600">
-                    <p><span className="font-bold text-gray-900">{catDone}</span> completed</p>
-                    <p className="text-gray-400">{catTasks.length} total tasks</p>
-                  </div>
+                  <div className="text-sm space-y-1">
+  <p className="flex items-center gap-1">
+    <span className="font-bold text-gray-900">
+      {catDone}
+    </span>
+    <span className="text-gray-500">
+      completed
+    </span>
+  </p>
+
+  <p className="text-xs text-gray-400">
+    {catTasks.length} total tasks
+  </p>
+</div>
                 </div>
               </Card>
             );
@@ -110,7 +120,7 @@ export function GrowthScoreScreen() {
         </div>
 
         {/* Level progress */}
-        <Card className="p-5">
+        <Card className="p-5 rounded-2xl border border-amber-100 bg-gradient-to-br from-amber-50 via-white to-orange-50 shadow-sm">
           <div className="flex items-center gap-3 mb-4">
             <Award className="text-amber-500" size={24} />
             <div>

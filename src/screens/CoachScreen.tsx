@@ -80,11 +80,11 @@ export function CoachScreen() {
           {loading && <div className="flex justify-center py-8"><Spinner /></div>}
 
           {!loading && messages.length === 0 && (
-            <Card className="p-6 text-center bg-gradient-to-br from-teal-50 to-emerald-50 border-teal-100">
-              <div className="w-14 h-14 rounded-2xl bg-teal-600 flex items-center justify-center mx-auto mb-4">
+           <Card className="p-6 text-center bg-gradient-to-br from-teal-50 via-emerald-50 to-white border-teal-100 shadow-sm rounded-2xl">
+              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-teal-500 to-emerald-600 flex items-center justify-center mx-auto mb-4 shadow-lg">
                 <Sparkles className="text-white" size={28} />
               </div>
-              <h3 className="font-bold text-gray-900">Your AI Family Coach</h3>
+              <h3 className="text-lg font-bold text-gray-900">Your AI Family Coach</h3>
               <p className="text-sm text-gray-600 mt-1">
                 I analyze progress and give personalized guidance for {activeMember.name}.
                 Ask me anything about growth, goals, or parenting.
@@ -94,7 +94,7 @@ export function CoachScreen() {
                   <button
                     key={s}
                     onClick={() => setInput(s)}
-                    className="rounded-full bg-white border border-teal-200 px-3 py-1.5 text-xs font-medium text-teal-700 hover:bg-teal-50 transition-all"
+                    className="rounded-full bg-white border border-teal-200 px-4 py-2 text-xs font-semibold text-teal-700 shadow-sm hover:bg-teal-50 hover:shadow transition-all"
                   >
                     {s}
                   </button>
@@ -110,7 +110,7 @@ export function CoachScreen() {
               }`}>
                 {msg.role === 'user' ? <User className="text-white" size={16} /> : <Bot className="text-white" size={16} />}
               </div>
-              <div className={`rounded-2xl px-4 py-3 max-w-[80%] ${
+             <div className={`rounded-2xl px-4 py-3 max-w-[80%] shadow-sm ${
                 msg.role === 'user' ? 'bg-teal-600 text-white' : 'bg-white border border-gray-100 text-gray-800'
               }`}>
                 <p className="text-sm whitespace-pre-wrap">{msg.content}</p>
@@ -134,11 +134,11 @@ export function CoachScreen() {
       <div className="border-t border-gray-100 bg-white px-5 lg:px-8 py-3">
         <div className="max-w-2xl mx-auto flex gap-2">
           <Input
-            value={input}
-            onChange={setInput}
-            placeholder="Ask your AI coach..."
-            className="flex-1"
-          />
+  value={input}
+  onChange={setInput}
+  placeholder="Ask your AI coach..."
+  className="flex-1 rounded-xl border-gray-200 shadow-sm focus:border-teal-500 focus:ring-2 focus:ring-teal-100"
+/>
           <Button onClick={send} disabled={busy || !input.trim()}>
             <Send size={16} />
           </Button>

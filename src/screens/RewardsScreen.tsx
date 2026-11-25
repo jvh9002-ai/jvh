@@ -69,11 +69,11 @@ export function RewardsScreen() {
 
       <div className="px-5 lg:px-8 pb-8 space-y-4">
         {!isParent && currentMember && (
-          <Card className="p-5 bg-gradient-to-r from-amber-400 to-orange-500 border-0 text-white">
+          <Card className="p-5 bg-gradient-to-r from-amber-400 via-orange-500 to-red-500 border-0 text-white shadow-lg rounded-2xl">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-amber-50 text-sm">Your Points</p>
-                <p className="text-3xl font-bold mt-1">{currentMember.points}</p>
+               <p className="text-4xl font-bold mt-1">{currentMember.points}</p>
               </div>
               <Star className="text-white/50" size={40} />
             </div>
@@ -117,9 +117,10 @@ export function RewardsScreen() {
             const canAfford = currentMember ? currentMember.points >= reward.points_required : false;
             const member = members.find((m) => m.id === reward.member_id);
             return (
-              <Card key={reward.id} className={`p-5 ${reward.redeemed ? 'opacity-60' : ''}`}>
+              <Card key={reward.id} className={`p-5 rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg transition-all ${reward.redeemed ? 'opacity-60' : ''}`}
+>
                 <div className="flex items-start justify-between mb-3">
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-100 to-orange-100 flex items-center justify-center">
+                 <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-amber-100 to-orange-100 flex items-center justify-center shadow-sm">
                     <Gift className="text-orange-500" size={24} />
                   </div>
                   {isParent && (
@@ -128,12 +129,13 @@ export function RewardsScreen() {
                     </button>
                   )}
                 </div>
-                <h3 className="font-bold text-gray-900">{reward.title}</h3>
+                <h3 className="text-lg font-bold text-gray-900">{reward.title}</h3>
                 {member && <p className="text-xs text-gray-500 mt-0.5">{member.avatar_emoji} {member.name}</p>}
                 <div className="flex items-center gap-1 mt-3">
                   <Star className="text-amber-500" size={16} />
-                  <span className="font-bold text-gray-900">{reward.points_required}</span>
-                  <span className="text-xs text-gray-500">points</span>
+                  <span className="text-lg font-bold text-gray-900">{reward.points_required}
+                  </span>
+<span className="text-sm text-gray-500">points</span>
                 </div>
                 {reward.redeemed ? (
                   <div className="mt-4 flex items-center gap-2 text-green-600 text-sm font-semibold">
@@ -145,7 +147,7 @@ export function RewardsScreen() {
                     fullWidth
                     variant={canAfford ? 'primary' : 'secondary'}
                     disabled={!canAfford}
-                    className="mt-4"
+                    className="mt-4 rounded-xl shadow-sm hover:shadow-md transition-all"
                   >
                     {canAfford ? <><Gift size={16} /> Redeem</> : <><Lock size={14} /> Need {reward.points_required - (currentMember?.points ?? 0)} more</>}
                   </Button>
