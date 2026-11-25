@@ -219,19 +219,19 @@ export function FamilySetupScreen() {
                 <label className="block text-sm font-medium text-gray-700 mb-1.5">{t('pickAvatar')}</label>
                 <div className="grid grid-cols-6 gap-2">
                   {emojis.map((e) => (
-                    <button
-                      key={e}
-                      onClick={() => setMemberEmoji(e)}
-                     className={`text-2xl rounded-xl py-3 transition-all ${
-  memberEmoji === e
-    ? 'bg-teal-100 ring-2 ring-teal-500 shadow-sm scale-105'
-    : 'bg-gray-50 hover:bg-gray-100 hover:scale-105'
-}`}
-                    >
-                      {e}
-                    </button>
-                  ))}
-                </div>
+  <button
+    key={e}
+    type="button"
+    onClick={() => setMemberEmoji(e)}
+    className={`text-2xl rounded-xl py-3 transition-all ${
+      memberEmoji === e
+        ? 'bg-teal-100 ring-2 ring-teal-500 shadow-sm scale-105'
+        : 'bg-gray-50 hover:bg-gray-100 hover:scale-105'
+    }`}
+  >
+    {e}
+  </button>
+))}                </div>
               </div>
 
               {error && <p className="text-sm text-red-500">{error}</p>}
