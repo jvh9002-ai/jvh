@@ -123,24 +123,27 @@ export function FamilySetupScreen() {
          <div className="bg-white rounded-3xl shadow-xl border border-gray-100 p-8">
             {/* Mode selector */}
             <div className="flex gap-2 mb-6 p-1.5 bg-gray-100 rounded-2xl border border-gray-200">
+          <div className="bg-white rounded-3xl shadow-xl border border-gray-100 p-8">
+            {/* Mode selector */}
+            <div className="flex gap-2 mb-6 p-1 bg-gray-100 rounded-2xl shadow-inner">
               <button
                 onClick={() => setMode('family')}
                 className={`flex-1 flex items-center justify-center gap-2 rounded-lg py-2.5 text-sm font-semibold transition-all ${mode === 'family' ? 'bg-white text-teal-700 shadow-sm' : 'text-gray-500'}`}
               >
-                <Users size={16} /> {t('familyMode')}
+                <Users size={16} /> Family Mode
               </button>
               <button
                 onClick={() => setMode('work')}
                 className={`flex-1 flex items-center justify-center gap-2 rounded-lg py-2.5 text-sm font-semibold transition-all ${mode === 'work' ? 'bg-white text-teal-700 shadow-sm' : 'text-gray-500'}`}
               >
-                <Briefcase size={16} /> {t('workMode')}
+               <Briefcase size={16} /> Work Mode
               </button>
             </div>
 
-            <div className="w-14 h-14 rounded-2xl bg-teal-50 flex items-center justify-center mb-5">
+            <div className="w-16 h-16 rounded-3xl bg-teal-50 flex items-center justify-center mb-5 shadow-sm">
               {isWork ? <Briefcase className="text-teal-600" size={28} /> : <Users className="text-teal-600" size={28} />}
             </div>
-            <h1 className="text-2xl font-bold text-gray-900">{isWork ? t('createYourBusiness') : t('createYourFamily')}</h1>
+            <h1 className="text-3xl font-bold text-gray-900 tracking-tight">{isWork ? t('createYourBusiness') : t('createYourFamily')}</h1>
             <p className="text-gray-500 mt-2 text-sm">
               {isWork ? t('giveBusinessName') : t('giveFamilyName')}
             </p>
@@ -184,7 +187,7 @@ export function FamilySetupScreen() {
               </div>
             )}
 
-            <div className="mt-6 space-y-4 border-t border-gray-100 pt-6">
+            <div className="mt-6 space-y-4 border-t border-gray-100 pt-6 rounded-t-2xl">
               <Input label={t('memberName')} value={memberName} onChange={setMemberName} placeholder={isWork ? 'e.g. John' : 'e.g. Emma'} />
 
               <div>

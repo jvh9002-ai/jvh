@@ -29,9 +29,9 @@ export function ProfileScreen() {
 
       <div className="px-5 lg:px-8 pb-8 space-y-6 max-w-2xl">
         {/* User profile */}
-        <Card className="p-6">
+        <Card className="p-6 rounded-3xl border border-gray-100 shadow-md hover:shadow-lg transition-all">
           <div className="flex items-center gap-4">
-            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-teal-500 to-emerald-600 flex items-center justify-center text-white text-2xl font-bold">
+            <div className="w-20 h-20 rounded-3xl bg-gradient-to-br from-teal-500 to-emerald-600 flex items-center justify-center text-white text-3xl font-bold shadow-lg">
               {(user.user_metadata?.name || user.email)?.[0]?.toUpperCase()}
             </div>
             <div className="flex-1">
@@ -44,8 +44,8 @@ export function ProfileScreen() {
 
         {/* Active member info */}
         {activeMember && (
-          <Card className="p-6">
-            <h3 className="font-bold text-gray-900 mb-3">Currently Viewing</h3>
+          <Card className="p-6 rounded-3xl border border-gray-100 shadow-md hover:shadow-lg transition-all">
+  <h3 className="font-bold text-gray-900 mb-3">Currently Viewing</h3>
             <div className="flex items-center gap-4">
               <span className="text-4xl">{activeMember.avatar_emoji}</span>
               <div className="flex-1">
@@ -72,7 +72,7 @@ export function ProfileScreen() {
         )}
 
         {/* Family info */}
-        <Card className="p-6">
+        <Card className="p-6 rounded-3xl border border-gray-100 shadow-md hover:shadow-lg transition-all">
           <div className="flex items-center gap-2 mb-4">
             <Users className="text-teal-600" size={20} />
             <h3 className="font-bold text-gray-900">Family</h3>
@@ -99,7 +99,7 @@ export function ProfileScreen() {
         </Card>
 
         {/* Account details */}
-        <Card className="p-6">
+        <Card className="p-6 rounded-3xl border border-gray-100 shadow-md hover:shadow-lg transition-all">
           <h3 className="font-bold text-gray-900 mb-4">Account Details</h3>
           <div className="space-y-3">
             <div className="flex items-center gap-3 text-sm">
@@ -124,14 +124,14 @@ export function ProfileScreen() {
 
         {/* Actions */}
         <div className="space-y-2">
-          <Card className="p-4 flex items-center justify-between cursor-pointer hover:bg-gray-50" onClick={() => navigate('/setup')}>
+          <Card className="p-4 rounded-2xl border border-gray-100 shadow-sm flex items-center justify-between cursor-pointer hover:bg-gray-50 transition-all" onClick={() => navigate('/setup')}>
             <div className="flex items-center gap-3">
               <Settings className="text-gray-400" size={20} />
               <span className="text-sm font-medium text-gray-700">Family Settings</span>
             </div>
             <ChevronRight className="text-gray-300" size={18} />
           </Card>
-          <Card className="p-4 flex items-center justify-between cursor-pointer hover:bg-red-50" onClick={handleSignOut}>
+         <Card className="p-4 rounded-2xl border border-gray-100 shadow-sm flex items-center justify-between cursor-pointer hover:bg-red-50 transition-all" onClick={handleSignOut}>
             <div className="flex items-center gap-3">
               <LogOut className="text-red-400" size={20} />
               <span className="text-sm font-medium text-red-600">Sign Out</span>
@@ -139,7 +139,7 @@ export function ProfileScreen() {
           </Card>
         </div>
 
-        <p className="text-center text-xs text-gray-400 pt-4">
+        <p className="text-center text-xs text-gray-400 pt-6 font-medium">
           Life Pilot AI · Family Growth Operating System
         </p>
       </div>

@@ -111,7 +111,7 @@ export function ParentDashboard() {
 <TopBar
   title=""
   right={
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-2 px-1">
       <select className="bg-white border border-gray-200 text-gray-700 text-xs sm:text-sm rounded-lg px-2.5 py-1.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 shadow-sm">
         <option value="">Vijay (Admin)</option>
         <option value="hardik">Hardik</option>
@@ -123,14 +123,15 @@ export function ParentDashboard() {
 
 {/* ================= HERO ================= */}
 <Card
-  className={`overflow-hidden border-0 shadow-xl ${
+  
+  className={`overflow-hidden border-0 rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-300 ${
     isWork
       ? "bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-700"
       : "bg-gradient-to-r from-teal-500 via-emerald-500 to-green-600"
  } text-white p-3 rounded-2xl mb-4`}
 >
   <div className="space-y-1">
-    <p className="text-emerald-100 text-sm font-medium">
+    <p className="text-white/80 text-sm font-semibold tracking-wide">
       👋 Welcome Back
     </p>
 
@@ -145,7 +146,7 @@ export function ParentDashboard() {
     </p>
 
   <div className="grid grid-cols-2 gap-2pt-1">
-      <div className="bg-white/10 backdrop-blur-md rounded-xl p-2.5 border border-white/10">
+      <div className="bg-white/10 backdrop-blur-md rounded-xl p-3 border border-white/20 shadow-sm">
         <div className="text-2xl font-bold">
           {members.length}
         </div>
@@ -155,7 +156,7 @@ export function ParentDashboard() {
         </div>
       </div>
 
-      <div className="bg-white/10 backdrop-blur-md rounded-xl p-3 border border-white/10">
+     <div className="bg-white/10 backdrop-blur-md rounded-xl p-3 border border-white/20 shadow-sm">
         <div className="text-3xl font-bold">
           {members.reduce((s, m) => s + m.points, 0)}
         </div>
@@ -172,7 +173,7 @@ export function ParentDashboard() {
 {/* ================= PREMIUM STATS ================= */}
 
 
-<div className="grid grid-cols-2 lg:grid-cols-2 gap-4">
+<div className="grid grid-cols-2 lg:grid-cols-2 gap-4 mt-4">
 
 
 
@@ -302,7 +303,7 @@ Growth Score
 
 
 <Card
-className={`border-0 shadow-md ${
+className={`border-0 rounded-3xl shadow-md hover:shadow-xl transition-all ${
 isWork
 ?
 "bg-gradient-to-r from-indigo-50 to-blue-50"
@@ -463,19 +464,13 @@ return (
 
 
 <Card
-
 key={m.id}
-
 onClick={()=>handleMemberClick(m)}
-
-className={`p-5 cursor-pointer transition-all duration-300 hover:shadow-xl hover:-translate-y-1 border border-gray-100 rounded-2xl bg-white ${
-isSelected
-?
-"ring-2 ring-teal-500"
-:
-""
+className={`p-5 cursor-pointer transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 border border-gray-100 rounded-3xl bg-white ${
+  isSelected
+    ? "ring-2 ring-teal-500"
+    : ""
 }`}
-
 
 >
 
@@ -484,8 +479,7 @@ isSelected
 <div className="flex items-center gap-3">
 
 
-<div className="text-4xl">
-
+<div className="w-14 h-14 rounded-2xl bg-teal-50 flex items-center justify-center text-3xl shadow-sm">
 {m.avatar_emoji}
 
 </div>
@@ -600,10 +594,15 @@ size={75}
           </div>
         </div>
 
-        <div className="flex justify-between items-center mt-5 pt-3 border-t text-sm text-gray-500">
-          <span>View Progress</span>
-          <ChevronRight size={16} />
-        </div>
+        <div className="flex justify-between items-center mt-5 pt-3 border-t border-gray-100 text-sm text-gray-500">
+  <span className="font-medium hover:text-teal-600 transition-colors">
+    View Progress
+  </span>
+  <ChevronRight
+    size={16}
+    className="text-gray-400"
+  />
+</div>
 
       </Card>
 
