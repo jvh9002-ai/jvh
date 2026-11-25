@@ -193,23 +193,29 @@ export function FamilySetupScreen() {
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1.5">{t('role')}</label>
                 <div className="grid grid-cols-2 gap-2">
-                  {roleConfig.map((r) => (
-                    <button
-                      key={r.value}
-                      onClick={() => setMemberRole(r.value)}
-                      className={`flex items-center gap-3 rounded-xl border px-3 py-3 text-sm font-medium transition-all ${
-  memberRole === r.value
-    ? 'border-teal-500 bg-teal-50 text-teal-700 shadow-sm'
-    : 'border-gray-200 text-gray-600 hover:border-gray-300 hover:bg-gray-50'
-}`}
-                    >
-                      <span className="text-lg">{r.emoji}</span>
-                      <div className="text-left">
-                        <p>{t(r.value) !== r.value ? t(r.value) : r.label}</p>
-                        <p className="text-xs text-gray-400">{r.desc}</p>
-                      </div>
-                    </button>
-                  ))}
+                 {roleConfig.map((r) => (
+  <button
+    key={r.value}
+    type="button"
+    onClick={() => setMemberRole(r.value)}
+    className={`flex items-center gap-3 rounded-xl border px-3 py-3 text-sm font-medium transition-all ${
+      memberRole === r.value
+        ? 'border-teal-500 bg-teal-50 text-teal-700 shadow-sm'
+        : 'border-gray-200 text-gray-600 hover:border-gray-300 hover:bg-gray-50'
+    }`}
+  >
+    <span className="text-xl">{r.emoji}</span>
+
+    <div>
+      <div>
+        {t(r.value) !== r.value ? t(r.value) : r.label}
+      </div>
+      <div className="text-xs text-gray-500">
+        {r.desc}
+      </div>
+    </div>
+  </button>
+))}
                 </div>
               </div>
 
