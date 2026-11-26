@@ -30,8 +30,8 @@ export function FamilySetupScreen() {
   const navigate = useNavigate();
   const [mode, setMode] = useState<FamilyMode>('family');
   const [step, setStep] = useState<'family' | 'members'>(
-  family ? 'members' : 'family'
-);
+    family ? 'members' : 'family'
+  );
   const [entityName, setEntityName] = useState('');
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -42,8 +42,6 @@ export function FamilySetupScreen() {
   const [memberEmoji, setMemberEmoji] = useState('⭐');
   const [addedMembers, setAddedMembers] = useState<{ name: string; role: Role }[]>([]);
 
-  // Wait for auth to fully initialize before evaluating any redirect logic.
-  // This prevents a premature redirect during F5 page reloads.
   useEffect(() => {
     if (!authInitialized || loading) return;
 
@@ -51,12 +49,12 @@ export function FamilySetupScreen() {
       navigate('/auth', { replace: true });
       return;
     }
-    // If the user already has an onboarded family, skip straight to dashboard
-   if (family && family.is_onboarded && window.location.pathname !== '/family/add') {
-  navigate('/dashboard', { replace: true });
-  return;
-}
-    // If they have a family but haven't finished onboarding, jump to the members step
+
+    if (family && family.is_onboarded && window.location.pathname !== '/family/add') {
+      navigate('/dashboard', { replace: true });
+      return;
+    }
+
     if (family && !family.is_onboarded && step === 'family') {
       setStep('members');
       if (family.mode === 'work') setMode('work');
@@ -67,11 +65,16 @@ export function FamilySetupScreen() {
   const isWork = mode === 'work';
 
   const createFamily = async () => {
+    if (!user) return;
     setBusy(true);
     setError(null);
-    const { data, error: err } = await supabase
+    const { error: err } = await supabase
       .from('families')
-      .insert({ name: entityName || (isWork ? `${user.email}'s Business` : `${user.email}'s Family`), owner_id: user.id, mode })
+      .insert({
+        name: entityName || (isWork ? `${user.email}'s Business` : `${user.email}'s Family`),
+        owner_id: user.id,
+        mode,
+      })
       .select()
       .single();
     setBusy(false);
@@ -91,7 +94,7 @@ export function FamilySetupScreen() {
       family_id: family.id,
       name: memberName,
       role: memberRole,
-      age: parseInt(memberAge) || 0,
+      age: parseInt(memberAge, 10) || 0,
       avatar_emoji: memberEmoji,
     });
     setBusy(false);
@@ -108,8 +111,15 @@ export function FamilySetupScreen() {
   };
 
   const finish = async () => {
-    await completeOnboarding();
-    navigate('/dashboard', { replace: true });
+    setBusy(true);
+    setError(null);
+    try {
+      await completeOnboarding();
+      navigate('/dashboard', { replace: true });
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Failed to complete setup');
+      setBusy(false);
+    }
   };
 
   return (
@@ -121,26 +131,37 @@ export function FamilySetupScreen() {
       <div className="w-full max-w-lg">
         {step === 'family' ? (
           <div className="bg-white rounded-3xl shadow-xl border border-gray-100 p-8">
-            {/* Mode selector */}
-            <div className="flex gap-2 mb-6 p-1 bg-gray-100 rounded-2xl shadow-inner">
+            <div className="flex gap-2 mb-6 p-1.5 bg-gray-100 rounded-2xl border border-gray-200">
               <button
+                type="button"
                 onClick={() => setMode('family')}
-                className={`flex-1 flex items-center justify-center gap-2 rounded-lg py-2.5 text-sm font-semibold transition-all ${mode === 'family' ? 'bg-white text-teal-700 shadow-sm' : 'text-gray-500'}`}
+                className={`flex-1 flex items-center justify-center gap-2 rounded-lg py-2.5 text-sm font-semibold transition-all ${
+                  mode === 'family' ? 'bg-white text-teal-700 shadow-sm' : 'text-gray-500'
+                }`}
               >
                 <Users size={16} /> Family Mode
               </button>
               <button
+                type="button"
                 onClick={() => setMode('work')}
-                className={`flex-1 flex items-center justify-center gap-2 rounded-lg py-2.5 text-sm font-semibold transition-all ${mode === 'work' ? 'bg-white text-teal-700 shadow-sm' : 'text-gray-500'}`}
+                className={`flex-1 flex items-center justify-center gap-2 rounded-lg py-2.5 text-sm font-semibold transition-all ${
+                  mode === 'work' ? 'bg-white text-teal-700 shadow-sm' : 'text-gray-500'
+                }`}
               >
-               <Briefcase size={16} /> Work Mode
+                <Briefcase size={16} /> Work Mode
               </button>
             </div>
 
             <div className="w-16 h-16 rounded-3xl bg-teal-50 flex items-center justify-center mb-5 shadow-sm">
-              {isWork ? <Briefcase className="text-teal-600" size={28} /> : <Users className="text-teal-600" size={28} />}
+              {isWork ? (
+                <Briefcase className="text-teal-600" size={28} />
+              ) : (
+                <Users className="text-teal-600" size={28} />
+              )}
             </div>
-            <h1 className="text-3xl font-bold text-gray-900 tracking-tight">{isWork ? t('createYourBusiness') : t('createYourFamily')}</h1>
+            <h1 className="text-3xl font-bold text-gray-900 tracking-tight">
+              {isWork ? t('createYourBusiness') : t('createYourFamily')}
+            </h1>
             <p className="text-gray-500 mt-2 text-sm">
               {isWork ? t('giveBusinessName') : t('giveFamilyName')}
             </p>
@@ -150,22 +171,30 @@ export function FamilySetupScreen() {
                 value={entityName}
                 onChange={setEntityName}
                 placeholder={isWork ? 'Acme Inc.' : 'The Smith Family'}
+                className="rounded-xl border-gray-200 shadow-sm focus:border-teal-500 focus:ring-2 focus:ring-teal-100"
               />
-              {error && (
-  <div className="rounded-2xl bg-red-50 border border-red-100 px-4 py-3">
-    <p className="text-sm text-red-600">{error}</p>
-  </div>
-)}
-              <Button onClick={createFamily} fullWidth disabled={busy || !entityName}>
-                {busy ? <Spinner /> : (<>{isWork ? t('createYourBusiness') : t('createYourFamily')} <ArrowRight size={16} /></>)}
+              {error && <p className="text-sm text-red-500">{error}</p>}
+              <Button
+                onClick={createFamily}
+                fullWidth
+                disabled={busy || !entityName}
+                className="rounded-xl shadow-md hover:shadow-lg transition-all"
+              >
+                {busy ? (
+                  <Spinner />
+                ) : (
+                  <>
+                    {isWork ? t('createYourBusiness') : t('createYourFamily')} <ArrowRight size={16} />
+                  </>
+                )}
               </Button>
             </div>
           </div>
         ) : (
-          <div className="bg-white rounded-3xl shadow-xl border border-gray-100 p-8">
-            <h1 className="text-3xl font-bold text-gray-900 tracking-tight">
-  {isWork ? t('addTeamMembers') : t('addFamilyMembers')}
-</h1>
+          <div className="bg-white rounded-3xl shadow-xl border border-gray-100 p-8 hover:shadow-2xl transition-all">
+            <h1 className="text-2xl font-bold text-gray-900">
+              {isWork ? t('addTeamMembers') : t('addFamilyMembers')}
+            </h1>
             <p className="text-gray-500 mt-2 text-sm">
               {isWork ? t('addMembersLater') : t('addChildrenTeens')}
             </p>
@@ -173,16 +202,26 @@ export function FamilySetupScreen() {
             {addedMembers.length > 0 && (
               <div className="mt-5 space-y-2">
                 {addedMembers.map((m, i) => (
-                  <div key={i} className="flex items-center gap-2 rounded-2xl bg-teal-50 border border-teal-100 px-4 py-3 shadow-sm">
+                  <div
+                    key={i}
+                    className="flex items-center gap-3 rounded-xl bg-gradient-to-r from-teal-50 to-emerald-50 border border-teal-100 px-4 py-3 shadow-sm"
+                  >
                     <Check className="text-teal-600" size={16} />
-                    <span className="text-sm font-medium text-teal-800">{m.name} — {t(m.role)}</span>
+                    <span className="text-sm font-medium text-teal-800">
+                      {m.name} — {t(m.role)}
+                    </span>
                   </div>
                 ))}
               </div>
             )}
 
             <div className="mt-6 space-y-4 border-t border-gray-100 pt-6 rounded-t-2xl">
-              <Input label={t('memberName')} value={memberName} onChange={setMemberName} placeholder={isWork ? 'e.g. John' : 'e.g. Emma'} />
+              <Input
+                label={t('memberName')}
+                value={memberName}
+                onChange={setMemberName}
+                placeholder={isWork ? 'e.g. John' : 'e.g. Emma'}
+              />
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1.5">{t('role')}</label>
@@ -190,34 +229,46 @@ export function FamilySetupScreen() {
                   {roleConfig.map((r) => (
                     <button
                       key={r.value}
+                      type="button"
                       onClick={() => setMemberRole(r.value)}
-                      className={`flex items-center gap-2 rounded-2xl border px-3 py-3 text-sm font-medium transition-all shadow-sm ${
+                      className={`flex items-center gap-3 rounded-xl border px-3 py-3 text-sm font-medium transition-all ${
                         memberRole === r.value
-                          ? 'border-teal-500 bg-teal-50 text-teal-700'
-                          : 'border-gray-200 text-gray-600 hover:border-gray-300'
+                          ? 'border-teal-500 bg-teal-50 text-teal-700 shadow-sm'
+                          : 'border-gray-200 text-gray-600 hover:border-gray-300 hover:bg-gray-50'
                       }`}
                     >
-                      <span className="text-lg">{r.emoji}</span>
-                      <div className="text-left">
-                        <p>{t(r.value) !== r.value ? t(r.value) : r.label}</p>
-                        <p className="text-xs text-gray-400">{r.desc}</p>
+                      <span className="text-xl">{r.emoji}</span>
+                      <div>
+                        <div>{t(r.value) !== r.value ? t(r.value) : r.label}</div>
+                        <div className="text-xs text-gray-500">{r.desc}</div>
                       </div>
                     </button>
                   ))}
                 </div>
               </div>
 
-              <Input label={t('age')} type="number" value={memberAge} onChange={setMemberAge} placeholder="8" />
+              <Input
+                label={t('age')}
+                type="number"
+                value={memberAge}
+                onChange={setMemberAge}
+                placeholder="8"
+              />
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1.5">{t('pickAvatar')}</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                  {t('pickAvatar')}
+                </label>
                 <div className="grid grid-cols-6 gap-2">
                   {emojis.map((e) => (
                     <button
                       key={e}
+                      type="button"
                       onClick={() => setMemberEmoji(e)}
-                      className={`text-2xl rounded-2xl py-2.5 transition-all shadow-sm ${
-                        memberEmoji === e ? 'bg-teal-100 ring-2 ring-teal-500' : 'bg-gray-50 hover:bg-gray-100'
+                      className={`text-2xl rounded-xl py-3 transition-all ${
+                        memberEmoji === e
+                          ? 'bg-teal-100 ring-2 ring-teal-500 shadow-sm scale-105'
+                          : 'bg-gray-50 hover:bg-gray-100 hover:scale-105'
                       }`}
                     >
                       {e}
@@ -229,16 +280,27 @@ export function FamilySetupScreen() {
               {error && <p className="text-sm text-red-500">{error}</p>}
 
               <Button
-  onClick={addMember}
-  fullWidth
-  variant="secondary"
-  className="rounded-2xl shadow-sm transition-all disabled:opacity-50"
-  disabled={busy || !memberName}
->
-                {busy ? <Spinner /> : (<><Plus size={16} /> {t('addMember')}</>)}
+                onClick={addMember}
+                fullWidth
+                variant="secondary"
+                disabled={busy || !memberName}
+                className="rounded-xl shadow-sm hover:shadow-md transition-all"
+              >
+                {busy ? (
+                  <Spinner />
+                ) : (
+                  <>
+                    <Plus size={16} /> {t('addMember')}
+                  </>
+                )}
               </Button>
 
-              <Button onClick={finish} fullWidth className="rounded-2xl shadow-md" disabled={addedMembers.length === 0}>
+              <Button
+                onClick={finish}
+                fullWidth
+                disabled={busy || addedMembers.length === 0}
+                className="rounded-xl shadow-md hover:shadow-lg transition-all"
+              >
                 {addedMembers.length === 0
                   ? t('addAtLeastOne')
                   : t('doneGoToDashboard', { count: addedMembers.length })}

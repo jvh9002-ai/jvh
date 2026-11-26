@@ -96,9 +96,12 @@ export function TasksScreen() {
         subtitle={isParent ? 'Create and assign tasks to family members' : 'Your tasks and missions'}
         right={
           isParent ? (
-            <Button onClick={() => setShowAdd(true)}>
-              <Layers size={16} /> Bulk Scheduler / New Task
-            </Button>
+            <Button
+  onClick={() => setShowAdd(true)}
+  className="rounded-xl shadow-sm hover:shadow-md transition-all"
+>
+  <Layers size={16} /> Bulk Scheduler / New Task
+</Button>
           ) : null
         }
       />
@@ -128,36 +131,49 @@ export function TasksScreen() {
         <div className="flex items-center gap-2">
           <Filter className="text-gray-400" size={16} />
           {['all', 'pending', 'completed'].map((f) => (
-            <button
-              key={f}
-              onClick={() => setFilter(f)}
-              className={`rounded-lg px-3 py-1.5 text-sm font-medium capitalize transition-all ${
-                filter === f ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-              }`}
-            >
-              {f}
-            </button>
-          ))}
+  <button
+    key={f}
+    onClick={() => setFilter(f)}
+    className={`rounded-xl px-4 py-2 text-sm font-semibold capitalize transition-all ${
+      filter === f
+        ? 'bg-teal-600 text-white shadow-sm'
+        : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+    }`}
+  >
+    {f}
+  </button>
+))}
         </div>
 
         {/* Task list */}
         <div className="space-y-2">
           {loading && <div className="flex justify-center py-8"><Spinner /></div>}
           {!loading && filtered.length === 0 && (
-            <Card className="p-8 text-center">
-              <p className="text-gray-400 text-sm">No tasks here yet. Create one to get started!</p>
-            </Card>
+            <Card className="p-8 text-center rounded-2xl border border-gray-100 shadow-sm">
+  <div className="text-4xl mb-3">🎯</div>
+  <p className="text-gray-700 font-semibold">
+    No tasks yet
+  </p>
+  <p className="text-gray-400 text-sm mt-1">
+    Create a task and start earning points!
+  </p>
+</Card>
           )}
           {filtered.map((task) => {
             const cat = categories.find((c) => c.value === task.category);
             return (
-              <Card key={task.id} className="p-4 flex items-center gap-3">
+              <Card
+  key={task.id}
+  className="p-4 flex items-center gap-3 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-all"
+>
                 <button
-                  onClick={() => toggleTask(task)}
-                  className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 transition-all ${
-                    task.status === 'completed' ? 'bg-green-500 text-white' : 'border-2 border-gray-300 hover:border-teal-400'
-                  }`}
-                >
+  onClick={() => toggleTask(task)}
+  className={`w-9 h-9 rounded-full flex items-center justify-center shrink-0 transition-all shadow-sm ${
+    task.status === 'completed'
+      ? 'bg-green-500 text-white shadow-green-200'
+      : 'border-2 border-gray-300 hover:border-teal-400 hover:bg-teal-50'
+  }`}
+>
                   {task.status === 'completed' ? <CheckCircle size={18} /> : <Circle size={16} className="text-gray-300" />}
                 </button>
                 <div className="flex-1 min-w-0">
@@ -166,7 +182,9 @@ export function TasksScreen() {
                   </p>
                   <p className="text-xs text-gray-400">{cat?.emoji} {task.category}</p>
                 </div>
-                <Badge color="bg-amber-50 text-amber-700">{task.points} pts</Badge>
+                <Badge color="bg-amber-50 text-amber-700 shadow-sm">
+  ⭐ {task.points} pts
+</Badge>
                 <button onClick={() => deleteTask(task)} className="text-gray-300 hover:text-red-500 transition-colors">
                   <Trash2 size={16} />
                 </button>

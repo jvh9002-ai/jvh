@@ -510,9 +510,9 @@ className={`p-5 cursor-pointer transition-all duration-300 hover:shadow-2xl hove
 <Badge color="bg-yellow-50 text-yellow-700 shadow-sm">
 
 
-<Star size={12}/>
+<Star size={14}/>
 
-{m.points}
+{m.points} pts
 
 
 </Badge>
@@ -544,7 +544,7 @@ size={75}
 
 <span className="text-gray-500">
 
-Completed
+✅ Completed
 
 </span>
 
@@ -564,7 +564,7 @@ Completed
 
 <span className="text-gray-500">
 
-Pending
+⏳ Pending
 
 </span>
 
@@ -580,21 +580,15 @@ Pending
 
 
 
-<div className="flex justify-between text-xs">
+<div className="flex justify-between items-center text-xs">
 
 <span className="text-gray-500">
-
-Level
-
+  Level
 </span>
 
-
-<span className="font-bold">
-
-{m.level_name}
-
+<span className="font-bold bg-emerald-50 text-emerald-700 px-2 py-1 rounded-lg">
+  🏆 {m.level_name}
 </span>
-
 
 </div>
           </div>
